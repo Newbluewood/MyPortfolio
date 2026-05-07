@@ -58,8 +58,14 @@ class Settings(BaseSettings):
     # Do not use legacy names like text-embedding-004 with the current google-genai client.
     gemini_embed_model: str = "gemini-embedding-001"
 
-    chroma_path: str = "../data/chroma"
-    chroma_collection: str = "portfolio_kb"
+    chroma_path: str = Field(
+        default="../data/chroma",
+        validation_alias=AliasChoices("CHROMA_PATH", "chroma_path"),
+    )
+    chroma_collection: str = Field(
+        default="portfolio_kb",
+        validation_alias=AliasChoices("CHROMA_COLLECTION", "chroma_collection"),
+    )
 
     tavily_api_key: str | None = Field(
         default=None,
@@ -87,7 +93,10 @@ class Settings(BaseSettings):
         validation_alias=AliasChoices("GITHUB_INGEST_MAX_REPOS", "github_ingest_max_repos"),
     )
 
-    cors_origins: str = "http://localhost:3000,http://127.0.0.1:3000"
+    cors_origins: str = Field(
+        default="http://localhost:3000,http://127.0.0.1:3000",
+        validation_alias=AliasChoices("CORS_ORIGINS", "cors_origins"),
+    )
 
     @field_validator("github_repos_include_forks", "github_repos_include_archived", mode="before")
     @classmethod

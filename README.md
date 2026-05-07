@@ -54,6 +54,8 @@
 
 For production you can swap Chroma for Qdrant; [`docker-compose.yml`](docker-compose.yml) starts Qdrant locally for experiments — the default stack uses **Chroma** only.
 
+**Deploy online:** see **[`DEPLOY.md`](DEPLOY.md)** (Vercel + Docker API).
+
 ## Security
 
 Rotate any API keys that were ever committed. Keep secrets in root `.env` (gitignored).

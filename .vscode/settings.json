@@ -1,0 +1,16 @@
+{
+  "python.defaultInterpreterPath": "${workspaceFolder}/venv/Scripts/python.exe",
+  "python.analysis.exclude": ["**/venv/**", "**/node_modules/**", "**/.next/**"],
+  "python.terminal.activateEnvironment": true,
+  "files.watcherExclude": {
+    "**/venv/**": true,
+    "**/.next/**": true,
+    "**/node_modules/**": true
+  },
+  "search.exclude": {
+    "**/venv": true,
+    "**/.next": true,
+    "**/node_modules": true
+  },
+  "eslint.workingDirectories": [{ "directory": "web", "changeProcessCWD": true }]
+}

@@ -1,0 +1,23 @@
+# See `.env.example`. Never commit real `.env` files.
+
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+.env
+.env.*
+!.env.example
+
+data/chroma/
+data/chroma_test*/
+data/raw/
+web/.next/
+web/node_modules/
+node_modules/
+api/**/*.egg-info/
+
+.DS_Store

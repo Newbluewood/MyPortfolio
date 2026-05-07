@@ -1,0 +1,18 @@
+{
+  "name": "portfolio-app",
+  "private": true,
+  "scripts": {
+    "kill:dev": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/kill-dev-ports.ps1 -Target all",
+    "kill:api": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/kill-dev-ports.ps1 -Target api",
+    "kill:web": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/kill-dev-ports.ps1 -Target web",
+    "dev:api": "npm run kill:api && cd api && ..\\venv\\Scripts\\uvicorn portfolio_api.main:app --reload --host 127.0.0.1 --port 8020",
+    "dev:web": "npm run kill:web && cd web && npm run dev",
+    "dev:api:only": "cd api && ..\\venv\\Scripts\\uvicorn portfolio_api.main:app --reload --host 127.0.0.1 --port 8020",
+    "dev:web:only": "cd web && npm run dev",
+    "dev": "npm run kill:dev && concurrently -n api,web -c cyan,magenta \"npm run dev:api:only\" \"npm run dev:web:only\"",
+    "test:chat": "cd api && ..\\venv\\Scripts\\python scripts\\test_chat_sse.py --base http://127.0.0.1:8020"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

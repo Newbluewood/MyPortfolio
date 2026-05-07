@@ -45,13 +45,24 @@ Na platformi podesi:
 
 **Proveri zdravlje:** `GET https://tvoj-api/health` (ako postoji) ili `GET /docs` za Swagger.
 
-### Railway (kratko)
+### Railway (noviji UI + monorepo)
 
-1. New project → **Deploy from GitHub** → isti repo.
-2. **Settings**: Dockerfile path `api/Dockerfile`, context **repository root** (`.`).
-3. Dodaj volume na mount path **`/data/chroma`**.
-4. Unesi env varijable iz tabele, posebno **`CORS_ORIGINS`** sa tačnim Vercel URL-om.
-5. Posle deploya kopiraj **public URL** API-ja u Vercel → `PORTFOLIO_API_URL`, pa **Redeploy** frontend.
+**Šta gde:** **Project** = celokupna „radna površina”. **Service** (kartica / stavka u listi) = jedan pokrenut servis (tvoj API). Klik na servis otvara detalje (deployments, logovi, varijable).
+
+**Docker bez traženja po Settings:** u korenu repozitorijuma je fajl **`railway.json`**. On govori Railway-u: builder = Dockerfile, putanja = `api/Dockerfile`, kontekst = **ceo repo** (kao `docker build -f api/Dockerfile .`). Posle što uradiš **commit + push** tog fajlja, u Railway-u uradi **Redeploy** (ili novi deploy da povuče najnoviji kod).
+
+1. **New project** → **Deploy from GitHub** → izaberi **`MyPortfolio`**.
+2. Ako Railway napravi servis automatski i krene **Railpack** (Node/Python detekcija), to je u redu: posle prvog pusha **`railway.json`** iz repoa, sledeći build treba da pređe na **Dockerfile** (proveri u **Deployment → Build logs** da piše Docker).
+3. **Variables** (ili **Project Variables** / **Service → Variables**): dodaj bar:
+   - `GOOGLE_API_KEY` (ili `GEMINI_API_KEY`)
+   - `GITHUB_USERNAME`
+   - `GITHUB_TOKEN` (preporuka)
+   - `CORS_ORIGINS` = npr. `https://tvoj-projekat.vercel.app` (tačno kako ti se otvara sajt)
+4. **Volume:** **New** → **Volume** → mount path **`/data/chroma`** → pripoj istom servisu koji pokreće API (da Chroma ostane posle restarta).
+5. **Networking / Public networking:** uključi **Generate domain** (javni HTTPS URL). Test: `https://…/health` i `https://…/docs`.
+6. Taj URL (bez `/` na kraju) unesi na Vercelu u **`PORTFOLIO_API_URL`**, pa redeploy fronta.
+
+**Ako i dalje ne koristi Dockerfile:** u **Variables** tog servisa dodaj ručno: **`RAILWAY_DOCKERFILE_PATH`** = `api/Dockerfile`, pa redeploy (Railway dokumentacija dozvoljava i ovaj način).
 
 ### Ponovni ingest posle izmene `content/`
 

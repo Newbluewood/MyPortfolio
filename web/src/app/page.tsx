@@ -34,8 +34,15 @@ export default async function HomePage() {
             .
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-zinc-400">
-            Explore projects synced from GitHub, and ask the on-site assistant
-            questions — it answers from curated knowledge (RAG), not guesses.
+            Explore projects synced from GitHub, read my{" "}
+            <Link
+              href="/cv"
+              className="text-cyan-400/90 underline-offset-4 hover:text-cyan-300 hover:underline"
+            >
+              CV
+            </Link>
+            , and ask the on-site assistant questions — it answers from curated
+            knowledge (RAG), not guesses.
           </p>
           <div className="mt-10 flex flex-wrap gap-3">
             <Link
@@ -43,6 +50,12 @@ export default async function HomePage() {
               className="inline-flex items-center justify-center rounded-full bg-white px-5 py-2.5 text-sm font-medium text-zinc-950 transition hover:bg-zinc-200"
             >
               View projects
+            </Link>
+            <Link
+              href="/cv"
+              className="inline-flex items-center justify-center rounded-full border border-white/15 px-5 py-2.5 text-sm font-medium text-white transition hover:border-white/30 hover:bg-white/5"
+            >
+              CV / Resume
             </Link>
             {NEXT_PUBLIC_GITHUB_URL ? (
               <Link

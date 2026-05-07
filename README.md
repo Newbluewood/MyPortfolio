@@ -1,6 +1,9 @@
 # Portfolio (Next.js + FastAPI + LlamaIndex)
 
-Monorepo: marketing site with GitHub-backed project list and a **retrieval-augmented** on-site assistant (Gemini + Chroma + optional Tavily).
+**NBW / New Blue Wood** — personal portfolio monorepo: marketing site with GitHub-backed project list, **CV** route, optional Netlify enrichment, and a **RAG** on-site assistant (Gemini + Chroma + optional Tavily).
+
+> **GitHub “About” suggestion (short):**  
+> `Portfolio — Next.js, GitHub projects, CV, RAG assistant (FastAPI + LlamaIndex + Chroma).`
 
 ## Prerequisites
 

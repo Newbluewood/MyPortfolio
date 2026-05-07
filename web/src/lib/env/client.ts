@@ -4,7 +4,7 @@ const emptyToUndefined = (v: unknown) =>
   v === "" || v === undefined ? undefined : v;
 
 const clientSchema = z.object({
-  NEXT_PUBLIC_DISPLAY_NAME: z.string().min(1).default("Developer"),
+  NEXT_PUBLIC_DISPLAY_NAME: z.string().min(1).default("NBW"),
   NEXT_PUBLIC_GITHUB_URL: z.preprocess(
     emptyToUndefined,
     z.string().url().optional(),

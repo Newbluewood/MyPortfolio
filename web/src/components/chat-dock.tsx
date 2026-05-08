@@ -72,6 +72,8 @@ function parseSseLines(buffer: string): {
   return { events, rest };
 }
 
+const MD_UP_MQ = "(min-width: 768px)";
+
 export function ChatDock() {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
@@ -80,12 +82,52 @@ export function ChatDock() {
   >([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  /** < md — pun ekran assistant + visualViewport za tastaturu */
+  const [compactUi, setCompactUi] = useState(false);
+  const [vvRect, setVvRect] = useState({ top: 0, height: 0 });
   const endRef = useRef<HTMLDivElement>(null);
   const assistantIdxRef = useRef(-1);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia(MD_UP_MQ);
+    const apply = () => setCompactUi(!mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !open || !compactUi) return;
+    const vv = window.visualViewport;
+    const sync = () => {
+      if (vv) {
+        setVvRect({ top: vv.offsetTop, height: vv.height });
+      } else {
+        setVvRect({ top: 0, height: window.innerHeight });
+      }
+    };
+    sync();
+    vv?.addEventListener("resize", sync);
+    vv?.addEventListener("scroll", sync);
+    return () => {
+      vv?.removeEventListener("resize", sync);
+      vv?.removeEventListener("scroll", sync);
+    };
+  }, [open, compactUi]);
+
+  useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, open]);
+
+  useEffect(() => {
+    if (!open || !compactUi) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [open, compactUi]);
 
   const send = useCallback(async () => {
     const q = input.trim();
@@ -202,17 +244,38 @@ export function ChatDock() {
     }
   }, [busy, input]);
 
-  return (
-    <div
-      className="fixed z-50 flex max-w-[calc(100%-1.5rem)] flex-col items-end gap-2"
-      style={{
+  const sheetFullScreen = open && compactUi;
+  const vvReady = sheetFullScreen && vvRect.height > 0;
+  const cornerStyle = sheetFullScreen
+    ? {
+        top: (vvReady ? vvRect.top : 0) as number,
+        height: (vvReady ? vvRect.height : "100dvh") as number | "100dvh",
+        maxHeight: (vvReady ? vvRect.height : "100dvh") as number | "100dvh",
+        left: 0,
+        right: 0,
+        bottom: "auto" as const,
+      }
+    : {
         right: "max(1rem, env(safe-area-inset-right, 0px))",
         bottom: "max(1rem, env(safe-area-inset-bottom, 0px))",
-      }}
+      };
+
+  return (
+    <div
+      className={
+        sheetFullScreen
+          ? "fixed z-[220] flex flex-col overflow-hidden"
+          : "fixed z-50 flex max-w-[calc(100%-1.5rem)] flex-col items-end gap-2"
+      }
+      style={cornerStyle}
     >
       {open ? (
         <div
-          className="flex h-[min(32rem,calc(100vh-6rem))] w-[min(24rem,calc(100%-2rem))] flex-col rounded-2xl border border-white/15 bg-[#111820] shadow-2xl shadow-black/50"
+          className={
+            sheetFullScreen
+              ? "flex min-h-0 flex-1 flex-col overflow-hidden border-t border-white/15 bg-[#111820]"
+              : "flex h-[min(32rem,calc(100vh-6rem))] w-[min(24rem,calc(100%-2rem))] flex-col rounded-2xl border border-white/15 bg-[#111820] shadow-2xl shadow-black/50"
+          }
           role="dialog"
           aria-label="Site assistant"
         >
@@ -282,7 +345,7 @@ export function ChatDock() {
             </p>
           ) : null}
           <form
-            className="flex gap-2 border-t border-white/10 p-3"
+            className="flex gap-2 border-t border-white/10 bg-[#111820] p-3 pb-[max(0.75rem,env(safe-area-inset-bottom,0px))]"
             onSubmit={(e) => {
               e.preventDefault();
               void send();
@@ -293,8 +356,9 @@ export function ChatDock() {
             </label>
             <input
               id="chat-input"
-              className="min-w-0 flex-1 rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-zinc-600 focus:border-cyan-500/40 focus:outline-none focus:ring-1 focus:ring-cyan-500/30"
+              className="min-w-0 flex-1 rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-base text-white placeholder:text-zinc-600 focus:border-cyan-500/40 focus:outline-none focus:ring-1 focus:ring-cyan-500/30 md:text-sm"
               placeholder="Ask a question…"
+              enterKeyHint="send"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               disabled={busy}
@@ -309,13 +373,15 @@ export function ChatDock() {
           </form>
         </div>
       ) : null}
-      <button
-        type="button"
-        onClick={() => setOpen((o) => !o)}
-        className="flex h-12 items-center gap-2 rounded-full bg-gradient-to-r from-cyan-500 to-violet-600 px-5 text-sm font-medium text-zinc-950 shadow-lg shadow-cyan-500/20"
-      >
-        {open ? "Close" : "Ask assistant"}
-      </button>
+      {!sheetFullScreen ? (
+        <button
+          type="button"
+          onClick={() => setOpen((o) => !o)}
+          className="flex h-12 items-center gap-2 rounded-full bg-gradient-to-r from-cyan-500 to-violet-600 px-5 text-sm font-medium text-zinc-950 shadow-lg shadow-cyan-500/20"
+        >
+          {open ? "Close" : "Ask assistant"}
+        </button>
+      ) : null}
     </div>
   );
 }

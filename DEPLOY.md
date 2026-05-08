@@ -5,14 +5,10 @@ Monorepo ima **dva dela**: Next.js frontend (`web/`) i FastAPI RAG backend (`api
 ## 1. Frontend — Vercel (preporuka za Next.js)
 
 1. [vercel.com](https://vercel.com) → **Add New** → **Project** → import `Newbluewood/MyPortfolio`.
-2. **Root Directory i `routes-manifest` ENOENT (monorepo)**  
-   - Na nekim nalogima Vercel posle `next build` i dalje traži **`.next`** u **korenu checkouta**, iako je aplikacija u **`web/`** → greška `routes-manifest-deterministic.json` ENOENT.  
-   - **Rešenje u repou:** (1) posle `next build`, skripta **`web/scripts/ensure-vercel-routes-manifest.mjs`** (npm **`postbuild`**) kopira `routes-manifest.json` → **`routes-manifest-deterministic.json`** — to Vercel ponekad traži a stock Next ne pravi. (2) u korenu je **`vercel.json`**: `install` u `web`, **`npm run build`** u `web`, zatim **`cp -r web/.next .next`** jer finalizacija i dalje gleda `.next` u korenu checkouta.  
-   - **Na Vercelu:** za taj projekat postavi **Root Directory na PRAZNO** (ceo repo), Framework **Next.js**, i **nemoj** ručno overridovati Install/Build (mora da važi root `vercel.json`). Inače se root config ne koristi.  
-   - Ako ikad budeš bez ovog fajla i Vercel ispravi bug: možeš probati samo **Root Directory = `web`** i uklonjen root `vercel.json`.
-3. **`prebuild`** u `web/` kopira `content/` u `web/_content` — pri Root = prazno ceo repo je u checkoutu, pa `../content` i dalje radi.
-4. **Node:** u `web/` je `.nvmrc` (`20`); u Project Settings možeš fiksirati **20.x**.
-5. Framework: Next. Build/Install: iz root **`vercel.json`** (ne `--prefix web` u dashboardu).
+2. **Root Directory = `web`** (Settings → General). Bez toga Vercel hvata Python iz `api/` ili traži `.next` na pogrešnom mestu. **Build/Install** najbolje ostavi na default (koristi se **`web/vercel.json`**). Nemoj ručno `--prefix web` ako je Root već `web`.  
+3. **Next.js:** u projektu je pin na **15.x** (npr. `15.5.18`) jer **Next 16.2.x + Vercel Git deploy** ima [poznat bug](https://community.vercel.com/t/git-integration-fails-after-build-looking-for-routes-manifest-in-repo-root/40519) na finalizaciji (`routes-manifest-deterministic.json` ENOENT). Kad Vercel to ispravi, možeš ponovo podići major.  
+4. **`prebuild`** kopira monorepo `content/` u `web/_content`; uključi na Vercelu **Include files outside the root directory in the Build Step** da `../content` postoji pri buildu.  
+5. **Node:** preporuka **20.x** (pogledaj `web/.nvmrc`).
 6. **Environment Variables** (Production — vrednosti iz svog `.env`, bez komitovanja tajni):
 
 | Variable | Napomena |

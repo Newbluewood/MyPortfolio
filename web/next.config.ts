@@ -15,8 +15,7 @@ const nextConfig: NextConfig = {
 
   // Markdown za build: `web/scripts/sync-content.mjs` (prebuild) kopira ../content u web/_content.
 
-  // Dev runs with `next dev --webpack` (see package.json). Turbopack default on Next 16
-  // often pegs CPU on Windows in monorepos; webpack is steadier here.
+  // Dev: Next 15 koristi podrazumevani bundler; `next dev --webpack` je uklonjen (nije opcija na v15).
   webpack: (config, { dev }) => {
     if (dev) {
       const root = repoRoot.replace(/\\/g, "/");

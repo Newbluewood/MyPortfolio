@@ -28,7 +28,9 @@ import {
 
 import { liveSiteDisplayLabel, resolveRepoLiveUrl } from "@/lib/repo-live-url";
 
+import { serverEnv } from "@/lib/env/server";
 
+import { fetchReadmeLiveUrlLookup } from "@/lib/readme-live-url";
 
 /** Stranica se osvežava nakon 300s; GitHub/Netlify fetch imaju isti revalidate gde je primenjivo. */
 
@@ -142,6 +144,8 @@ function GitHubRepoCard({
 
   netlifyIndex,
 
+  readmeLiveByFullName,
+
   groupIds,
 
 }: {
@@ -150,11 +154,19 @@ function GitHubRepoCard({
 
   netlifyIndex: NetlifyDeployIndex;
 
+  readmeLiveByFullName: ReadonlyMap<string, string>;
+
   groupIds: ProjectGroupId[];
 
 }) {
 
-  const liveUrl = resolveRepoLiveUrl(repo, netlifyIndex);
+  const liveUrl =
+
+    resolveRepoLiveUrl(repo, netlifyIndex) ??
+
+    readmeLiveByFullName.get(repo.full_name) ??
+
+    null;
 
   return (
 
@@ -420,6 +432,20 @@ export default async function ProjectsPage() {
 
   const error = ghOutcome.ok ? null : ghOutcome.message;
 
+  const readmeLiveByFullName = ghOutcome.ok
+
+    ? await fetchReadmeLiveUrlLookup(
+
+        repos,
+
+        netlifyIndex,
+
+        serverEnv().GITHUB_TOKEN,
+
+      )
+
+    : new Map<string, string>();
+
   type ProjectListRow =
     | { kind: "manual"; project: ManualProject }
     | { kind: "github"; repo: GitHubRepo };
@@ -539,6 +565,8 @@ export default async function ProjectsPage() {
                 repo={row.repo}
 
                 netlifyIndex={netlifyIndex}
+
+                readmeLiveByFullName={readmeLiveByFullName}
 
                 groupIds={projectGroupIdsForRepo(row.repo)}
 

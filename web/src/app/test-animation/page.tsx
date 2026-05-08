@@ -4,7 +4,9 @@ import { AangAttribution } from "@/components/aang-attribution";
 import { AangRitualScene } from "@/components/aang-ritual-scene";
 import { fetchUserRepos } from "@/lib/github";
 import { fetchNetlifyDeployIndex } from "@/lib/netlify";
+import { fetchReadmeLiveUrlLookup } from "@/lib/readme-live-url";
 import { resolveRepoLiveUrl } from "@/lib/repo-live-url";
+import { serverEnv } from "@/lib/env/server";
 
 export const metadata = {
   title: "Staff ritual",
@@ -19,9 +21,17 @@ export default async function TestAnimationPage() {
       fetchUserRepos(),
       fetchNetlifyDeployIndex(),
     ]);
+    const readmeLiveByFullName = await fetchReadmeLiveUrlLookup(
+      allRepos,
+      netlifyIndex,
+      serverEnv().GITHUB_TOKEN,
+    );
     repos = allRepos
       .map((repo) => {
-        const deploy = resolveRepoLiveUrl(repo, netlifyIndex);
+        const deploy =
+          resolveRepoLiveUrl(repo, netlifyIndex) ??
+          readmeLiveByFullName.get(repo.full_name) ??
+          null;
         return deploy ? { name: repo.name, html_url: deploy } : null;
       })
       .filter((x): x is { name: string; html_url: string } => x != null);

@@ -5,10 +5,10 @@ Monorepo ima **dva dela**: Next.js frontend (`web/`) i FastAPI RAG backend (`api
 ## 1. Frontend — Vercel (preporuka za Next.js)
 
 1. [vercel.com](https://vercel.com) → **Add New** → **Project** → import `Newbluewood/MyPortfolio`.
-2. **Root Directory** mora biti **`web`** (Settings → General → Root Directory). Ako je prazno ili `.`, install ide iz korena repoa i build obično pukne. `npm run build` u `web/` pokreće **`prebuild`**, koji kopira monorepo **`content/`** u **`web/_content/`**, tako da Vercel ne mora da „vidi” fajlove van root dir-a samo zbog markdowna.
+2. **Root Directory** mora biti **`web`** (Settings → General → Root Directory). Ako je prazno ili `.`, Vercel često uhvati **`api/pyproject.toml`** i uradi **Python** build (u logu: *Using Python 3.12 from api/pyproject.toml*, ogroman bundle) umesto Next.js — sajt onda nije pravi front. **Najbolje:** Root Directory = **`web`**, Framework **Next.js**, pa redeploy. U korenu repoa je i **`vercel.json`** koji forsira Next instalaciju/build preko `web/` ako projekat ipak ostane na korenu — ali i dalje je **`web`** kao Root najčistije.
 3. **Node:** u `web/` je `.nvmrc` (`20`); Vercel obično to poštuje. U Project Settings → Node.js Version možeš ručno staviti **20.x**.
-3. Framework: Next (auto). Build: `npm run build`, Output: default.
-4. **Environment Variables** (Production — vrednosti iz svog `.env`, bez komitovanja tajni):
+4. Framework: Next (auto). Build: `npm run build`, Output: default.
+5. **Environment Variables** (Production — vrednosti iz svog `.env`, bez komitovanja tajni):
 
 | Variable | Napomena |
 |----------|----------|
@@ -19,7 +19,7 @@ Monorepo ima **dva dela**: Next.js frontend (`web/`) i FastAPI RAG backend (`api
 | `PORTFOLIO_API_URL` | **puna URL** tvog API-ja, npr. `https://portfolio-api-production.up.railway.app` — **bez** završnog `/` |
 | `NETLIFY_ACCESS_TOKEN` ili `NETLIFY_AUTH_TOKEN` | opciono, kao lokalno |
 
-5. **Deploy**. Dodeli domen (Settings → Domains).
+6. **Deploy**. Dodeli domen (Settings → Domains).
 
 Chat na sajtu radi tek kad je **`PORTFOLIO_API_URL`** javno dostupan API (korak 2).
 

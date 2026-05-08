@@ -5,8 +5,10 @@ Monorepo ima **dva dela**: Next.js frontend (`web/`) i FastAPI RAG backend (`api
 ## 1. Frontend — Vercel (preporuka za Next.js)
 
 1. [vercel.com](https://vercel.com) → **Add New** → **Project** → import `Newbluewood/MyPortfolio`.
-2. **Root Directory** mora biti **`web`** (Settings → General → Root Directory). Ako je prazno ili `.`, Vercel često uhvati **`api/pyproject.toml`** i uradi **Python** build (u logu: *Using Python 3.12 from api/pyproject.toml*, ogroman bundle) umesto Next.js — sajt onda nije pravi front. **Najbolje:** Root Directory = **`web`**, Framework **Next.js**, pa redeploy. U korenu repoa je i **`vercel.json`** koji forsira Next instalaciju/build preko `web/` ako projekat ipak ostane na korenu — ali i dalje je **`web`** kao Root najčistije.
-3. **Node:** u `web/` je `.nvmrc` (`20`); Vercel obično to poštuje. U Project Settings → Node.js Version možeš ručno staviti **20.x**.
+2. **Root Directory mora biti `web` — obavezno.** (Settings → General → Root Directory).  
+   - Ako ostane **koren repoa** (`.`), dve loše stvari: Vercel može pokupiti **`api/pyproject.toml`** i uraditi **Python** build umesto Next‑a; *ili* ako forsiraš `npm run build` iz `web/` iz korena, `.next` završi u **`web/.next`**, a deploy korak traži **`.next` u korenu** → greška poput `routes-manifest-deterministic.json` ENOENT.  
+   - **Ispravno:** Root Directory = **`web`**, Framework **Next.js**, pa redeploy.
+3. **Node:** u `web/` je `.nvmrc` (`20`); u Project Settings možeš fiksirati **20.x**.
 4. Framework: Next (auto). Build: `npm run build`, Output: default.
 5. **Environment Variables** (Production — vrednosti iz svog `.env`, bez komitovanja tajni):
 

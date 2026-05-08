@@ -10,6 +10,18 @@ const nextConfig: NextConfig = {
   // Allow dev HMR when opening the app via LAN IP (e.g. phone / another PC).
   allowedDevOrigins: ["192.168.1.11"],
 
+  // Monorepo: trace od korena repoa da serverless na Vercelu uključi ispravne fajlove.
+  // Inače `/` može vratiti Vercel 404 NOT_FOUND. Teški folderi isključeni ispod.
+  outputFileTracingRoot: path.join(__dirname, ".."),
+  outputFileTracingExcludes: {
+    "*": [
+      "**/venv/**",
+      "**/api/**",
+      "**/data/**",
+      "**/.git/**",
+    ],
+  },
+
   // Dev runs with `next dev --webpack` (see package.json). Turbopack default on Next 16
   // often pegs CPU on Windows in monorepos; webpack is steadier here.
   webpack: (config, { dev }) => {
@@ -27,9 +39,6 @@ const nextConfig: NextConfig = {
     }
     return config;
   },
-
-  // Monorepo: root + web both have package-lock.json — pin tracing root to `web/`.
-  outputFileTracingRoot: path.join(__dirname),
 };
 
 export default nextConfig;

@@ -203,7 +203,13 @@ export function ChatDock() {
   }, [busy, input]);
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 flex flex-col items-end gap-2">
+    <div
+      className="fixed z-50 flex flex-col items-end gap-2"
+      style={{
+        right: "max(1rem, env(safe-area-inset-right, 0px))",
+        bottom: "max(1rem, env(safe-area-inset-bottom, 0px))",
+      }}
+    >
       {open ? (
         <div
           className="flex h-[min(32rem,calc(100vh-6rem))] w-[min(100vw-2rem,24rem)] flex-col rounded-2xl border border-white/15 bg-[#111820] shadow-2xl shadow-black/50"

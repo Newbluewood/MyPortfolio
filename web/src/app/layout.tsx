@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import dynamic from "next/dynamic";
 import { Geist, Geist_Mono } from "next/font/google";
 
@@ -29,6 +29,12 @@ export const metadata: Metadata = {
   },
   description:
     "Portfolio with GitHub projects and a retrieval-augmented assistant.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#0b0f14",
 };
 
 export default function RootLayout({

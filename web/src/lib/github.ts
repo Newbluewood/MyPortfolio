@@ -80,19 +80,33 @@ function repoDescriptionFallback(repoName: string): string | undefined {
   return undefined;
 }
 
+function githubUsernameFromEnv(): string {
+  const fromExplicit = (process.env.GITHUB_USERNAME ?? "").trim();
+  if (fromExplicit) return fromExplicit;
+  const pub = (process.env.NEXT_PUBLIC_GITHUB_URL ?? "").trim();
+  if (!pub) return "";
+  try {
+    const url = new URL(pub);
+    if (!url.hostname.endsWith("github.com")) return "";
+    const seg = url.pathname.split("/").filter(Boolean);
+    return seg[0] ? decodeURIComponent(seg[0]) : "";
+  } catch {
+    return "";
+  }
+}
+
 export async function fetchUserRepos(): Promise<GitHubRepo[]> {
   const {
-    GITHUB_USERNAME,
     GITHUB_TOKEN,
     GITHUB_REPOS_INCLUDE_FORKS,
     GITHUB_REPOS_INCLUDE_ARCHIVED,
   } = serverEnv();
 
-  const username = (GITHUB_USERNAME ?? "").trim();
+  const username = githubUsernameFromEnv();
   const authed = Boolean(GITHUB_TOKEN?.trim());
   if (!authed && !username) {
     throw new Error(
-      "GITHUB_USERNAME is not set. Add it to the monorepo root `.env` or `web/.env.local` (next to PORTFOLIO_API_URL), or set GITHUB_TOKEN.",
+      "GitHub projects need a username or token. Set GITHUB_USERNAME in the monorepo root `.env` or `web/.env.local`, or set NEXT_PUBLIC_GITHUB_URL to your profile (e.g. https://github.com/YourLogin), or set GITHUB_TOKEN for authenticated listing.",
     );
   }
 

@@ -4,6 +4,7 @@ import { Section } from "@/components/section";
 import { fetchUserRepos, hasGithubListingIdentity, type GitHubRepo } from "@/lib/github";
 import { fetchNetlifyDeployIndex, type NetlifyDeployIndex } from "@/lib/netlify";
 import {
+  GITHUB_REPO_LIVE_URL_OVERRIDES,
   MANUAL_PROJECTS,
   PROJECT_GROUP_CHIP_LABEL,
   PROJECT_GROUP_META,
@@ -12,7 +13,7 @@ import {
   type ManualProject,
   type ProjectGroupId,
 } from "@/lib/project-groups";
-import { liveSiteDisplayLabel, resolveRepoLiveUrl } from "@/lib/repo-live-url";
+import { liveSiteDisplayLabel, portfolioRepoLiveUrl } from "@/lib/repo-live-url";
 import { serverEnv } from "@/lib/env/server";
 import { fetchReadmeLiveUrlLookup } from "@/lib/readme-live-url";
 
@@ -80,10 +81,12 @@ function GitHubRepoCard({
   readmeLiveByFullName: ReadonlyMap<string, string>;
   groupIds: ProjectGroupId[];
 }) {
-  const liveUrl =
-    resolveRepoLiveUrl(repo, netlifyIndex) ??
-    readmeLiveByFullName.get(repo.full_name) ??
-    null;
+  const liveUrl = portfolioRepoLiveUrl(
+    repo,
+    netlifyIndex,
+    readmeLiveByFullName,
+    GITHUB_REPO_LIVE_URL_OVERRIDES,
+  );
   return (
     <article className="flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition hover:border-cyan-500/30 hover:bg-white/[0.06]">
       <div className="flex min-w-0 flex-wrap items-center gap-2">

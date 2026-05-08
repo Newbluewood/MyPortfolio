@@ -5,7 +5,8 @@ import { AangRitualScene } from "@/components/aang-ritual-scene";
 import { fetchUserRepos, hasGithubListingIdentity } from "@/lib/github";
 import { fetchNetlifyDeployIndex } from "@/lib/netlify";
 import { fetchReadmeLiveUrlLookup } from "@/lib/readme-live-url";
-import { resolveRepoLiveUrl } from "@/lib/repo-live-url";
+import { GITHUB_REPO_LIVE_URL_OVERRIDES } from "@/lib/project-groups";
+import { portfolioRepoLiveUrl } from "@/lib/repo-live-url";
 import { serverEnv } from "@/lib/env/server";
 
 export const metadata = {
@@ -32,10 +33,12 @@ export default async function TestAnimationPage() {
       );
       repos = allRepos
         .map((repo) => {
-          const deploy =
-            resolveRepoLiveUrl(repo, netlifyIndex) ??
-            readmeLiveByFullName.get(repo.full_name) ??
-            null;
+          const deploy = portfolioRepoLiveUrl(
+            repo,
+            netlifyIndex,
+            readmeLiveByFullName,
+            GITHUB_REPO_LIVE_URL_OVERRIDES,
+          );
           return deploy ? { name: repo.name, html_url: deploy } : null;
         })
         .filter((x): x is { name: string; html_url: string } => x != null);

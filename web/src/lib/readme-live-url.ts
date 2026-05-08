@@ -1,5 +1,6 @@
 import "server-only";
 
+import { isJunkOrDocsDeployUrl } from "@/lib/deploy-url-quality";
 import type { GitHubRepo } from "@/lib/github";
 import type { NetlifyDeployIndex } from "@/lib/netlify";
 import { resolveRepoLiveUrl } from "@/lib/repo-live-url";
@@ -56,6 +57,7 @@ function isSameGithubRepo(url: string, fullName: string): boolean {
 
 function scoreUrl(u: string): number {
   if (NOISE_RE.test(u)) return -1;
+  if (isJunkOrDocsDeployUrl(u)) return -1;
   try {
     const x = new URL(u);
     const h = x.hostname.toLowerCase();
@@ -106,7 +108,11 @@ export function extractDeployUrlFromReadme(
 
   if (!cands.length) return null;
   cands.sort((a, b) => b.score - a.score || a.order - b.order);
-  return cands[0]?.url ?? null;
+  for (const c of cands) {
+    if (c.score < 0) break;
+    if (!isJunkOrDocsDeployUrl(c.url)) return c.url;
+  }
+  return null;
 }
 
 async function fetchRepoReadmeRaw(

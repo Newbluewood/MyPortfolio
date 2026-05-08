@@ -104,7 +104,6 @@ const repoNameToGroups: Record<string, ProjectGroupId[]> = {
   online_sales_analysis: ["python"],
   "Proba-GH": ["other"],
   "my-first-repo": ["other"],
-  "netlify-feature-tour": ["other"],
   "pevac-irdin": ["other"],
 };
 
@@ -174,3 +173,12 @@ export const MANUAL_PROJECTS: ManualProject[] = [
     listedAt: "2024-09-01T12:00:00Z",
   },
 ];
+
+/**
+ * Forsiran „Live site” URL po GitHub `owner/repo` (mala slova), kad automatski
+ * lanac (GitHub About / Netlify / README) da prazan ili pogrešan link na Vercelu bez tokena.
+ * Dopuni po potrebi (npr. CookBook2025 kad imaš tačan deploy).
+ */
+export const GITHUB_REPO_LIVE_URL_OVERRIDES: Record<string, string> = {
+  "newbluewood/nastavna-baza-goc": "https://nastavnabazagoc.netlify.app",
+};

@@ -1,5 +1,6 @@
 import "server-only";
 
+import { isJunkOrDocsDeployUrl } from "@/lib/deploy-url-quality";
 import type { GitHubRepo } from "@/lib/github";
 import type { NetlifyDeployIndex } from "@/lib/netlify";
 import { resolveNetlifyDeployUrl } from "@/lib/netlify";
@@ -52,16 +53,37 @@ function liveDeployHref(
 }
 
 /**
- * Jedan rezultat: GitHub „Website” (ako je smislen) ili Netlify deploy URL.
+ * Jedan rezultat: GitHub „Website” (ako je smislen i nije docs/marketing) ili Netlify deploy URL.
  */
 export function resolveRepoLiveUrl(
   r: GitHubRepo,
   netlifyIndex: NetlifyDeployIndex,
 ): string | null {
-  const fromGh = liveDeployHref(r.homepage, r.html_url);
+  const fromGhRaw = liveDeployHref(r.homepage, r.html_url);
+  const fromGh =
+    fromGhRaw && !isJunkOrDocsDeployUrl(fromGhRaw) ? fromGhRaw : null;
   const fromNf =
     resolveNetlifyDeployUrl(r.full_name, r.name, netlifyIndex) ?? null;
   return fromGh ?? fromNf ?? null;
+}
+
+/**
+ * Redosled: ručni override (full_name) → GitHub/Netlify → README fallback (ako URL nije junk).
+ */
+export function portfolioRepoLiveUrl(
+  r: GitHubRepo,
+  netlifyIndex: NetlifyDeployIndex,
+  readmeLiveByFullName: ReadonlyMap<string, string>,
+  overrides: Readonly<Record<string, string>>,
+): string | null {
+  const key = r.full_name.trim().toLowerCase();
+  const forced = overrides[key]?.trim();
+  if (forced) return forced;
+  const base = resolveRepoLiveUrl(r, netlifyIndex);
+  if (base) return base;
+  const fromReadme = readmeLiveByFullName.get(r.full_name)?.trim();
+  if (fromReadme && !isJunkOrDocsDeployUrl(fromReadme)) return fromReadme;
+  return null;
 }
 
 /** Kratki „naziv” live URL-a za prikaz (hostname [+ kratka putanja]). */

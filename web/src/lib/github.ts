@@ -1,6 +1,7 @@
 import "server-only";
 
 import { serverEnv, type ServerEnv } from "@/lib/env/server";
+import { isExcludedFromPortfolioListing } from "@/lib/portfolio-repo-exclusions";
 
 export type GitHubRepo = {
   id: number;
@@ -58,7 +59,6 @@ const REPO_DESCRIPTION_FALLBACK: Partial<Record<string, string>> = {
   CB_Internship:
     "Zadatak za internship prijavu u Node.js okruženju (node_modules pristup): simulacija košarkaškog turnira na OI od grupne faze do finala; statistika i matematika.",
   "my-first-repo": "Prvi repo / uvod u Git.",
-  "netlify-feature-tour": "Start deploy primer sa Netlify (probe, tutorial materijal).",
 };
 
 function normalizeGithubDescription(raw: string | null | undefined): string {
@@ -195,6 +195,7 @@ export async function fetchUserRepos(): Promise<GitHubRepo[]> {
   return all
     .filter(
       (r) =>
+        !isExcludedFromPortfolioListing(r) &&
         r.private !== true &&
         (GITHUB_REPOS_INCLUDE_ARCHIVED || !r.archived) &&
         (GITHUB_REPOS_INCLUDE_FORKS || !r.fork),

@@ -4,6 +4,20 @@ import type { GitHubRepo } from "@/lib/github";
 import type { NetlifyDeployIndex } from "@/lib/netlify";
 import { resolveRepoLiveUrl } from "@/lib/repo-live-url";
 
+/** Max repoa po buildu za GET /readme (manje = brži Vercel build). */
+function readmeLiveMax(): number {
+  const n = Number.parseInt(process.env.README_LIVE_URL_MAX ?? "24", 10);
+  if (!Number.isFinite(n) || n < 0) return 24;
+  return Math.min(n, 80);
+}
+
+/** Paralelni README zahtevi (4 podrazumevano — manje trza GitHub pri buildu). */
+function readmeLiveConcurrency(): number {
+  const n = Number.parseInt(process.env.README_LIVE_URL_CONCURRENCY ?? "4", 10);
+  if (!Number.isFinite(n) || n < 1) return 4;
+  return Math.min(n, 8);
+}
+
 const NOISE_RE =
   /(shields\.io|codecov|coveralls|sonarcloud|github\.com\/badges|dependabot|snyk\.io|opengraph\.githubassets|camo\.githubusercontent)/i;
 
@@ -124,14 +138,22 @@ export async function fetchReadmeLiveUrlLookup(
   token: string | undefined,
 ): Promise<ReadonlyMap<string, string>> {
   const map = new Map<string, string>();
-  const need = repos.filter((r) => !resolveRepoLiveUrl(r, netlifyIndex));
-  await Promise.all(
-    need.map(async (r) => {
-      const md = await fetchRepoReadmeRaw(r.full_name, token);
-      if (!md) return;
-      const u = extractDeployUrlFromReadme(md, r.full_name);
-      if (u) map.set(r.full_name, u);
-    }),
-  );
+  const need = repos
+    .filter((r) => !resolveRepoLiveUrl(r, netlifyIndex))
+    .sort((a, b) => (b.pushed_at || "").localeCompare(a.pushed_at || ""));
+  const capped = need.slice(0, readmeLiveMax());
+  const batch = readmeLiveConcurrency();
+
+  for (let i = 0; i < capped.length; i += batch) {
+    const slice = capped.slice(i, i + batch);
+    await Promise.all(
+      slice.map(async (r) => {
+        const md = await fetchRepoReadmeRaw(r.full_name, token);
+        if (!md) return;
+        const u = extractDeployUrlFromReadme(md, r.full_name);
+        if (u) map.set(r.full_name, u);
+      }),
+    );
+  }
   return map;
 }

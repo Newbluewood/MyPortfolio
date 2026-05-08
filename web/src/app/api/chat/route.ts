@@ -28,7 +28,35 @@ export async function POST(req: Request) {
     });
   }
 
-  const base = serverEnv().PORTFOLIO_API_URL.replace(/\/$/, "");
+  const baseRaw = serverEnv().PORTFOLIO_API_URL.replace(/\/$/, "");
+  let backendHost: string;
+  try {
+    backendHost = new URL(baseRaw).hostname;
+  } catch {
+    return new Response(
+      JSON.stringify({
+        error:
+          "PORTFOLIO_API_URL is invalid. Set it in Vercel → Environment Variables to your Railway API URL (https://…).",
+      }),
+      { status: 503, headers: { "Content-Type": "application/json" } },
+    );
+  }
+  if (
+    process.env.VERCEL &&
+    (backendHost === "localhost" ||
+      backendHost === "127.0.0.1" ||
+      backendHost === "::1")
+  ) {
+    return new Response(
+      JSON.stringify({
+        error:
+          "Chat proxy misconfigured: PORTFOLIO_API_URL still points to localhost. In Vercel → Settings → Environment Variables set PORTFOLIO_API_URL to your public Railway API URL (no trailing slash), then redeploy.",
+      }),
+      { status: 503, headers: { "Content-Type": "application/json" } },
+    );
+  }
+
+  const base = baseRaw;
   let backend: Response;
   try {
     backend = await fetch(`${base}/chat`, {

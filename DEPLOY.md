@@ -5,12 +5,15 @@ Monorepo ima **dva dela**: Next.js frontend (`web/`) i FastAPI RAG backend (`api
 ## 1. Frontend — Vercel (preporuka za Next.js)
 
 1. [vercel.com](https://vercel.com) → **Add New** → **Project** → import `Newbluewood/MyPortfolio`.
-2. **Root Directory mora biti `web` — obavezno.** (Settings → General → Root Directory).  
-   - Ako ostane **koren repoa** (`.`), dve loše stvari: Vercel može pokupiti **`api/pyproject.toml`** i uraditi **Python** build umesto Next‑a; *ili* ako forsiraš `npm run build` iz `web/` iz korena, `.next` završi u **`web/.next`**, a deploy korak traži **`.next` u korenu** → greška poput `routes-manifest-deterministic.json` ENOENT.  
-   - **Ispravno:** Root Directory = **`web`**, Framework **Next.js**, pa redeploy.
-3. **Node:** u `web/` je `.nvmrc` (`20`); u Project Settings možeš fiksirati **20.x**.
-4. Framework: Next (auto). Build: `npm run build`, Output: default.
-5. **Environment Variables** (Production — vrednosti iz svog `.env`, bez komitovanja tajni):
+2. **Root Directory i `routes-manifest` ENOENT (monorepo)**  
+   - Na nekim nalogima Vercel posle `next build` i dalje traži **`.next`** u **korenu checkouta**, iako je aplikacija u **`web/`** → greška `routes-manifest-deterministic.json` ENOENT.  
+   - **Rešenje u repou:** u korenu je **`vercel.json`**: `install` u `web`, `build` u `web`, zatim **`cp -r web/.next .next`** da manifest bude i u korenu.  
+   - **Na Vercelu:** za taj projekat postavi **Root Directory na PRAZNO** (ceo repo), Framework **Next.js**, i **nemoj** ručno overridovati Install/Build (mora da važi root `vercel.json`). Inače se root config ne koristi.  
+   - Ako ikad budeš bez ovog fajla i Vercel ispravi bug: možeš probati samo **Root Directory = `web`** i uklonjen root `vercel.json`.
+3. **`prebuild`** u `web/` kopira `content/` u `web/_content` — pri Root = prazno ceo repo je u checkoutu, pa `../content` i dalje radi.
+4. **Node:** u `web/` je `.nvmrc` (`20`); u Project Settings možeš fiksirati **20.x**.
+5. Framework: Next. Build/Install: iz root **`vercel.json`** (ne `--prefix web` u dashboardu).
+6. **Environment Variables** (Production — vrednosti iz svog `.env`, bez komitovanja tajni):
 
 | Variable | Napomena |
 |----------|----------|
@@ -21,7 +24,7 @@ Monorepo ima **dva dela**: Next.js frontend (`web/`) i FastAPI RAG backend (`api
 | `PORTFOLIO_API_URL` | **puna URL** tvog API-ja, npr. `https://portfolio-api-production.up.railway.app` — **bez** završnog `/` |
 | `NETLIFY_ACCESS_TOKEN` ili `NETLIFY_AUTH_TOKEN` | opciono, kao lokalno |
 
-6. **Deploy**. Dodeli domen (Settings → Domains).
+7. **Deploy**. Dodeli domen (Settings → Domains).
 
 Chat na sajtu radi tek kad je **`PORTFOLIO_API_URL`** javno dostupan API (korak 2).
 

@@ -66,9 +66,13 @@ export async function POST(req: Request) {
     });
   } catch (e) {
     const detail = e instanceof Error ? e.message : String(e);
+    const previewHint =
+      process.env.VERCEL_ENV === "preview"
+        ? " Preview deploy: enable PORTFOLIO_API_URL for Preview too (Vercel → Environment Variables → Environments: Preview + Production)."
+        : "";
     return new Response(
       JSON.stringify({
-        error: `Could not reach portfolio API (${detail}). On Vercel set PORTFOLIO_API_URL to your Railway public https URL (no trailing /), redeploy. Open that URL + /health in a browser to confirm the API is up.`,
+        error: `Could not reach portfolio API (${detail}). Set PORTFOLIO_API_URL for Production (and Preview if you open preview URLs) to your Railway https URL, redeploy. Open ${base}/health in a browser.${previewHint}`,
       }),
       {
         status: 502,

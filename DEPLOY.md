@@ -17,7 +17,7 @@ Monorepo ima **dva dela**: Next.js frontend (`web/`) i FastAPI RAG backend (`api
 | `NEXT_PUBLIC_GITHUB_URL` | npr. `https://github.com/Newbluewood` |
 | `GITHUB_USERNAME` | isto kao lokalno |
 | `GITHUB_TOKEN` | opciono; preporuka na produkciji (rate limit, privatni repoi) |
-| `PORTFOLIO_API_URL` | **puna URL** tvog API-ja, npr. `https://portfolio-api-production.up.railway.app` — **bez** završnog `/` |
+| `PORTFOLIO_API_URL` | Javni Railway URL, npr. `https://….up.railway.app` — **bez** `/` na kraju. **Obavezno uključi za Production *i* Preview** (Vercel → Variables → ta varijabla → *All Environments* ili obe kvačice), inače chat radi samo na jednom tipu deploya. |
 | `NETLIFY_ACCESS_TOKEN` ili `NETLIFY_AUTH_TOKEN` | opciono, kao lokalno |
 
 7. **Deploy**. Dodeli domen (Settings → Domains).

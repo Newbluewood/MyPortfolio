@@ -16,7 +16,8 @@ const nextConfig: NextConfig = {
   outputFileTracingExcludes: {
     "*": [
       "**/venv/**",
-      "**/api/**",
+      // Samo Python servis na korenu repoa — NE `**/api/**` (to bi isključilo `src/app/api/*`).
+      "api/**",
       "**/data/**",
       "**/.git/**",
     ],

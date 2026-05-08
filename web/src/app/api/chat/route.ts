@@ -64,9 +64,12 @@ export async function POST(req: Request) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message }),
     });
-  } catch {
+  } catch (e) {
+    const detail = e instanceof Error ? e.message : String(e);
     return new Response(
-      JSON.stringify({ error: "Could not reach portfolio API" }),
+      JSON.stringify({
+        error: `Could not reach portfolio API (${detail}). On Vercel set PORTFOLIO_API_URL to your Railway public https URL (no trailing /), redeploy. Open that URL + /health in a browser to confirm the API is up.`,
+      }),
       {
         status: 502,
         headers: { "Content-Type": "application/json" },

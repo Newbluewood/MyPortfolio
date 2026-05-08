@@ -13,14 +13,9 @@ const nextConfig: NextConfig = {
   // Monorepo: trace od korena repoa da serverless na Vercelu uključi ispravne fajlove.
   // Inače `/` može vratiti Vercel 404 NOT_FOUND. Teški folderi isključeni ispod.
   outputFileTracingRoot: path.join(__dirname, ".."),
+  // Samo top-level monorepo foldere — NIKAKO `**/data/**` (uništava node_modules/*/data u bundle-u).
   outputFileTracingExcludes: {
-    "*": [
-      "**/venv/**",
-      // Samo Python servis na korenu repoa — NE `**/api/**` (to bi isključilo `src/app/api/*`).
-      "api/**",
-      "**/data/**",
-      "**/.git/**",
-    ],
+    "*": ["venv/**", "api/**", "data/**", ".git/**"],
   },
 
   // Dev runs with `next dev --webpack` (see package.json). Turbopack default on Next 16

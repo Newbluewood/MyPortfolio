@@ -7,7 +7,7 @@ Monorepo ima **dva dela**: Next.js frontend (`web/`) i FastAPI RAG backend (`api
 1. [vercel.com](https://vercel.com) → **Add New** → **Project** → import `Newbluewood/MyPortfolio`.
 2. **Root Directory i `routes-manifest` ENOENT (monorepo)**  
    - Na nekim nalogima Vercel posle `next build` i dalje traži **`.next`** u **korenu checkouta**, iako je aplikacija u **`web/`** → greška `routes-manifest-deterministic.json` ENOENT.  
-   - **Rešenje u repou:** u korenu je **`vercel.json`**: `install` u `web`, `build` u `web`, zatim **`cp -r web/.next .next`** da manifest bude i u korenu.  
+   - **Rešenje u repou:** (1) posle `next build`, skripta **`web/scripts/ensure-vercel-routes-manifest.mjs`** (npm **`postbuild`**) kopira `routes-manifest.json` → **`routes-manifest-deterministic.json`** — to Vercel ponekad traži a stock Next ne pravi. (2) u korenu je **`vercel.json`**: `install` u `web`, **`npm run build`** u `web`, zatim **`cp -r web/.next .next`** jer finalizacija i dalje gleda `.next` u korenu checkouta.  
    - **Na Vercelu:** za taj projekat postavi **Root Directory na PRAZNO** (ceo repo), Framework **Next.js**, i **nemoj** ručno overridovati Install/Build (mora da važi root `vercel.json`). Inače se root config ne koristi.  
    - Ako ikad budeš bez ovog fajla i Vercel ispravi bug: možeš probati samo **Root Directory = `web`** i uklonjen root `vercel.json`.
 3. **`prebuild`** u `web/` kopira `content/` u `web/_content` — pri Root = prazno ceo repo je u checkoutu, pa `../content` i dalje radi.

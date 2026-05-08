@@ -100,13 +100,21 @@ def root() -> dict[str, str]:
     return {
         "service": "portfolio-api",
         "health": "/health",
+        "health_ready": "/health/ready",
         "docs": "/docs",
         "chat": "POST /chat",
     }
 
 
 @app.get("/health", response_model=None)
-def health() -> dict[str, str] | JSONResponse:
+def health() -> dict[str, str]:
+    """Liveness for PaaS (e.g. Railway). Always 200 when the process is up."""
+    return {"status": "ok", "service": "portfolio-api"}
+
+
+@app.get("/health/ready", response_model=None)
+def health_ready() -> dict[str, str] | JSONResponse:
+    """Readiness: API key + non-empty Chroma index (fails until portfolio-ingest finishes)."""
     s = get_settings()
     key = (
         (s.google_api_key or "").strip()
@@ -124,12 +132,13 @@ def health() -> dict[str, str] | JSONResponse:
     try:
         index = get_index()
         _ = index
-        return {"status": "ok"}
+        return {"status": "ok", "ready": True}
     except Exception as e:
         return JSONResponse(
             status_code=503,
             content={
                 "status": "degraded",
+                "ready": False,
                 "detail": str(e)[:500],
             },
         )

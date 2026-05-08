@@ -4,6 +4,10 @@ import Lottie, { type LottieRefCurrentProps } from "lottie-react";
 import { useCallback, useRef, useState } from "react";
 
 import {
+  type LabGithubHint,
+  LabGithubHintBanner,
+} from "@/components/lab-github-hint-banner";
+import {
   RepoRitualClouds,
   type RitualRepoLink,
 } from "@/components/repo-ritual-clouds";
@@ -11,13 +15,13 @@ import {
 type Props = {
   animationData: object;
   repos: RitualRepoLink[];
-  demoRepos?: boolean;
+  labGithubHint?: LabGithubHint;
 };
 
 export function AangLottieScene({
   animationData,
   repos,
-  demoRepos = false,
+  labGithubHint = "none",
 }: Props) {
   const [finished, setFinished] = useState(false);
   const [replayId, setReplayId] = useState(0);
@@ -33,20 +37,7 @@ export function AangLottieScene({
 
   return (
     <div className="relative flex min-h-[calc(100vh-5.5rem)] flex-col items-center justify-center overflow-x-hidden px-4 py-10 pb-16">
-      {demoRepos ? (
-        <p className="absolute left-4 right-4 top-12 z-[40] rounded-lg border border-amber-500/35 bg-amber-500/10 px-3 py-2 text-center text-xs text-amber-100/95 sm:left-auto sm:right-auto sm:max-w-lg">
-          Prikazani su <strong className="font-medium">demo</strong> repozitorijumi.
-          U korenu repoa postavi{" "}
-          <code className="rounded bg-black/30 px-1 font-mono text-[10px]">
-            GITHUB_USERNAME
-          </code>{" "}
-          i po želji{" "}
-          <code className="rounded bg-black/30 px-1 font-mono text-[10px]">
-            GITHUB_TOKEN
-          </code>
-          , pa restartuj dev server.
-        </p>
-      ) : null}
+      <LabGithubHintBanner hint={labGithubHint} />
       <p className="absolute left-4 top-4 z-[40] max-w-xs text-xs text-zinc-500">
         Lab · Lottie sekvenca (bez klika tokom animacije) · oblaci nakon kraja
       </p>

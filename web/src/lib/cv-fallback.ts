@@ -1,41 +1,16 @@
-/**
- * Centralni podaci za /cv — menjaj ovaj fajl kao ranije main.js + HTML.
- * Fotografija: kopiraj `Photo_me.jpg` iz CVApp u `web/public/Photo_me.jpg`
- * (isto ime kao u starom index.html). Ako fajl nedostaje, prikazaće se inicijali.
- */
+import type { CvData } from "@/lib/cv-schema";
 
-export type CvLink = { label: string; href: string };
-
-export type CvExperienceBlock = {
-  company: string;
-  period?: string;
-  roleTitle?: string;
-  bullets: string[];
-};
-
-export type CvEducationBlock = {
-  institution: string;
-  period?: string;
-  bullets: string[];
-};
-
-export const cvData = {
+/** Koristi se samo ako `content/cv.json` nedostaje ili je neispravan. */
+export const cvDataFallback: CvData = {
   name: "Nebojša Šimović",
-
-  /** Kratak naslov ispod imena (npr. za koju prijavu CV trenutno ciljaš). */
-  headlineApplyingFor:
-    "IT Bootcamp - Testiranje Softvera (QA) - Kurs",
-
-  /** Kratka biografija (varijanta iz main.js / aboutMe2). */
-  about: `I have turned my passion for coding into a reality by actively building applications and expanding my knowledge in modern technologies. I thrive on problem-solving and continuously refine my skills in JavaScript (Vue, React) and Python. Throughout my journey, I have embraced AI as a mentor, exploring how it enhances creativity and efficiency in development. Now, I am eager to join a team where I can apply my expertise to real-world projects, collaborate, and continue growing.`,
-
+  headlineApplyingFor: "IT Bootcamp - Testiranje Softvera (QA) - Kurs",
+  about:
+    "I have turned my passion for coding into a reality by actively building applications and expanding my knowledge in modern technologies. I thrive on problem-solving and continuously refine my skills in JavaScript (Vue, React) and Python. Throughout my journey, I have embraced AI as a mentor, exploring how it enhances creativity and efficiency in development. Now, I am eager to join a team where I can apply my expertise to real-world projects, collaborate, and continue growing.",
   photo: {
     src: "/Photo_me.jpg",
     alt: "Nebojša Šimović",
   },
-
   languages: [{ label: "English", level: "Intermediate" }],
-
   contact: {
     email: "nebojsa.simovic@outlook.com",
     linkedIn: {
@@ -47,7 +22,6 @@ export const cvData = {
       label: "github.com/Newbluewood",
     },
   },
-
   experience: [
     {
       company: "IT Practice Center – ENON Solutions",
@@ -66,8 +40,7 @@ export const cvData = {
         "Implemented frontend features and AI workflows",
       ],
     },
-  ] satisfies CvExperienceBlock[],
-
+  ],
   education: [
     {
       institution: "ITAcademy – Frontend JavaScript Development",
@@ -90,8 +63,7 @@ export const cvData = {
       period: "2011",
       bullets: ["Wood Processing Engineer – Master Degree"],
     },
-  ] satisfies CvEducationBlock[],
-
+  ],
   skills: [
     "JavaScript",
     "Vue3",
@@ -109,7 +81,6 @@ export const cvData = {
     "Data Visualization",
     "AI Tools (Copilot, Claude, Gemini, Cursor, Antigravity AI)",
   ],
-
   portfolioLinks: [
     { label: "Nastavna Baza Goc", href: "https://nastavnabazagoc.netlify.app" },
     { label: "Quizi App", href: "https://quizi-if-not-busy.netlify.app/" },
@@ -117,5 +88,5 @@ export const cvData = {
     { label: "Weather Forecast", href: "https://weatherforecastom.netlify.app/" },
     { label: "Kuvar App", href: "https://kuvar.netlify.app/" },
     { label: "E-Korpa", href: "https://e-korpa2.netlify.app/" },
-  ] satisfies CvLink[],
+  ],
 };

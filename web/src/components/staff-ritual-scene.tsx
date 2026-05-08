@@ -4,6 +4,10 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 import {
+  type LabGithubHint,
+  LabGithubHintBanner,
+} from "@/components/lab-github-hint-banner";
+import {
   RepoRitualClouds,
   type RitualRepoLink,
 } from "@/components/repo-ritual-clouds";
@@ -12,10 +16,10 @@ type Phase = "sit" | "summon";
 
 type Props = {
   repos: RitualRepoLink[];
-  demoRepos?: boolean;
+  labGithubHint?: LabGithubHint;
 };
 
-export function StaffRitualScene({ repos, demoRepos = false }: Props) {
+export function StaffRitualScene({ repos, labGithubHint = "none" }: Props) {
   const [runId, setRunId] = useState(0);
   const [phase, setPhase] = useState<Phase>("sit");
   const [shake, setShake] = useState(false);
@@ -36,20 +40,7 @@ export function StaffRitualScene({ repos, demoRepos = false }: Props) {
 
   return (
     <div className="relative flex min-h-[calc(100vh-5.5rem)] flex-col items-center justify-center overflow-x-hidden px-4 py-10 pb-16">
-      {demoRepos ? (
-        <p className="absolute left-4 right-4 top-12 z-[40] rounded-lg border border-amber-500/35 bg-amber-500/10 px-3 py-2 text-center text-xs text-amber-100/95 sm:left-auto sm:right-auto sm:max-w-lg">
-          Nisu učitani repo oblaci. Proveri{" "}
-          <code className="rounded bg-black/30 px-1 font-mono text-[10px]">
-            GITHUB_USERNAME
-          </code>{" "}
-          /{" "}
-          <code className="rounded bg-black/30 px-1 font-mono text-[10px]">
-            GITHUB_TOKEN
-          </code>
-          , pa restartuj dev server. Oblaci prikazuju samo projekte sa deploy linkom
-          (GitHub Website ili Netlify).
-        </p>
-      ) : null}
+      <LabGithubHintBanner hint={labGithubHint} />
       <p className="absolute left-4 top-4 z-[40] max-w-xs text-xs text-zinc-500">
         Lab · Aang — oblaci su samo projekti sa deploy linkom (otvaraju live sajt)
       </p>

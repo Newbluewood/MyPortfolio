@@ -3,12 +3,15 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 
 import { CvAvatar } from "@/components/cv-avatar";
-import { cvData } from "@/lib/cv-data";
+import { getCvData } from "@/lib/cv-load";
 
-export const metadata: Metadata = {
-  title: "CV",
-  description: `Resume — ${cvData.name}. ${cvData.headlineApplyingFor}`,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const cv = await getCvData();
+  return {
+    title: "CV",
+    description: `Resume — ${cv.name}. ${cv.headlineApplyingFor}`,
+  };
+}
 
 function SectionTitle({
   children,
@@ -25,12 +28,25 @@ function SectionTitle({
   );
 }
 
-export default function CvPage() {
+export default async function CvPage() {
+  const cvData = await getCvData();
   const { photo, name, contact, languages, experience, education, skills } =
     cvData;
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16 print:max-w-none print:bg-white print:py-8 print:text-black">
+    <div className="mx-auto min-w-0 max-w-5xl px-4 py-12 sm:px-6 sm:py-16 print:max-w-none print:bg-white print:py-8 print:text-black">
+      <p className="mb-6 text-center text-xs text-zinc-500 print:text-zinc-600 sm:text-left">
+        Sadržaj CV-ja menjaš u{" "}
+        <code className="rounded border border-white/10 bg-white/5 px-1 font-mono text-zinc-400 print:border-black/20">
+          content/cv.json
+        </code>
+        ; polje „Applying for“ možeš prepisati i preko{" "}
+        <code className="rounded border border-white/10 bg-white/5 px-1 font-mono text-zinc-400 print:border-black/20">
+          CV_HEADLINE_APPLYING_FOR
+        </code>{" "}
+        u <code className="font-mono text-zinc-400">.env</code>.
+      </p>
+
       <p className="mb-6 text-center text-xs text-zinc-500 print:text-zinc-600 sm:text-left">
         Printable A4-friendly layout — use{" "}
         <kbd className="rounded border border-white/10 bg-white/5 px-1 print:border-black/20">
@@ -39,10 +55,10 @@ export default function CvPage() {
         from the browser.
       </p>
 
-      <article className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] shadow-xl shadow-black/20 print:rounded-none print:border-0 print:bg-white print:shadow-none">
-        <div className="grid md:grid-cols-[minmax(0,260px)_1fr] print:grid-cols-[240px_1fr]">
+      <article className="break-words overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] shadow-xl shadow-black/20 print:rounded-none print:border-0 print:bg-white print:shadow-none">
+        <div className="grid min-w-0 md:grid-cols-[minmax(0,260px)_1fr] print:grid-cols-[240px_1fr]">
           {/* Left column */}
-          <aside className="space-y-6 border-b border-white/10 bg-zinc-900/80 p-6 md:border-b-0 md:border-r md:border-white/10 print:border-black/15 print:bg-zinc-100">
+          <aside className="min-w-0 space-y-6 border-b border-white/10 bg-zinc-900/80 p-6 md:border-b-0 md:border-r md:border-white/10 print:border-black/15 print:bg-zinc-100">
             <div className="flex justify-center md:justify-start print:justify-start">
               <CvAvatar name={name} photo={photo} />
             </div>
@@ -104,7 +120,7 @@ export default function CvPage() {
           </aside>
 
           {/* Right column */}
-          <div className="space-y-8 p-6 md:p-8">
+          <div className="min-w-0 space-y-8 p-6 md:p-8">
             <header className="space-y-2 border-b border-white/10 pb-6 print:border-black/15">
               <h1 className="text-3xl font-bold tracking-tight text-white print:text-black sm:text-4xl">
                 {name}

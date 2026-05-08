@@ -12,7 +12,8 @@
     "build": "next build",
     "postbuild": "node ./scripts/ensure-vercel-routes-manifest.mjs",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "lottie-react": "^2.4.1",

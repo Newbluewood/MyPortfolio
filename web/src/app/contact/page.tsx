@@ -11,7 +11,7 @@ export default function ContactPage() {
 
   return (
     <Section eyebrow="Hello" title="Contact">
-      <div className="max-w-xl space-y-4 text-zinc-400">
+      <div className="max-w-xl break-words space-y-4 text-zinc-400">
         <p>
           Prefer reaching out through GitHub or your usual professional channel.
           For questions about projects or skills, try the assistant in the

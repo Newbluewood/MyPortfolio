@@ -5,11 +5,17 @@
     "kill:dev": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/kill-dev-ports.ps1 -Target all",
     "kill:api": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/kill-dev-ports.ps1 -Target api",
     "kill:web": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/kill-dev-ports.ps1 -Target web",
+    "clean:web": "cd web && npm run clean",
     "dev:api": "npm run kill:api && cd api && ..\\venv\\Scripts\\uvicorn portfolio_api.main:app --reload --host 127.0.0.1 --port 8020",
     "dev:web": "npm run kill:web && cd web && npm run dev",
     "dev:api:only": "cd api && ..\\venv\\Scripts\\uvicorn portfolio_api.main:app --reload --host 127.0.0.1 --port 8020",
     "dev:web:only": "cd web && npm run dev",
     "dev": "npm run kill:dev && concurrently -n api,web -c cyan,magenta \"npm run dev:api:only\" \"npm run dev:web:only\"",
+    "dev:full": "npm run kill:dev && npm run clean:web && npm run doctor -- --fix && concurrently -n api,web,doc -c cyan,magenta,blue \"npm run dev:api:only\" \"npm run dev:web:only\" \"node scripts/post-dev-doctor.mjs\"",
+    "dev:with-doctor": "npm run doctor && npm run dev",
+    "workflow:minimal": "npm run kill:dev && npm run doctor -- --fix && npm run dev",
+    "workflow:reset": "npm run dev:full",
+    "doctor": "node scripts/portfolio-doctor.mjs",
     "test:chat": "cd api && ..\\venv\\Scripts\\python scripts\\test_chat_sse.py --base http://127.0.0.1:8020"
   },
   "devDependencies": {

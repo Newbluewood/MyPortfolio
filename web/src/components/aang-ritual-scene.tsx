@@ -3,6 +3,9 @@
 import { useEffect, useState } from "react";
 
 import { AangLottieScene } from "@/components/aang-lottie-scene";
+import {
+  type LabGithubHint,
+} from "@/components/lab-github-hint-banner";
 import { StaffRitualScene } from "@/components/staff-ritual-scene";
 import type { RitualRepoLink } from "@/components/repo-ritual-clouds";
 
@@ -10,11 +13,11 @@ const LOTTIE_URL = "/lottie/aang-ritual.json";
 
 type Props = {
   repos: RitualRepoLink[];
-  /** true kada GitHub/Netlify učitavanje ne uspe — prikaz upozorenja; oblaci su prazni. */
-  demoRepos?: boolean;
+  /** Lab: zašto su oblaci prazni (nema env identiteta vs. bacila se greška pri fetch-u). */
+  labGithubHint?: LabGithubHint;
 };
 
-export function AangRitualScene({ repos, demoRepos = false }: Props) {
+export function AangRitualScene({ repos, labGithubHint = "none" }: Props) {
   const [status, setStatus] = useState<"loading" | "lottie" | "png">(
     "loading",
   );
@@ -49,8 +52,10 @@ export function AangRitualScene({ repos, demoRepos = false }: Props) {
   }
 
   if (status === "lottie" && data) {
-    return <AangLottieScene animationData={data} repos={repos} demoRepos={demoRepos} />;
+    return (
+      <AangLottieScene animationData={data} repos={repos} labGithubHint={labGithubHint} />
+    );
   }
 
-  return <StaffRitualScene repos={repos} demoRepos={demoRepos} />;
+  return <StaffRitualScene repos={repos} labGithubHint={labGithubHint} />;
 }

@@ -45,11 +45,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full scroll-smooth antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full scroll-smooth antialiased overflow-x-hidden`}
     >
-      <body className="flex min-h-full flex-col bg-[#0b0f14] font-sans text-zinc-100">
+      <body className="flex min-h-full flex-col overflow-x-hidden bg-[#0b0f14] font-sans text-zinc-100">
         <SiteHeader />
-        <main className="flex-1">{children}</main>
+        <main className="min-w-0 flex-1">{children}</main>
         <SiteFooter />
         <ChatDock />
       </body>

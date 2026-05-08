@@ -19,11 +19,18 @@ async function main() {
   }
   let n = 0;
   for (const e of entries) {
-    if (!e.isFile() || !e.name.endsWith(".md")) continue;
-    await fs.copyFile(path.join(srcDir, e.name), path.join(destDir, e.name));
-    n += 1;
+    if (!e.isFile()) continue;
+    if (e.name === "cv.json") {
+      await fs.copyFile(path.join(srcDir, e.name), path.join(destDir, e.name));
+      n += 1;
+      continue;
+    }
+    if (e.name.endsWith(".md")) {
+      await fs.copyFile(path.join(srcDir, e.name), path.join(destDir, e.name));
+      n += 1;
+    }
   }
-  if (n) console.log(`sync-content: ${n} markdown file(s) -> ${destDir}`);
+if (n) console.log(`sync-content: ${n} content file(s) -> ${destDir}`);
 }
 
 main().catch((err) => {

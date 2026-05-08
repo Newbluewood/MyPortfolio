@@ -14,7 +14,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <section className="relative overflow-hidden border-b border-white/10">
+      <section className="relative min-w-0 overflow-hidden border-b border-white/10">
         <div
           className="pointer-events-none absolute inset-0 opacity-40"
           aria-hidden

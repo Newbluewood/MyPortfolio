@@ -1,6 +1,6 @@
 import "server-only";
 
-import { serverEnv } from "@/lib/env/server";
+import { serverEnv, type ServerEnv } from "@/lib/env/server";
 
 export type GitHubRepo = {
   id: number;
@@ -80,49 +80,75 @@ function repoDescriptionFallback(repoName: string): string | undefined {
   return undefined;
 }
 
-function githubUsernameFromEnv(): string {
-  const fromExplicit = (process.env.GITHUB_USERNAME ?? "").trim();
-  if (fromExplicit) return fromExplicit;
-  const pub = (process.env.NEXT_PUBLIC_GITHUB_URL ?? "").trim();
-  if (!pub) return "";
+function githubLoginFromProfileUrl(url: string | undefined): string {
+  if (!url?.trim()) return "";
   try {
-    const url = new URL(pub);
-    if (!url.hostname.endsWith("github.com")) return "";
-    const seg = url.pathname.split("/").filter(Boolean);
+    const u = new URL(url.trim());
+    if (!u.hostname.endsWith("github.com")) return "";
+    const seg = u.pathname.split("/").filter(Boolean);
     return seg[0] ? decodeURIComponent(seg[0]) : "";
   } catch {
     return "";
   }
 }
 
-export async function fetchUserRepos(): Promise<GitHubRepo[]> {
-  const {
-    GITHUB_TOKEN,
-    GITHUB_REPOS_INCLUDE_FORKS,
-    GITHUB_REPOS_INCLUDE_ARCHIVED,
-  } = serverEnv();
+/** Identitet za listanje repoa (token, javni /users/:login, ili oba). */
+export function resolveGithubListingIdentity(s: ServerEnv): {
+  effectiveUsername: string;
+  useTokenList: boolean;
+} | null {
+  const token = (s.GITHUB_TOKEN ?? "").trim();
+  const explicit = (s.GITHUB_USERNAME ?? "").trim();
+  const fromUrl = githubLoginFromProfileUrl(s.NEXT_PUBLIC_GITHUB_URL);
+  const username = explicit || fromUrl;
+  if (token) return { effectiveUsername: username, useTokenList: true };
+  if (username) return { effectiveUsername: username, useTokenList: false };
+  return null;
+}
 
-  const username = githubUsernameFromEnv();
-  const authed = Boolean(GITHUB_TOKEN?.trim());
-  if (!authed && !username) {
+export function hasGithubListingIdentity(): boolean {
+  return resolveGithubListingIdentity(serverEnv()) !== null;
+}
+
+/** Na Vercelu uvek zahtevamo konfiguraciju; lokalno bez .env ne obara build. */
+function githubListingStrict(): boolean {
+  return Boolean(process.env.VERCEL);
+}
+
+export async function fetchUserRepos(): Promise<GitHubRepo[]> {
+  const s = serverEnv();
+  const id = resolveGithubListingIdentity(s);
+  if (!id) {
+    if (!githubListingStrict()) {
+      console.warn(
+        "[portfolio] GitHub listing skipped — set GITHUB_USERNAME or NEXT_PUBLIC_GITHUB_URL or GITHUB_TOKEN (see .env.example).",
+      );
+      return [];
+    }
     throw new Error(
       "GitHub projects need a username or token. Set GITHUB_USERNAME in the monorepo root `.env` or `web/.env.local`, or set NEXT_PUBLIC_GITHUB_URL to your profile (e.g. https://github.com/YourLogin), or set GITHUB_TOKEN for authenticated listing.",
     );
   }
 
+  const username = id.effectiveUsername;
+  const {
+    GITHUB_TOKEN,
+    GITHUB_REPOS_INCLUDE_FORKS,
+    GITHUB_REPOS_INCLUDE_ARCHIVED,
+  } = s;
+
   const headers: Record<string, string> = {
     Accept: "application/vnd.github+json",
     "X-GitHub-Api-Version": "2022-11-28",
   };
-  if (authed) {
-    headers.Authorization = `Bearer ${GITHUB_TOKEN!.trim()}`;
+  if (id.useTokenList && GITHUB_TOKEN) {
+    headers.Authorization = `Bearer ${GITHUB_TOKEN.trim()}`;
   }
 
   const all: GitHubRepo[] = [];
   let page = 1;
   const perPage = 100;
-  /** Without a token, `/users/.../repos` only returns public repos. */
-  let useAuthedList = authed;
+  let useAuthedList = id.useTokenList;
 
   while (true) {
     const url = useAuthedList
@@ -143,7 +169,7 @@ export async function fetchUserRepos(): Promise<GitHubRepo[]> {
     if (res.status === 401 && useAuthedList) {
       if (!username) {
         throw new Error(
-          "GITHUB_TOKEN was rejected; set a valid token or set GITHUB_USERNAME for public repo listing.",
+          "GITHUB_TOKEN was rejected; set a valid token or set GITHUB_USERNAME / NEXT_PUBLIC_GITHUB_URL for public repo listing.",
         );
       }
       useAuthedList = false;

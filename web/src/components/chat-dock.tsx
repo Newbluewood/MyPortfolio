@@ -204,7 +204,7 @@ export function ChatDock() {
 
   return (
     <div
-      className="fixed z-50 flex flex-col items-end gap-2"
+      className="fixed z-50 flex max-w-[calc(100%-1.5rem)] flex-col items-end gap-2"
       style={{
         right: "max(1rem, env(safe-area-inset-right, 0px))",
         bottom: "max(1rem, env(safe-area-inset-bottom, 0px))",
@@ -212,7 +212,7 @@ export function ChatDock() {
     >
       {open ? (
         <div
-          className="flex h-[min(32rem,calc(100vh-6rem))] w-[min(100vw-2rem,24rem)] flex-col rounded-2xl border border-white/15 bg-[#111820] shadow-2xl shadow-black/50"
+          className="flex h-[min(32rem,calc(100vh-6rem))] w-[min(24rem,calc(100%-2rem))] flex-col rounded-2xl border border-white/15 bg-[#111820] shadow-2xl shadow-black/50"
           role="dialog"
           aria-label="Site assistant"
         >

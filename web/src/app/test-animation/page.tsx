@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { AangAttribution } from "@/components/aang-attribution";
 import { AangRitualScene } from "@/components/aang-ritual-scene";
-import { fetchUserRepos } from "@/lib/github";
+import { fetchUserRepos, hasGithubListingIdentity } from "@/lib/github";
 import { fetchNetlifyDeployIndex } from "@/lib/netlify";
 import { fetchReadmeLiveUrlLookup } from "@/lib/readme-live-url";
 import { resolveRepoLiveUrl } from "@/lib/repo-live-url";
@@ -15,35 +15,45 @@ export const metadata = {
 
 export default async function TestAnimationPage() {
   let repos: { name: string; html_url: string }[] = [];
-  let demoRepos = false;
+  const missingIdentity = !hasGithubListingIdentity();
+  let fetchFailed = false;
   try {
-    const [allRepos, netlifyIndex] = await Promise.all([
-      fetchUserRepos(),
-      fetchNetlifyDeployIndex(),
-    ]);
-    const readmeLiveByFullName = await fetchReadmeLiveUrlLookup(
-      allRepos,
-      netlifyIndex,
-      serverEnv().GITHUB_TOKEN,
-    );
-    repos = allRepos
-      .map((repo) => {
-        const deploy =
-          resolveRepoLiveUrl(repo, netlifyIndex) ??
-          readmeLiveByFullName.get(repo.full_name) ??
-          null;
-        return deploy ? { name: repo.name, html_url: deploy } : null;
-      })
-      .filter((x): x is { name: string; html_url: string } => x != null);
-    demoRepos = false;
+    if (missingIdentity) {
+      repos = [];
+    } else {
+      const [allRepos, netlifyIndex] = await Promise.all([
+        fetchUserRepos(),
+        fetchNetlifyDeployIndex(),
+      ]);
+      const readmeLiveByFullName = await fetchReadmeLiveUrlLookup(
+        allRepos,
+        netlifyIndex,
+        serverEnv().GITHUB_TOKEN,
+      );
+      repos = allRepos
+        .map((repo) => {
+          const deploy =
+            resolveRepoLiveUrl(repo, netlifyIndex) ??
+            readmeLiveByFullName.get(repo.full_name) ??
+            null;
+          return deploy ? { name: repo.name, html_url: deploy } : null;
+        })
+        .filter((x): x is { name: string; html_url: string } => x != null);
+    }
   } catch {
-    demoRepos = true;
+    fetchFailed = true;
     repos = [];
   }
 
+  const labGithubHint = missingIdentity
+    ? ("missing_identity" as const)
+    : fetchFailed
+      ? ("fetch_failed" as const)
+      : ("none" as const);
+
   return (
-    <main className="mx-auto max-w-5xl">
-      <AangRitualScene repos={repos} demoRepos={demoRepos} />
+    <div className="mx-auto min-w-0 max-w-5xl">
+      <AangRitualScene repos={repos} labGithubHint={labGithubHint} />
       <AangAttribution />
       <div className="relative z-[30] flex justify-center pb-10 pt-2">
         <Link
@@ -53,6 +63,6 @@ export default async function TestAnimationPage() {
           ← Nazad na projekte
         </Link>
       </div>
-    </main>
+    </div>
   );
 }

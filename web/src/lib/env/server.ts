@@ -1,6 +1,7 @@
 import "server-only";
 
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
 import { loadEnvConfig } from "@next/env";
 import { z } from "zod";
 
@@ -11,23 +12,55 @@ const trimOrUndef = (v: unknown): string | undefined => {
 };
 
 /**
- * Učitaj `.env` / `.env.local` i iz korena monorepa i iz `web/` da
- * `GITHUB_USERNAME` u root `.env` radi i kad postoji prazan `web/.env`.
+ * Učitaj `.env` / `.env.local` iz korena monorepa i iz `web/`.
+ *
+ * `import.meta.url` u server bundle-u pokazuje na `.next/server/chunks/…`, pa putanje
+ * iz izvornog fajla ne valjaju. `process.cwd()` u Next dev obično bude `web/`, ali ne
+ * uvek — zato tražimo koren tako što šetamo nagore dok ne nađemo raspored repoa.
  */
 let _monorepoEnvLoaded = false;
 
+function dotenvInDir(dir: string): boolean {
+  return (
+    fs.existsSync(path.join(dir, ".env")) ||
+    fs.existsSync(path.join(dir, ".env.local"))
+  );
+}
+
+function resolveMonorepoEnvDirs(): { monorepoRoot: string; webPackageRoot: string } {
+  let dir = path.resolve(process.cwd());
+  for (let i = 0; i < 12; i++) {
+    const webDir = path.join(dir, "web");
+    const nextInWeb = path.join(webDir, "next.config.ts");
+    if (dotenvInDir(dir) && fs.existsSync(nextInWeb)) {
+      return { monorepoRoot: dir, webPackageRoot: webDir };
+    }
+
+    const nextHere = path.join(dir, "next.config.ts");
+    const parent = path.resolve(dir, "..");
+    if (fs.existsSync(nextHere) && dotenvInDir(parent)) {
+      return { monorepoRoot: parent, webPackageRoot: dir };
+    }
+
+    const up = path.dirname(dir);
+    if (up === dir) break;
+    dir = up;
+  }
+
+  const webRoot = path.resolve(process.cwd());
+  return {
+    monorepoRoot: path.resolve(webRoot, ".."),
+    webPackageRoot: webRoot,
+  };
+}
+
 function ensureMonorepoEnvInProcess(): void {
   if (_monorepoEnvLoaded) return;
-  const cwd = path.resolve(process.cwd());
-  const isWebPkg = path.basename(cwd) === "web";
-  const monorepoRoot = isWebPkg ? path.resolve(cwd, "..") : cwd;
-
-  const dirs: string[] = [monorepoRoot];
-  if (isWebPkg) dirs.push(cwd);
-
+  const { monorepoRoot, webPackageRoot } = resolveMonorepoEnvDirs();
+  const dirs = [monorepoRoot, webPackageRoot];
   const seen = new Set<string>();
-  for (const dir of dirs) {
-    const abs = path.resolve(dir);
+  for (const d of dirs) {
+    const abs = path.resolve(d);
     if (seen.has(abs)) continue;
     seen.add(abs);
     loadEnvConfig(abs);
@@ -46,6 +79,10 @@ const serverSchema = z.object({
   /** Opciono ako imaš samo GITHUB_TOKEN (javni repoi i dalje koriste username u URL-u bez tokena). */
   GITHUB_USERNAME: z.preprocess(trimOrUndef, z.string().optional()),
   GITHUB_TOKEN: z.preprocess(trimOrUndef, z.string().optional()),
+  /** Isti kao u klijentskom env-u; server koristi za inferenciju login-a ako nije setovan GITHUB_USERNAME. */
+  NEXT_PUBLIC_GITHUB_URL: z.preprocess(trimOrUndef, z.string().url().optional()),
+  /** Prepisuje samo „Applying for“ na /cv (brza prilagodba prijavi bez menjanja cv.json). */
+  CV_HEADLINE_APPLYING_FOR: z.preprocess(trimOrUndef, z.string().optional()),
   /** Include fork repos on the Projects page (default: hide). */
   GITHUB_REPOS_INCLUDE_FORKS: z.preprocess(envFlag, z.boolean()).default(false),
   /** Include archived repos (default: hide). */
@@ -67,6 +104,8 @@ export function serverEnv(): ServerEnv {
   return serverSchema.parse({
     GITHUB_USERNAME: process.env.GITHUB_USERNAME,
     GITHUB_TOKEN: process.env.GITHUB_TOKEN,
+    NEXT_PUBLIC_GITHUB_URL: process.env.NEXT_PUBLIC_GITHUB_URL,
+    CV_HEADLINE_APPLYING_FOR: process.env.CV_HEADLINE_APPLYING_FOR,
     GITHUB_REPOS_INCLUDE_FORKS: process.env.GITHUB_REPOS_INCLUDE_FORKS,
     GITHUB_REPOS_INCLUDE_ARCHIVED: process.env.GITHUB_REPOS_INCLUDE_ARCHIVED,
     PORTFOLIO_API_URL: process.env.PORTFOLIO_API_URL,

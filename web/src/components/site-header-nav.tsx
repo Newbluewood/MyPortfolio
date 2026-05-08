@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useState } from "react";
+import { createPortal } from "react-dom";
 
 const links = [
   { href: "/", label: "Home" },
@@ -27,7 +28,12 @@ export function SiteHeaderNav() {
       if (e.key === "Escape") setOpen(false);
     };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prevOverflow;
+    };
   }, [open]);
 
   return (
@@ -82,31 +88,34 @@ export function SiteHeaderNav() {
         </button>
       </div>
 
-      <div
-        id={menuId}
-        role="navigation"
-        aria-label="Mobile primary"
-        hidden={!open}
-        className={
-          open
-            ? "absolute left-0 right-0 top-full z-50 border-b border-white/10 bg-[#0b0f14]/95 shadow-lg shadow-black/40 backdrop-blur-md md:hidden"
-            : "hidden"
-        }
-      >
-        <ul className="mx-auto flex max-w-5xl flex-col px-4 py-3 sm:px-6">
-          {links.map((l) => (
-            <li key={l.href} className="border-b border-white/5 last:border-0">
-              <Link
-                href={l.href}
-                className="block py-3.5 text-base text-zinc-300 transition-colors hover:text-white"
-                onClick={() => setOpen(false)}
-              >
-                {l.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
+      {open
+        ? createPortal(
+            <div
+              id={menuId}
+              role="navigation"
+              aria-label="Mobile primary"
+              className="fixed left-0 right-0 top-[calc(env(safe-area-inset-top,0px)+4.5rem)] z-[200] max-h-[calc(100dvh-env(safe-area-inset-top,0px)-4.5rem)] overflow-y-auto overscroll-contain border-b border-white/10 bg-[#0b0f14] shadow-xl shadow-black/30 md:hidden"
+            >
+              <ul className="mx-auto flex max-w-5xl flex-col px-4 py-3 sm:px-6">
+                {links.map((l) => (
+                  <li
+                    key={l.href}
+                    className="border-b border-white/5 last:border-0"
+                  >
+                    <Link
+                      href={l.href}
+                      className="block py-3.5 text-base text-zinc-200 transition-colors hover:text-white"
+                      onClick={() => setOpen(false)}
+                    >
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>,
+            document.body,
+          )
+        : null}
     </>
   );
 }

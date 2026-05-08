@@ -6,6 +6,7 @@
     "node": ">=20.9.0"
   },
   "scripts": {
+    "prebuild": "node ./scripts/sync-content.mjs",
     "dev": "next dev --webpack",
     "build": "next build --webpack",
     "start": "next start",

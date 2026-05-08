@@ -17,6 +17,9 @@
 /.next/
 /out/
 
+# kopija ../content pri build-u (prebuild)
+/_content/
+
 # production
 /build
 

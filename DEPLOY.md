@@ -5,7 +5,7 @@ Monorepo ima **dva dela**: Next.js frontend (`web/`) i FastAPI RAG backend (`api
 ## 1. Frontend — Vercel (preporuka za Next.js)
 
 1. [vercel.com](https://vercel.com) → **Add New** → **Project** → import `Newbluewood/MyPortfolio`.
-2. **Root Directory** mora biti **`web`** (Settings → General → Root Directory). Ako je prazno ili `.`, install ide iz korena repoa i build obično pukne.
+2. **Root Directory** mora biti **`web`** (Settings → General → Root Directory). Ako je prazno ili `.`, install ide iz korena repoa i build obično pukne. `npm run build` u `web/` pokreće **`prebuild`**, koji kopira monorepo **`content/`** u **`web/_content/`**, tako da Vercel ne mora da „vidi” fajlove van root dir-a samo zbog markdowna.
 3. **Node:** u `web/` je `.nvmrc` (`20`); Vercel obično to poštuje. U Project Settings → Node.js Version možeš ručno staviti **20.x**.
 3. Framework: Next (auto). Build: `npm run build`, Output: default.
 4. **Environment Variables** (Production — vrednosti iz svog `.env`, bez komitovanja tajni):

@@ -24,7 +24,7 @@ function SectionTitle({
 }) {
   const TagEl = Tag;
   return (
-    <TagEl className="mb-3 w-full border-b border-white/15 pb-1 text-xs font-semibold uppercase tracking-[0.12em] text-cyan-400/90 print:border-black/20 print:text-cyan-800">
+    <TagEl className="mb-3 w-full border-b border-white/15 pb-1 text-xs font-semibold uppercase tracking-[0.12em] text-cyan-400/90 print:border-black/20 print:mb-1 print:text-cyan-800">
       {children}
     </TagEl>
   );
@@ -46,23 +46,23 @@ export default async function CvPage() {
       <CvPrintButton />
 
       <article className="break-words overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] shadow-xl shadow-black/20 print:rounded-none print:border-0 print:bg-white print:shadow-none">
-        <div className="grid min-w-0 md:grid-cols-[minmax(0,260px)_1fr] print:grid-cols-[240px_1fr]">
+        <div className="grid min-w-0 md:grid-cols-[minmax(0,260px)_1fr] print:grid-cols-[210px_1fr]">
           {/* Left column */}
-          <aside className="min-w-0 space-y-6 border-b border-white/10 bg-zinc-900/80 p-6 md:border-b-0 md:border-r md:border-white/10 print:border-black/15 print:bg-zinc-100 print:p-4 print:space-y-4">
+          <aside className="min-w-0 space-y-6 border-b border-white/10 bg-zinc-900/80 p-6 md:border-b-0 md:border-r md:border-white/10 print:border-black/15 print:bg-zinc-100 print:p-3 print:space-y-3">
             <div className="flex justify-center md:justify-start print:justify-start">
               <CvAvatar name={name} photo={photo} />
             </div>
 
             <div>
               <SectionTitle as="h2"><T en="About me" sr="O meni" /></SectionTitle>
-              <p className="text-sm leading-relaxed text-zinc-300 print:text-zinc-800">
+              <p className="text-sm leading-relaxed text-zinc-300 print:text-zinc-800 print:text-xs print:leading-snug">
                 <T en={cvData.about} sr={cvData.aboutSr ?? cvData.about} />
               </p>
             </div>
 
             <div>
               <SectionTitle as="h2"><T en="Languages" sr="Jezici" /></SectionTitle>
-              <ul className="space-y-1 text-sm text-zinc-300 print:text-zinc-800">
+              <ul className="space-y-1 text-sm text-zinc-300 print:text-zinc-800 print:text-xs print:space-y-0">
                 {languages.map((l) => (
                   <li key={l.label}>
                     {l.label} – {l.level}
@@ -73,7 +73,7 @@ export default async function CvPage() {
 
             <div>
               <SectionTitle as="h2"><T en="Contact" sr="Kontakt" /></SectionTitle>
-              <div className="space-y-2 text-sm text-zinc-300 print:text-zinc-800">
+              <div className="space-y-2 text-sm text-zinc-300 print:text-zinc-800 print:text-xs print:space-y-0.5">
                 <div>
                   Email:{" "}
                   <a
@@ -110,16 +110,16 @@ export default async function CvPage() {
           </aside>
 
           {/* Right column */}
-          <div className="min-w-0 space-y-8 p-6 md:p-8 print:p-4 print:space-y-5">
-            <header className="space-y-2 border-b border-white/10 pb-6 print:border-black/15 print:pb-3">
-              <h1 className="text-3xl font-bold tracking-tight text-white print:text-black print:text-2xl sm:text-4xl">
+          <div className="min-w-0 space-y-8 p-6 md:p-8 print:p-3 print:space-y-3">
+            <header className="space-y-2 border-b border-white/10 pb-6 print:border-black/15 print:pb-2 print:space-y-0.5">
+              <h1 className="text-3xl font-bold tracking-tight text-white print:text-black print:text-xl sm:text-4xl">
                 {name}
               </h1>
               <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-3">
                 <span className="shrink-0 text-sm text-zinc-500 print:text-zinc-600">
                   <T en="Applying for:" sr="Pozicija:" />
                 </span>
-                <p className="text-lg font-medium italic text-amber-400/95 print:text-amber-900">
+                <p className="text-lg font-medium italic text-amber-400/95 print:text-amber-900 print:text-sm">
                   {cvData.headlineApplyingFor}
                 </p>
               </div>
@@ -127,11 +127,11 @@ export default async function CvPage() {
 
             <section>
               <SectionTitle><T en="Experience" sr="Iskustvo" /></SectionTitle>
-              <div className="space-y-6 print:space-y-3">
+              <div className="space-y-6 print:space-y-2">
                 {experience.map((job) => (
                   <div
                     key={job.company}
-                    className="grid gap-3 border-b border-white/5 pb-6 last:border-0 last:pb-0 sm:grid-cols-[minmax(0,40%)_1fr] print:border-black/10 print:pb-3 print:gap-2"
+                    className="grid gap-3 border-b border-white/5 pb-6 last:border-0 last:pb-0 sm:grid-cols-[minmax(0,40%)_1fr] print:border-black/10 print:pb-1.5 print:gap-1"
                   >
                     <div className="space-y-1 border-white/10 pr-0 sm:border-r sm:pr-4 print:border-black/15">
                       <h4 className="font-semibold text-white print:text-black">
@@ -149,7 +149,7 @@ export default async function CvPage() {
                           <T en={job.roleTitle} sr={job.roleTitleSr ?? job.roleTitle} />
                         </h5>
                       ) : null}
-                      <ul className="list-inside list-disc space-y-0.5 text-[13px] text-zinc-400 print:text-zinc-800">
+                      <ul className="list-inside list-disc space-y-0.5 text-[13px] text-zinc-400 print:text-zinc-800 print:leading-tight print:text-[11px]">
                         {job.bullets.map((b, i) => (
                           <li key={b}><T en={b} sr={job.bulletsSr?.[i] ?? b} /></li>
                         ))}
@@ -162,11 +162,11 @@ export default async function CvPage() {
 
             <section>
               <SectionTitle><T en="Education &amp; Courses" sr="Obrazovanje i kursevi" /></SectionTitle>
-              <div className="space-y-6 print:space-y-3">
+              <div className="space-y-6 print:space-y-2">
                 {education.map((ed) => (
                   <div
                     key={ed.institution}
-                    className="grid gap-3 border-b border-white/5 pb-6 last:border-0 last:pb-0 sm:grid-cols-[minmax(0,40%)_1fr] print:border-black/10 print:pb-3 print:gap-2"
+                    className="grid gap-3 border-b border-white/5 pb-6 last:border-0 last:pb-0 sm:grid-cols-[minmax(0,40%)_1fr] print:border-black/10 print:pb-1.5 print:gap-1"
                   >
                     <div className="space-y-1 border-white/10 pr-0 sm:border-r sm:pr-4 print:border-black/15">
                       <h4 className="font-semibold text-white print:text-black">
@@ -178,7 +178,7 @@ export default async function CvPage() {
                         </p>
                       ) : null}
                     </div>
-                    <ul className="list-inside list-disc text-[13px] text-zinc-400 print:text-zinc-800">
+                    <ul className="list-inside list-disc text-[13px] text-zinc-400 print:text-zinc-800 print:leading-tight print:text-[11px]">
                       {ed.bullets.map((b, i) => (
                         <li key={b}><T en={b} sr={ed.bulletsSr?.[i] ?? b} /></li>
                       ))}
@@ -190,11 +190,11 @@ export default async function CvPage() {
 
             <section>
               <SectionTitle><T en="Skills" sr="Veštine" /></SectionTitle>
-              <div className="flex flex-wrap gap-2 rounded-xl border border-white/5 bg-white/[0.02] p-3 print:border-black/10 print:bg-zinc-50">
+              <div className="flex flex-wrap gap-2 rounded-xl border border-white/5 bg-white/[0.02] p-3 print:border-black/10 print:bg-zinc-50 print:gap-1 print:p-2">
                 {skills.map((s) => (
                   <span
                     key={s}
-                    className="rounded-md border border-white/10 bg-zinc-900/50 px-2 py-1 text-xs text-zinc-200 print:border-black/15 print:bg-white print:text-black"
+                    className="rounded-md border border-white/10 bg-zinc-900/50 px-2 py-1 text-xs text-zinc-200 print:border-black/15 print:bg-white print:text-black print:px-1.5 print:py-0"
                   >
                     {s}
                   </span>
@@ -204,7 +204,7 @@ export default async function CvPage() {
 
             <section>
               <SectionTitle><T en="Portfolio" sr="Portfolio" /></SectionTitle>
-              <ul className="flex flex-col gap-2 text-sm">
+              <ul className="flex flex-col gap-2 text-sm print:gap-0.5 print:text-xs">
                 {cvData.portfolioLinks.map((p) => (
                   <li key={p.href}>
                     <a
@@ -218,7 +218,7 @@ export default async function CvPage() {
                   </li>
                 ))}
               </ul>
-              <p className="mt-4 text-xs text-zinc-500 print:text-zinc-600">
+              <p className="mt-4 text-xs text-zinc-500 print:text-zinc-600 print:mt-1">
                 <T en="More projects at" sr="Više projekata na" />{" "}
                 <Link
                   href="/projects"

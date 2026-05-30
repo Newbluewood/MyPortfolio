@@ -7,10 +7,10 @@
 
 ## 0. Kontekst: šta je dobro (ne dirati)
 
-- **Slojevi su jasni:** `web/` ↔ `api/` ↔ `content/` su odvojeni i poštovani.  
-- **Env podela** (`clientEnv`/`serverEnv`/Python settings) radi ispravno.  
-- **BFF proxy** (`/api/chat`) — pravilno skriva API ključ, ne menjati.  
-- **Tailwind v4 + App Router** — moderan stack koji odgovara use case-u.  
+- **Slojevi su jasni:** `web/` ↔ `api/` ↔ `content/` su odvojeni i poštovani.
+- **Env podela** (`clientEnv`/`serverEnv`/Python settings) radi ispravno.
+- **BFF proxy** (`/api/chat`) — pravilno skriva API ključ, ne menjati.
+- **Tailwind v4 + App Router** — moderan stack koji odgovara use case-u.
 - **`portfolio-doctor.mjs`** — vredan alat, ostavi ga.
 
 ---
@@ -22,6 +22,7 @@
 **Problem:** `extractDeployUrlFromReadme` i `extractDescriptionFromReadme` žive u istom fajlu sa `fetchReadmeLiveUrlLookup` i `fetchReadmeDescriptionLookup`. Logika URL-scoring-a (badges, noise, junk) nema veze sa izvlačenjem opisa.
 
 **Predlog:**
+
 ```
 lib/
   readme-fetch.ts          ← fetchRepoReadmeRaw, readmeLiveConcurrency, readmeLiveMax
@@ -38,6 +39,7 @@ lib/
 **Problem:** `REPO_DESCRIPTION_FALLBACK` je ~20 ručnih unosa koji su workaround za repoe bez GitHub opisa. Sa `fetchReadmeDescriptionLookup` koji sada radi automatski, ovaj rečnik je nepotreban za sve nove repoe i može da zbunjuje (ručni opis vs. README opis — koji "pobedi"?).
 
 **Predlog:**
+
 1. `repoDescriptionFallback` neka bude poslednji fallback (posle README-a), ili potpuno ukloni tokom sledećeg čišćenja.
 2. Dodaj kratki komentar u `fetchUserRepos` koji opisuje redosled: `GitHub About → FALLBACK_MAP → (README u page.tsx)`.
 
@@ -50,10 +52,12 @@ lib/
 **Problem:** Dve `<article>` kartice imaju identičan container, chip, live-link i datum, ali su odvojene komponente. Svaka promena u stilu (border, hover, padding) mora ići na dva mesta.
 
 **Predlog:** Zajednička `<ProjectCard>` baza komponenta:
+
 ```tsx
 // components/project-card.tsx
 export function ProjectCard({ title, titleHref, language, stars, groupIds, description, liveUrl, sourceUrl, date }) { ... }
 ```
+
 `GitHubRepoCard` i `ManualProjectCard` postaju tanki adaptori koji mapiraju props.
 
 **Dobit:** Jedna izmena stila = jedan fajl. Kartica za manual projekte automatski dobija buduće funkcije (npr. topics) ako ih dodaš.
@@ -63,19 +67,29 @@ export function ProjectCard({ title, titleHref, language, stars, groupIds, descr
 ### 1.4 `projects/page.tsx` — paralelni README fetches nisu pravi `Promise.all`
 
 **Problem:**
+
 ```ts
 const [readmeLiveByFullName, readmeDescByFullName] = ghOutcome.ok
   ? await Promise.all([fetchReadmeLiveUrlLookup(...), fetchReadmeDescriptionLookup(...)])
   : ...
 ```
+
 Oba fetchera iteriraju repoe serijalno u batchevima od 4, i **oba povlače isti README** za isti repo (jedan za live URL, drugi za opis). Svaki repo bez opisa i bez homepage-a → 2× GET na GitHub `/readme`.
 
 **Predlog:** Spojiti u jedan prolaz:
+
 ```ts
 // lib/readme-enrichment.ts
-export async function enrichReposFromReadme(repos, netlifyIndex, token)
-  : Promise<{ liveUrls: Map<string, string>; descriptions: Map<string, string> }>
+export async function enrichReposFromReadme(
+  repos,
+  netlifyIndex,
+  token,
+): Promise<{
+  liveUrls: Map<string, string>;
+  descriptions: Map<string, string>;
+}>;
 ```
+
 Jedan fetch README-a → izvuci i URL i opis odjednom.
 
 **Dobit:** 2× manje GitHub API zahteva pri buildu; brži Vercel cold start.
@@ -121,6 +135,7 @@ Nema strukturalnog problema — ali kad lista repoa poraste, razmotri prebacivan
 ```ts
 const junkHosts = new Set([...]); // kreira se unutar funkcije
 ```
+
 Treba biti `const` van funkcije (jednom pri modulu load-u). Nije merljivo za ovaj broj repoa, ali je losa navika.
 
 ---
@@ -135,16 +150,16 @@ Nema ni jednog Jest/Vitest testa u `web/`. Funkcije kao `extractDescriptionFromR
 
 ## Redosled ako kreneš
 
-| Br. | Stavka | Napor | Dobit |
-|-----|--------|-------|-------|
-| 1 | **1.4** Spojeni README fetch (jedan prolaz) | ~2h | Manje API poziva, brži build |
-| 2 | **1.3** Zajednička `ProjectCard` komponenta | ~1h | Jedno mesto za stil kartica |
-| 3 | **2.3** Dedupliciraj `githubOwnerRepoFromUrl` | ~30min | Uklanja divergenciju |
-| 4 | **3.2** `junkHosts` van funkcije | ~5min | Čišći kod |
-| 5 | **1.1** Podeli `readme-live-url.ts` | ~45min | Bolji SRP |
-| 6 | **1.2** Razjasni ili ukloni `REPO_DESCRIPTION_FALLBACK` | ~30min | Manji dug |
-| 7 | **3.3** Unit testovi za čiste funkcije | ~2h | Sigurnosna mreža |
-| 8 | **2.1/2.2** Python utils reorganizacija | ~30min | Čitljiviji `main.py` |
+| Br. | Stavka                                                  | Napor  | Dobit                        |
+| --- | ------------------------------------------------------- | ------ | ---------------------------- |
+| 1   | **1.4** Spojeni README fetch (jedan prolaz)             | ~2h    | Manje API poziva, brži build |
+| 2   | **1.3** Zajednička `ProjectCard` komponenta             | ~1h    | Jedno mesto za stil kartica  |
+| 3   | **2.3** Dedupliciraj `githubOwnerRepoFromUrl`           | ~30min | Uklanja divergenciju         |
+| 4   | **3.2** `junkHosts` van funkcije                        | ~5min  | Čišći kod                    |
+| 5   | **1.1** Podeli `readme-live-url.ts`                     | ~45min | Bolji SRP                    |
+| 6   | **1.2** Razjasni ili ukloni `REPO_DESCRIPTION_FALLBACK` | ~30min | Manji dug                    |
+| 7   | **3.3** Unit testovi za čiste funkcije                  | ~2h    | Sigurnosna mreža             |
+| 8   | **2.1/2.2** Python utils reorganizacija                 | ~30min | Čitljiviji `main.py`         |
 
 ---
 

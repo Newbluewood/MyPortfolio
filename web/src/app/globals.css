@@ -21,7 +21,7 @@ body {
 @media print {
   @page {
     size: A4 portrait;
-    margin: 8mm 10mm;
+    margin: 5mm 8mm;
   }
 }
 
@@ -167,14 +167,16 @@ body {
   transform-origin: center;
   backface-visibility: hidden;
   will-change: transform, opacity;
-  animation: staff-ritual-impact-ring 1.32s cubic-bezier(0.2, 0.82, 0.28, 1) forwards;
+  animation: staff-ritual-impact-ring 1.32s cubic-bezier(0.2, 0.82, 0.28, 1)
+    forwards;
 }
 
 .staff-ritual-impact-ring-echo {
   transform-origin: center;
   backface-visibility: hidden;
   will-change: transform, opacity, filter;
-  animation: staff-ritual-impact-ring-echo 1.58s cubic-bezier(0.2, 0.85, 0.28, 1) forwards;
+  animation: staff-ritual-impact-ring-echo 1.58s
+    cubic-bezier(0.2, 0.85, 0.28, 1) forwards;
   animation-delay: 0.38s;
 }
 

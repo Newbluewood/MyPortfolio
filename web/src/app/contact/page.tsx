@@ -19,25 +19,48 @@ export default function ContactPage() {
             sr="Javite se putem GitHub-a ili uobičajenog profesionalnog kanala. Za pitanja o projektima ili veštinama, probajte asistenta u uglu — koristi preuzimanje iz baze znanja sajta."
           />
         </p>
-        {NEXT_PUBLIC_GITHUB_URL ? (
-          <p>
+
+        <ul className="space-y-2">
+          <li>
             <a
-              href={NEXT_PUBLIC_GITHUB_URL}
+              href="mailto:mewbluewood@gmail.com"
+              className="font-medium text-cyan-400 underline-offset-4 hover:underline"
+            >
+              mewbluewood@gmail.com
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://t.me/Newbluewood"
               className="font-medium text-cyan-400 underline-offset-4 hover:underline"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <T en="Open GitHub profile" sr="Otvori GitHub profil" />
+              Telegram: @Newbluewood
             </a>
-          </p>
-        ) : (
+          </li>
+          {NEXT_PUBLIC_GITHUB_URL ? (
+            <li>
+              <a
+                href={NEXT_PUBLIC_GITHUB_URL}
+                className="font-medium text-cyan-400 underline-offset-4 hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <T en="Open GitHub profile" sr="Otvori GitHub profil" />
+              </a>
+            </li>
+          ) : null}
+        </ul>
+
+        {!NEXT_PUBLIC_GITHUB_URL ? (
           <p className="text-sm text-zinc-500">
             <T
               en="Set NEXT_PUBLIC_GITHUB_URL in your env to show a profile link here."
               sr="Podesi NEXT_PUBLIC_GITHUB_URL u .env da bi se prikazao link ka profilu."
             />
           </p>
-        )}
+        ) : null}
       </div>
     </Section>
   );

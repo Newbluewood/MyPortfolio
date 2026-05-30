@@ -1,5 +1,7 @@
 # Portfolio (Next.js + FastAPI + LlamaIndex)
 
+**Live:** [NBW — Portfolio](https://my-portfolio-newbluewoods-projects.vercel.app/)
+
 **NBW / New Blue Wood** — personal portfolio monorepo: marketing site with GitHub-backed project list, **CV** route, optional Netlify enrichment, and a **RAG** on-site assistant (Gemini + Chroma + optional Tavily).
 
 **AI / agent context (stack, layout, deploy pitfalls):** see **[`CLAUDE.md`](CLAUDE.md)** (and [`AGENTS.md`](AGENTS.md) for a short Cursor-oriented index).

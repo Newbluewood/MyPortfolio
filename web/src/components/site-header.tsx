@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { SiteHeaderNav } from "@/components/site-header-nav";
+import { LangToggle } from "@/components/lang-toggle";
 
 export function SiteHeader() {
   return (
@@ -12,7 +13,10 @@ export function SiteHeader() {
         >
           Portfolio
         </Link>
-        <SiteHeaderNav />
+        <div className="flex items-center gap-3 sm:gap-4">
+          <LangToggle />
+          <SiteHeaderNav />
+        </div>
       </div>
     </header>
   );

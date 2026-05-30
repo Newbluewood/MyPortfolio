@@ -1,4 +1,5 @@
 import { Section } from "@/components/section";
+import { T } from "@/components/translated-text";
 import { clientEnv } from "@/lib/env/client";
 
 export const metadata = {
@@ -10,12 +11,13 @@ export default function ContactPage() {
   const { NEXT_PUBLIC_GITHUB_URL } = clientEnv;
 
   return (
-    <Section eyebrow="Hello" title="Contact">
+    <Section eyebrow={<T en="Hello" sr="Zdravo" />} title={<T en="Contact" sr="Kontakt" />}>
       <div className="max-w-xl break-words space-y-4 text-zinc-400">
         <p>
-          Prefer reaching out through GitHub or your usual professional channel.
-          For questions about projects or skills, try the assistant in the
-          corner — it uses retrieval over this site&apos;s knowledge base.
+          <T
+            en="Prefer reaching out through GitHub or your usual professional channel. For questions about projects or skills, try the assistant in the corner — it uses retrieval over this site's knowledge base."
+            sr="Javite se putem GitHub-a ili uobičajenog profesionalnog kanala. Za pitanja o projektima ili veštinama, probajte asistenta u uglu — koristi preuzimanje iz baze znanja sajta."
+          />
         </p>
         {NEXT_PUBLIC_GITHUB_URL ? (
           <p>
@@ -25,13 +27,15 @@ export default function ContactPage() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Open GitHub profile
+              <T en="Open GitHub profile" sr="Otvori GitHub profil" />
             </a>
           </p>
         ) : (
           <p className="text-sm text-zinc-500">
-            Set <code className="font-mono text-zinc-400">NEXT_PUBLIC_GITHUB_URL</code>{" "}
-            in your env to show a profile link here.
+            <T
+              en="Set NEXT_PUBLIC_GITHUB_URL in your env to show a profile link here."
+              sr="Podesi NEXT_PUBLIC_GITHUB_URL u .env da bi se prikazao link ka profilu."
+            />
           </p>
         )}
       </div>

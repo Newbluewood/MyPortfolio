@@ -5,18 +5,21 @@ import { usePathname } from "next/navigation";
 import { useEffect, useId, useState } from "react";
 import { createPortal } from "react-dom";
 
-const links = [
-  { href: "/", label: "Home" },
-  { href: "/projects", label: "Projects" },
-  { href: "/cv", label: "CV" },
-  { href: "/test-animation", label: "Lab" },
-  { href: "/contact", label: "Contact" },
-] as const;
+import { useLang } from "@/lib/i18n/context";
 
 export function SiteHeaderNav() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const menuId = useId();
+  const { T } = useLang();
+
+  const links = [
+    { href: "/", label: T.nav.home },
+    { href: "/projects", label: T.nav.projects },
+    { href: "/cv", label: T.nav.cv },
+    { href: "/test-animation", label: T.nav.lab },
+    { href: "/contact", label: T.nav.contact },
+  ];
 
   useEffect(() => {
     setOpen(false);
@@ -59,7 +62,7 @@ export function SiteHeaderNav() {
           className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-white/15 bg-white/5 text-white transition hover:border-white/25 hover:bg-white/10"
           aria-expanded={open}
           aria-controls={menuId}
-          aria-label={open ? "Close menu" : "Open menu"}
+          aria-label={open ? T.nav.closeMenu : T.nav.openMenu}
           onClick={() => setOpen((o) => !o)}
         >
           {open ? (

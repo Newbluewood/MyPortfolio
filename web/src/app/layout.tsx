@@ -5,6 +5,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { clientEnv } from "@/lib/env/client";
+import { LanguageProvider } from "@/lib/i18n/context";
 
 import "./globals.css";
 
@@ -48,10 +49,12 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full scroll-smooth antialiased overflow-x-hidden`}
     >
       <body className="flex min-h-full flex-col overflow-x-hidden bg-[#0b0f14] font-sans text-zinc-100">
-        <SiteHeader />
-        <main className="min-w-0 flex-1">{children}</main>
-        <SiteFooter />
-        <ChatDock />
+        <LanguageProvider>
+          <SiteHeader />
+          <main className="min-w-0 flex-1">{children}</main>
+          <SiteFooter />
+          <ChatDock />
+        </LanguageProvider>
       </body>
     </html>
   );

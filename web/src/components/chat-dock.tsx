@@ -12,6 +12,8 @@ import {
 } from "react";
 
 import { clientEnv } from "@/lib/env/client";
+import { useLang } from "@/lib/i18n/context";
+import { t } from "@/lib/i18n/translations";
 
 type Source = { text?: string; file?: string };
 
@@ -94,6 +96,9 @@ export function ChatDock() {
   const [vvRect, setVvRect] = useState({ top: 0, height: 0 });
   const endRef = useRef<HTMLDivElement>(null);
   const assistantIdxRef = useRef(-1);
+  const { lang, T } = useLang();
+  const langRef = useRef(lang);
+  langRef.current = lang;
 
   useLayoutEffect(() => {
     if (!open) {
@@ -236,13 +241,14 @@ export function ChatDock() {
       const msg = e instanceof Error ? e.message : "Request failed";
       setError(msg);
       const i = assistantIdxRef.current;
+      const errorFallback = t[langRef.current].chat.error;
       setMessages((m) => {
         const copy = [...m];
         const last = copy[i];
         if (last?.role === "assistant" && !last.content) {
           copy[i] = {
             ...last,
-            content: "Sorry — something went wrong. Is the API running?",
+            content: errorFallback,
           };
         }
         return copy;
@@ -280,13 +286,13 @@ export function ChatDock() {
       {open ? (
         <div
           role="dialog"
-          aria-label="Site assistant"
+          aria-label={T.chat.ariaLabel}
           className="flex min-h-0 w-full max-w-[min(24rem,calc(100%-2rem))] flex-col overflow-hidden border border-white/15 bg-[#111820] shadow-2xl shadow-black/50 max-md:fixed max-md:left-0 max-md:right-0 max-md:top-0 max-md:z-[220] max-md:w-full max-md:max-w-none max-md:rounded-none max-md:border-x-0 max-md:border-b-0 max-md:border-t md:h-[min(32rem,calc(100vh-6rem))] md:rounded-2xl"
           style={mobileVvStyle}
         >
           <div className="flex shrink-0 items-center justify-between border-b border-white/10 px-4 py-3">
             <div>
-              <p className="text-sm font-medium text-white">Assistant</p>
+              <p className="text-sm font-medium text-white">{T.chat.title}</p>
               <p className="text-xs text-zinc-500">
                 RAG · {clientEnv.NEXT_PUBLIC_DISPLAY_NAME}
               </p>
@@ -295,7 +301,7 @@ export function ChatDock() {
               type="button"
               onClick={() => setOpen(false)}
               className="rounded-lg p-1 text-zinc-400 hover:bg-white/10 hover:text-white"
-              aria-label="Close chat"
+              aria-label={T.chat.closeChat}
             >
               ×
             </button>
@@ -303,8 +309,7 @@ export function ChatDock() {
           <div className="chat-dock-scroll min-h-0 flex-1 space-y-3 overflow-y-auto px-4 py-3 pr-3 text-sm">
             {messages.length === 0 ? (
               <p className="text-zinc-500">
-                Ask about skills, projects, or background. Answers use retrieved
-                sources when available.
+                {T.chat.empty}
               </p>
             ) : null}
             {messages.map((m, i) => (
@@ -324,7 +329,7 @@ export function ChatDock() {
                 {m.role === "assistant" && m.sources?.length ? (
                   <details className="mt-2 border-t border-white/10 pt-2 text-xs text-zinc-500 open:[&_summary]:mb-1">
                     <summary className="cursor-pointer select-none text-zinc-400 hover:text-zinc-300">
-                      Sources ({m.sources.length})
+                      {T.chat.sources} ({m.sources.length})
                     </summary>
                     <ul className="mt-1 space-y-1.5 pl-1">
                       {m.sources.map((s, si) => (
@@ -361,12 +366,12 @@ export function ChatDock() {
             }}
           >
             <label htmlFor="chat-input" className="sr-only">
-              Message
+              {T.chat.inputLabel}
             </label>
             <input
               id="chat-input"
               className="min-w-0 flex-1 rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-base text-white placeholder:text-zinc-600 focus:border-cyan-500/40 focus:outline-none focus:ring-1 focus:ring-cyan-500/30 md:text-sm"
-              placeholder="Ask a question…"
+              placeholder={T.chat.placeholder}
               enterKeyHint="send"
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -377,7 +382,7 @@ export function ChatDock() {
               className="shrink-0 rounded-xl bg-cyan-500 px-4 py-2 text-sm font-medium text-zinc-950 disabled:opacity-40"
               disabled={busy || !input.trim()}
             >
-              Send
+              {T.chat.send}
             </button>
           </form>
         </div>
@@ -388,7 +393,7 @@ export function ChatDock() {
         onClick={() => setOpen((o) => !o)}
         className={`flex h-12 items-center gap-2 rounded-full bg-gradient-to-r from-cyan-500 to-violet-600 px-5 text-sm font-medium text-zinc-950 shadow-lg shadow-cyan-500/20 ${open ? "max-md:hidden" : ""}`}
       >
-        {open ? "Close" : "Ask assistant"}
+        {open ? T.chat.close : T.chat.fab}
       </button>
     </div>
   );

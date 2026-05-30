@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { Section } from "@/components/section";
+import { T } from "@/components/translated-text";
 import { fetchUserRepos, hasGithubListingIdentity, type GitHubRepo } from "@/lib/github";
 import { fetchNetlifyDeployIndex, type NetlifyDeployIndex } from "@/lib/netlify";
 import {
@@ -111,7 +112,7 @@ function GitHubRepoCard({
           {repo.description}
         </p>
       ) : (
-        <p className="mt-2 flex-1 text-sm italic text-zinc-600">No description</p>
+        <p className="mt-2 flex-1 text-sm italic text-zinc-600"><T en="No description" sr="Bez opisa" /></p>
       )}
       {liveUrl ? (
         <p className="mt-2">
@@ -189,7 +190,7 @@ function ManualProjectCard({ project }: { project: ManualProject }) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Dodatni link →
+            <T en="Additional link →" sr="Dodatni link →" />
           </Link>
         </p>
       ) : null}
@@ -234,7 +235,7 @@ export default async function ProjectsPage() {
   ].sort((a, b) => projectRowSortKey(b).localeCompare(projectRowSortKey(a)));
 
   return (
-    <Section eyebrow="Portfolio" title="Projekti">
+    <Section eyebrow="Portfolio" title={<T en="Projects" sr="Projekti" />}>
       {!process.env.VERCEL && !hasGithubListingIdentity() ? (
         <p className="mb-6 rounded-lg border border-cyan-500/25 bg-cyan-500/[0.08] px-4 py-3 text-sm leading-relaxed text-cyan-100/95">
           <strong className="text-cyan-200">Lokalno:</strong> GitHub listing nije

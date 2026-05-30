@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 
 import { CvAvatar } from "@/components/cv-avatar";
+import { T } from "@/components/translated-text";
 import { getCvData } from "@/lib/cv-load";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -36,23 +37,17 @@ export default async function CvPage() {
   return (
     <div className="mx-auto min-w-0 max-w-5xl px-4 py-12 sm:px-6 sm:py-16 print:max-w-none print:bg-white print:py-8 print:text-black">
       <p className="mb-6 text-center text-xs text-zinc-500 print:text-zinc-600 sm:text-left">
-        Sadržaj CV-ja menjaš u{" "}
-        <code className="rounded border border-white/10 bg-white/5 px-1 font-mono text-zinc-400 print:border-black/20">
-          content/cv.json
-        </code>
-        ; polje „Applying for“ možeš prepisati i preko{" "}
-        <code className="rounded border border-white/10 bg-white/5 px-1 font-mono text-zinc-400 print:border-black/20">
-          CV_HEADLINE_APPLYING_FOR
-        </code>{" "}
-        u <code className="font-mono text-zinc-400">.env</code>.
+        <T
+          en='Edit CV content in content/cv.json; override "Applying for" with CV_HEADLINE_APPLYING_FOR in .env.'
+          sr={"Sadržaj CV-ja menjaš u content/cv.json; polje \u201eApplying for\u201c možeš prepisati i preko CV_HEADLINE_APPLYING_FOR u .env."}
+        />
       </p>
 
       <p className="mb-6 text-center text-xs text-zinc-500 print:text-zinc-600 sm:text-left">
-        Printable A4-friendly layout — use{" "}
-        <kbd className="rounded border border-white/10 bg-white/5 px-1 print:border-black/20">
-          Print
-        </kbd>{" "}
-        from the browser.
+        <T
+          en="Printable A4-friendly layout — use Print from the browser."
+          sr="Raspored prilagođen A4 štampi — koristite Print u pregledaču."
+        />
       </p>
 
       <article className="break-words overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] shadow-xl shadow-black/20 print:rounded-none print:border-0 print:bg-white print:shadow-none">
@@ -64,14 +59,14 @@ export default async function CvPage() {
             </div>
 
             <div>
-              <SectionTitle as="h2">About me</SectionTitle>
+              <SectionTitle as="h2"><T en="About me" sr="O meni" /></SectionTitle>
               <p className="text-sm leading-relaxed text-zinc-300 print:text-zinc-800">
                 {cvData.about}
               </p>
             </div>
 
             <div>
-              <SectionTitle as="h2">Languages</SectionTitle>
+              <SectionTitle as="h2"><T en="Languages" sr="Jezici" /></SectionTitle>
               <ul className="space-y-1 text-sm text-zinc-300 print:text-zinc-800">
                 {languages.map((l) => (
                   <li key={l.label}>
@@ -82,7 +77,7 @@ export default async function CvPage() {
             </div>
 
             <div>
-              <SectionTitle as="h2">Contact</SectionTitle>
+              <SectionTitle as="h2"><T en="Contact" sr="Kontakt" /></SectionTitle>
               <div className="space-y-2 text-sm text-zinc-300 print:text-zinc-800">
                 <div>
                   Email:{" "}
@@ -127,7 +122,7 @@ export default async function CvPage() {
               </h1>
               <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-3">
                 <span className="shrink-0 text-sm text-zinc-500 print:text-zinc-600">
-                  Applying for:
+                  <T en="Applying for:" sr="Pozicija:" />
                 </span>
                 <p className="text-lg font-medium italic text-amber-400/95 print:text-amber-900">
                   {cvData.headlineApplyingFor}
@@ -136,7 +131,7 @@ export default async function CvPage() {
             </header>
 
             <section>
-              <SectionTitle>Experience</SectionTitle>
+              <SectionTitle><T en="Experience" sr="Iskustvo" /></SectionTitle>
               <div className="space-y-6">
                 {experience.map((job) => (
                   <div
@@ -171,7 +166,7 @@ export default async function CvPage() {
             </section>
 
             <section>
-              <SectionTitle>Education & Courses</SectionTitle>
+              <SectionTitle><T en="Education & Courses" sr="Obrazovanje i kursevi" /></SectionTitle>
               <div className="space-y-6">
                 {education.map((ed) => (
                   <div
@@ -199,7 +194,7 @@ export default async function CvPage() {
             </section>
 
             <section>
-              <SectionTitle>Skills</SectionTitle>
+              <SectionTitle><T en="Skills" sr="Veštine" /></SectionTitle>
               <div className="flex flex-wrap gap-2 rounded-xl border border-white/5 bg-white/[0.02] p-3 print:border-black/10 print:bg-zinc-50">
                 {skills.map((s) => (
                   <span
@@ -213,7 +208,7 @@ export default async function CvPage() {
             </section>
 
             <section>
-              <SectionTitle>Portfolio</SectionTitle>
+              <SectionTitle><T en="Portfolio" sr="Portfolio" /></SectionTitle>
               <ul className="flex flex-col gap-2 text-sm">
                 {cvData.portfolioLinks.map((p) => (
                   <li key={p.href}>
@@ -229,7 +224,7 @@ export default async function CvPage() {
                 ))}
               </ul>
               <p className="mt-4 text-xs text-zinc-500 print:text-zinc-600">
-                Više projekata na{" "}
+                <T en="More projects at" sr="Više projekata na" />{" "}
                 <Link
                   href="/projects"
                   className="text-cyan-400/90 underline-offset-2 hover:underline print:text-cyan-800"

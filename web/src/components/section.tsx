@@ -7,8 +7,8 @@ export function Section({
   children,
 }: {
   id?: string;
-  title: string;
-  eyebrow?: string;
+  title: ReactNode;
+  eyebrow?: ReactNode;
   children: ReactNode;
 }) {
   return (

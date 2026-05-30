@@ -6,6 +6,8 @@ export const cvDataFallback: CvData = {
   headlineApplyingFor: "Developer Next Generation",
   about:
     "I have turned my passion for coding into a reality by actively building applications and expanding my knowledge in modern technologies. I thrive on problem-solving and continuously refine my skills in JavaScript (Vue, React) and Python. Throughout my journey, I have embraced AI as a mentor, exploring how it enhances creativity and efficiency in development. Now, I am eager to join a team where I can apply my expertise to real-world projects, collaborate, and continue growing.",
+  aboutSr:
+    "Svoju strast prema programiranju sam pretvorio u stvarnost — aktivno gradim aplikacije i proširujem znanje u modernim tehnologijama. Volim rešavanje problema i stalno unapređujem veštine u JavaScript-u (Vue, React) i Python-u. Na svom putu prihvatio sam AI kao mentora i istražujem kako poboljšava kreativnost i efikasnost u razvoju. Sada sam spreman da se pridružim timu gde mogu primeniti svoja znanja na realnim projektima, sarađivati i nastaviti da rastem.",
   photo: {
     src: "/Photo_me.jpg",
     alt: "Nebojša Šimović",
@@ -27,26 +29,41 @@ export const cvDataFallback: CvData = {
       company: "ZenHire AI Coding Hackathon (Startit x CDT Hub)",
       period: "Apr 2026 (48h)",
       roleTitle: "Hackathon Participant",
+      roleTitleSr: "Učesnik hakatona",
       bullets: [
         "Built an AI-driven game prototype with hiring and psychometric mechanics during a 48-hour sprint.",
         "Collaborated in a fast vibe-coding workflow and delivered a functional demo under deadline pressure.",
+      ],
+      bulletsSr: [
+        "Napravio prototip AI igre sa mehanizmima zapošljavanja i psihometrije tokom 48-satnog sprinta.",
+        "Sarađivao u brzom vibe-coding toku rada i isporučio funkcionalan demo pod vremenskim pritiskom.",
       ],
     },
     {
       company: "IT Practice Center – ENON Solutions",
       period: "Nov 2024 – Feb 2025",
       roleTitle: "Web Development",
+      roleTitleSr: "Web razvoj",
       bullets: [
         "Vue.js, Router/Pinia, VueUse, MySQL",
         "Practical frontend techniques and project teamwork",
+      ],
+      bulletsSr: [
+        "Vue.js, Router/Pinia, VueUse, MySQL",
+        "Praktične frontend tehnike i timski rad na projektu",
       ],
     },
     {
       company: "Goc-Developement (GitHub Project)",
       roleTitle: "Frontend & AI Integration",
+      roleTitleSr: "Frontend i AI integracija",
       bullets: [
         "Maintained multi-branch repo",
         "Implemented frontend features and AI workflows",
+      ],
+      bulletsSr: [
+        "Održavao repo sa više grana",
+        "Implementirao frontend funkcionalnosti i AI tokove",
       ],
     },
   ],
@@ -58,12 +75,20 @@ export const cvDataFallback: CvData = {
         "Completed practical AI bootcamp focused on product building and modern AI tooling.",
         "Earned bootcamp completion certificate.",
       ],
+      bulletsSr: [
+        "Završio praktičan AI bootcamp fokusiran na izgradnju produkata i moderne AI alate.",
+        "Stekao sertifikat o završetku bootcampa.",
+      ],
     },
     {
       institution: "ITAcademy – Frontend JavaScript Development",
       period: "Nov 2023 – Jul 2024",
       bullets: [
         "Advanced JS, CSS, HTML, TypeScript",
+        "REST API, Express, Vue, React, Angular",
+      ],
+      bulletsSr: [
+        "Napredni JS, CSS, HTML, TypeScript",
         "REST API, Express, Vue, React, Angular",
       ],
     },
@@ -74,11 +99,16 @@ export const cvDataFallback: CvData = {
         "OOP Python, Data Analysis & Visualization",
         "Cloud Data Engineering, Machine Learning",
       ],
+      bulletsSr: [
+        "OOP Python, analiza i vizuelizacija podataka",
+        "Cloud data inženjering, mašinsko učenje",
+      ],
     },
     {
       institution: "Faculty of Forestry, Belgrade",
       period: "2011",
       bullets: ["Wood Processing Engineer – Master Degree"],
+      bulletsSr: ["Inženjer prerade drveta – Master diploma"],
     },
   ],
   skills: [
@@ -108,6 +138,6 @@ export const cvDataFallback: CvData = {
     { label: "Open Meteo", href: "https://openmeteo.netlify.app/" },
     { label: "Weather Forecast", href: "https://weatherforecastom.netlify.app/" },
     { label: "Kuvar App", href: "https://kuvar.netlify.app/" },
-    { label: "E-Korpa", href: "https://e-korpa2.netlify.app/" },
+    { label: "Gemini Models List App", href: "https://github.com/Newbluewood/Gemini-Models-List-App" },
   ],
 };

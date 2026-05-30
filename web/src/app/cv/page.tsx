@@ -61,7 +61,7 @@ export default async function CvPage() {
             <div>
               <SectionTitle as="h2"><T en="About me" sr="O meni" /></SectionTitle>
               <p className="text-sm leading-relaxed text-zinc-300 print:text-zinc-800">
-                {cvData.about}
+                <T en={cvData.about} sr={cvData.aboutSr ?? cvData.about} />
               </p>
             </div>
 
@@ -151,12 +151,12 @@ export default async function CvPage() {
                     <div className="min-w-0">
                       {job.roleTitle ? (
                         <h5 className="mb-1 text-[13px] font-medium italic text-zinc-400 print:text-zinc-700">
-                          {job.roleTitle}
+                          <T en={job.roleTitle} sr={job.roleTitleSr ?? job.roleTitle} />
                         </h5>
                       ) : null}
                       <ul className="list-inside list-disc space-y-0.5 text-[13px] text-zinc-400 print:text-zinc-800">
-                        {job.bullets.map((b) => (
-                          <li key={b}>{b}</li>
+                        {job.bullets.map((b, i) => (
+                          <li key={b}><T en={b} sr={job.bulletsSr?.[i] ?? b} /></li>
                         ))}
                       </ul>
                     </div>
@@ -184,8 +184,8 @@ export default async function CvPage() {
                       ) : null}
                     </div>
                     <ul className="list-inside list-disc text-[13px] text-zinc-400 print:text-zinc-800">
-                      {ed.bullets.map((b) => (
-                        <li key={b}>{b}</li>
+                      {ed.bullets.map((b, i) => (
+                        <li key={b}><T en={b} sr={ed.bulletsSr?.[i] ?? b} /></li>
                       ))}
                     </ul>
                   </div>

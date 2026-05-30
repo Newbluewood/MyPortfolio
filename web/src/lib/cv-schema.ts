@@ -9,19 +9,23 @@ const experienceSchema = z.object({
   company: z.string().min(1),
   period: z.string().optional(),
   roleTitle: z.string().optional(),
+  roleTitleSr: z.string().optional(),
   bullets: z.array(z.string()),
+  bulletsSr: z.array(z.string()).optional(),
 });
 
 const educationSchema = z.object({
   institution: z.string().min(1),
   period: z.string().optional(),
   bullets: z.array(z.string()),
+  bulletsSr: z.array(z.string()).optional(),
 });
 
 export const cvDataSchema = z.object({
   name: z.string().min(1),
   headlineApplyingFor: z.string().min(1),
   about: z.string().min(1),
+  aboutSr: z.string().optional(),
   photo: z.object({
     src: z.string().min(1),
     alt: z.string().min(1),

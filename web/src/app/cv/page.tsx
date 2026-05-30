@@ -155,11 +155,11 @@ export default async function CvPage() {
                     </div>
                     <div className="min-w-0">
                       {job.roleTitle ? (
-                        <h5 className="mb-1 text-sm font-medium italic text-zinc-400 print:text-zinc-700">
+                        <h5 className="mb-1 text-[13px] font-medium italic text-zinc-400 print:text-zinc-700">
                           {job.roleTitle}
                         </h5>
                       ) : null}
-                      <ul className="list-inside list-disc space-y-0.5 text-sm text-zinc-400 print:text-zinc-800">
+                      <ul className="list-inside list-disc space-y-0.5 text-[13px] text-zinc-400 print:text-zinc-800">
                         {job.bullets.map((b) => (
                           <li key={b}>{b}</li>
                         ))}
@@ -188,7 +188,7 @@ export default async function CvPage() {
                         </p>
                       ) : null}
                     </div>
-                    <ul className="list-inside list-disc text-sm text-zinc-400 print:text-zinc-800">
+                    <ul className="list-inside list-disc text-[13px] text-zinc-400 print:text-zinc-800">
                       {ed.bullets.map((b) => (
                         <li key={b}>{b}</li>
                       ))}

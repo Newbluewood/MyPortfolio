@@ -1,6 +1,15 @@
 "use client";
 
-import { Fragment, useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  Fragment,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
 
 import { clientEnv } from "@/lib/env/client";
 
@@ -8,6 +17,8 @@ type Source = { text?: string; file?: string };
 
 const URL_IN_TEXT =
   /\bhttps?:\/\/[^\s<>"{}|\\^\[\]`]+/gi;
+
+const MQ_MOBILE = "(max-width: 767px)";
 
 function stripTrailingUrlJunk(url: string): string {
   let u = url;
@@ -72,8 +83,6 @@ function parseSseLines(buffer: string): {
   return { events, rest };
 }
 
-const MD_UP_MQ = "(min-width: 768px)";
-
 export function ChatDock() {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
@@ -82,23 +91,18 @@ export function ChatDock() {
   >([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  /** < md — pun ekran assistant + visualViewport za tastaturu */
-  const [compactUi, setCompactUi] = useState(false);
   const [vvRect, setVvRect] = useState({ top: 0, height: 0 });
   const endRef = useRef<HTMLDivElement>(null);
   const assistantIdxRef = useRef(-1);
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const mq = window.matchMedia(MD_UP_MQ);
-    const apply = () => setCompactUi(!mq.matches);
-    apply();
-    mq.addEventListener("change", apply);
-    return () => mq.removeEventListener("change", apply);
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === "undefined" || !open || !compactUi) return;
+  useLayoutEffect(() => {
+    if (!open) {
+      setVvRect({ top: 0, height: 0 });
+      return;
+    }
+    if (typeof window === "undefined" || !window.matchMedia(MQ_MOBILE).matches) {
+      return;
+    }
     const vv = window.visualViewport;
     const sync = () => {
       if (vv) {
@@ -110,24 +114,28 @@ export function ChatDock() {
     sync();
     vv?.addEventListener("resize", sync);
     vv?.addEventListener("scroll", sync);
+    window.addEventListener("orientationchange", sync);
     return () => {
       vv?.removeEventListener("resize", sync);
       vv?.removeEventListener("scroll", sync);
+      window.removeEventListener("orientationchange", sync);
     };
-  }, [open, compactUi]);
+  }, [open]);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, open]);
 
-  useEffect(() => {
-    if (!open || !compactUi) return;
+  useLayoutEffect(() => {
+    if (!open || typeof window === "undefined" || !window.matchMedia(MQ_MOBILE).matches) {
+      return;
+    }
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = prev;
     };
-  }, [open, compactUi]);
+  }, [open]);
 
   const send = useCallback(async () => {
     const q = input.trim();
@@ -244,45 +252,44 @@ export function ChatDock() {
     }
   }, [busy, input]);
 
-  const sheetFullScreen = open && compactUi;
-  const vvReady = sheetFullScreen && vvRect.height > 0;
-  const cornerStyle = sheetFullScreen
-    ? {
-        top: (vvReady ? vvRect.top : 0) as number,
-        height: (vvReady ? vvRect.height : "100dvh") as number | "100dvh",
-        maxHeight: (vvReady ? vvRect.height : "100dvh") as number | "100dvh",
-        left: 0,
-        right: 0,
-        bottom: "auto" as const,
-      }
-    : {
-        right: "max(1rem, env(safe-area-inset-right, 0px))",
-        bottom: "max(1rem, env(safe-area-inset-bottom, 0px))",
-      };
+  const mobileVvStyle: CSSProperties | undefined =
+    open && vvRect.height > 0
+      ? {
+          top: vvRect.top,
+          height: vvRect.height,
+          maxHeight: vvRect.height,
+        }
+      : open
+        ? {
+            top: 0,
+            height: "100dvh",
+            maxHeight: "100dvh",
+          }
+        : undefined;
+
+  const cornerFabStyle: CSSProperties = {
+    right: "max(1rem, env(safe-area-inset-right, 0px))",
+    bottom: "max(1rem, env(safe-area-inset-bottom, 0px))",
+  };
 
   return (
     <div
-      className={
-        sheetFullScreen
-          ? "fixed z-[220] flex flex-col overflow-hidden"
-          : "fixed z-50 flex max-w-[calc(100%-1.5rem)] flex-col items-end gap-2"
-      }
-      style={cornerStyle}
+      className="fixed z-50 flex max-w-[calc(100%-1.5rem)] flex-col items-end gap-2"
+      style={cornerFabStyle}
     >
       {open ? (
         <div
-          className={
-            sheetFullScreen
-              ? "flex min-h-0 flex-1 flex-col overflow-hidden border-t border-white/15 bg-[#111820]"
-              : "flex h-[min(32rem,calc(100vh-6rem))] w-[min(24rem,calc(100%-2rem))] flex-col rounded-2xl border border-white/15 bg-[#111820] shadow-2xl shadow-black/50"
-          }
           role="dialog"
           aria-label="Site assistant"
+          className="flex min-h-0 w-full max-w-[min(24rem,calc(100%-2rem))] flex-col overflow-hidden border border-white/15 bg-[#111820] shadow-2xl shadow-black/50 max-md:fixed max-md:left-0 max-md:right-0 max-md:top-0 max-md:z-[220] max-md:w-full max-md:max-w-none max-md:rounded-none max-md:border-x-0 max-md:border-b-0 max-md:border-t md:h-[min(32rem,calc(100vh-6rem))] md:rounded-2xl"
+          style={mobileVvStyle}
         >
-          <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
+          <div className="flex shrink-0 items-center justify-between border-b border-white/10 px-4 py-3">
             <div>
               <p className="text-sm font-medium text-white">Assistant</p>
-              <p className="text-xs text-zinc-500">RAG · {clientEnv.NEXT_PUBLIC_DISPLAY_NAME}</p>
+              <p className="text-xs text-zinc-500">
+                RAG · {clientEnv.NEXT_PUBLIC_DISPLAY_NAME}
+              </p>
             </div>
             <button
               type="button"
@@ -323,7 +330,9 @@ export function ChatDock() {
                       {m.sources.map((s, si) => (
                         <li key={si}>
                           {s.file ? (
-                            <span className="font-mono text-[11px] text-zinc-400">{s.file}</span>
+                            <span className="font-mono text-[11px] text-zinc-400">
+                              {s.file}
+                            </span>
                           ) : null}
                           {s.text ? (
                             <span className="line-clamp-2 block text-[11px] leading-snug text-zinc-500">
@@ -340,12 +349,12 @@ export function ChatDock() {
             <div ref={endRef} />
           </div>
           {error ? (
-            <p className="border-t border-red-500/20 bg-red-500/10 px-4 py-2 text-xs text-red-300">
+            <p className="shrink-0 border-t border-red-500/20 bg-red-500/10 px-4 py-2 text-xs text-red-300">
               {error}
             </p>
           ) : null}
           <form
-            className="flex gap-2 border-t border-white/10 bg-[#111820] p-3 pb-[max(0.75rem,env(safe-area-inset-bottom,0px))]"
+            className="flex shrink-0 gap-2 border-t border-white/10 bg-[#111820] p-3 pb-[max(0.75rem,env(safe-area-inset-bottom,0px))]"
             onSubmit={(e) => {
               e.preventDefault();
               void send();
@@ -373,15 +382,14 @@ export function ChatDock() {
           </form>
         </div>
       ) : null}
-      {!sheetFullScreen ? (
-        <button
-          type="button"
-          onClick={() => setOpen((o) => !o)}
-          className="flex h-12 items-center gap-2 rounded-full bg-gradient-to-r from-cyan-500 to-violet-600 px-5 text-sm font-medium text-zinc-950 shadow-lg shadow-cyan-500/20"
-        >
-          {open ? "Close" : "Ask assistant"}
-        </button>
-      ) : null}
+
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className={`flex h-12 items-center gap-2 rounded-full bg-gradient-to-r from-cyan-500 to-violet-600 px-5 text-sm font-medium text-zinc-950 shadow-lg shadow-cyan-500/20 ${open ? "max-md:hidden" : ""}`}
+      >
+        {open ? "Close" : "Ask assistant"}
+      </button>
     </div>
   );
 }

@@ -5,6 +5,8 @@ import path from "node:path";
 import { loadEnvConfig } from "@next/env";
 import { z } from "zod";
 
+type EnvDirs = { monorepoRoot: string; webPackageRoot: string };
+
 const trimOrUndef = (v: unknown): string | undefined => {
   if (v === undefined || v === null) return undefined;
   const s = String(v).trim();
@@ -68,6 +70,56 @@ function ensureMonorepoEnvInProcess(): void {
   _monorepoEnvLoaded = true;
 }
 
+let _fallbackEnvCache: Map<string, string> | null = null;
+
+function parseDotenvFile(filePath: string): Map<string, string> {
+  const map = new Map<string, string>();
+  if (!fs.existsSync(filePath)) return map;
+  const text = fs.readFileSync(filePath, "utf8");
+  for (const rawLine of text.split(/\r?\n/)) {
+    const line = rawLine.trim();
+    if (!line || line.startsWith("#")) continue;
+    const eq = line.indexOf("=");
+    if (eq <= 0) continue;
+    const key = line.slice(0, eq).trim();
+    if (!key) continue;
+    let value = line.slice(eq + 1).trim();
+    if (
+      (value.startsWith('"') && value.endsWith('"')) ||
+      (value.startsWith("'") && value.endsWith("'"))
+    ) {
+      value = value.slice(1, -1);
+    }
+    map.set(key, value);
+  }
+  return map;
+}
+
+function fallbackEnvMap(): Map<string, string> {
+  if (_fallbackEnvCache) return _fallbackEnvCache;
+  const dirs: EnvDirs = resolveMonorepoEnvDirs();
+  const merged = new Map<string, string>();
+  const files = [
+    path.join(dirs.monorepoRoot, ".env"),
+    path.join(dirs.monorepoRoot, ".env.local"),
+    path.join(dirs.webPackageRoot, ".env"),
+    path.join(dirs.webPackageRoot, ".env.local"),
+  ];
+  for (const f of files) {
+    for (const [k, v] of parseDotenvFile(f)) {
+      merged.set(k, v);
+    }
+  }
+  _fallbackEnvCache = merged;
+  return merged;
+}
+
+function envOrFallback(name: string): string | undefined {
+  const direct = trimOrUndef(process.env[name]);
+  if (direct !== undefined) return direct;
+  return trimOrUndef(fallbackEnvMap().get(name));
+}
+
 const envFlag = (v: unknown): boolean => {
   if (v === true) return true;
   if (v === false || v === undefined || v === null) return false;
@@ -102,14 +154,14 @@ export type ServerEnv = z.infer<typeof serverSchema>;
 export function serverEnv(): ServerEnv {
   ensureMonorepoEnvInProcess();
   return serverSchema.parse({
-    GITHUB_USERNAME: process.env.GITHUB_USERNAME,
-    GITHUB_TOKEN: process.env.GITHUB_TOKEN,
-    NEXT_PUBLIC_GITHUB_URL: process.env.NEXT_PUBLIC_GITHUB_URL,
-    CV_HEADLINE_APPLYING_FOR: process.env.CV_HEADLINE_APPLYING_FOR,
-    GITHUB_REPOS_INCLUDE_FORKS: process.env.GITHUB_REPOS_INCLUDE_FORKS,
-    GITHUB_REPOS_INCLUDE_ARCHIVED: process.env.GITHUB_REPOS_INCLUDE_ARCHIVED,
-    PORTFOLIO_API_URL: process.env.PORTFOLIO_API_URL,
-    NETLIFY_ACCESS_TOKEN: process.env.NETLIFY_ACCESS_TOKEN,
-    NETLIFY_AUTH_TOKEN: process.env.NETLIFY_AUTH_TOKEN,
+    GITHUB_USERNAME: envOrFallback("GITHUB_USERNAME"),
+    GITHUB_TOKEN: envOrFallback("GITHUB_TOKEN"),
+    NEXT_PUBLIC_GITHUB_URL: envOrFallback("NEXT_PUBLIC_GITHUB_URL"),
+    CV_HEADLINE_APPLYING_FOR: envOrFallback("CV_HEADLINE_APPLYING_FOR"),
+    GITHUB_REPOS_INCLUDE_FORKS: envOrFallback("GITHUB_REPOS_INCLUDE_FORKS"),
+    GITHUB_REPOS_INCLUDE_ARCHIVED: envOrFallback("GITHUB_REPOS_INCLUDE_ARCHIVED"),
+    PORTFOLIO_API_URL: envOrFallback("PORTFOLIO_API_URL"),
+    NETLIFY_ACCESS_TOKEN: envOrFallback("NETLIFY_ACCESS_TOKEN"),
+    NETLIFY_AUTH_TOKEN: envOrFallback("NETLIFY_AUTH_TOKEN"),
   });
 }

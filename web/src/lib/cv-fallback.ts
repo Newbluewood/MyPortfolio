@@ -2,7 +2,7 @@ import type { CvData } from "@/lib/cv-schema";
 
 /** Koristi se samo ako `content/cv.json` nedostaje ili je neispravan. */
 export const cvDataFallback: CvData = {
-  name: "Nebojša Šimović",
+  name: "Nebojša Simović",
   headlineApplyingFor: "Developer Next Generation",
   about:
     "I have turned my passion for coding into a reality by actively building applications and expanding my knowledge in modern technologies. I thrive on problem-solving and continuously refine my skills in JavaScript (Vue, React) and Python. Throughout my journey, I have embraced AI as a mentor, exploring how it enhances creativity and efficiency in development. Now, I am eager to join a team where I can apply my expertise to real-world projects, collaborate, and continue growing.",
@@ -10,7 +10,7 @@ export const cvDataFallback: CvData = {
     "Svoju strast prema programiranju sam pretvorio u stvarnost — aktivno gradim aplikacije i proširujem znanje u modernim tehnologijama. Volim rešavanje problema i stalno unapređujem veštine u JavaScript-u (Vue, React) i Python-u. Na svom putu prihvatio sam AI kao mentora i istražujem kako poboljšava kreativnost i efikasnost u razvoju. Sada sam spreman da se pridružim timu gde mogu primeniti svoja znanja na realnim projektima, sarađivati i nastaviti da rastem.",
   photo: {
     src: "/Photo_me.jpg",
-    alt: "Nebojša Šimović",
+    alt: "Nebojša Simović",
   },
   languages: [{ label: "English", level: "Intermediate" }],
   contact: {

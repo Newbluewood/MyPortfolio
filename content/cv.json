@@ -104,6 +104,6 @@
     { "label": "Open Meteo", "href": "https://openmeteo.netlify.app/" },
     { "label": "Weather Forecast", "href": "https://weatherforecastom.netlify.app/" },
     { "label": "Kuvar App", "href": "https://kuvar.netlify.app/" },
-    { "label": "E-Korpa", "href": "https://e-korpa2.netlify.app/" }
+    { "label": "Gemini Models List App", "href": "https://github.com/Newbluewood/Gemini-Models-List-App" }
   ]
 }

@@ -50,11 +50,11 @@
 
 ## Dijagnostika u detalju (`portfolio-doctor`)
 
-| Komanda | Šta radi |
-|--------|----------|
-| `npm run doctor` | Čita root `.env`, validira URL-e, proverava `content/*`, upoređuje `cv.json` sa `web/_content/`, zove lokalni API ako je `PORTFOLIO_API_URL` validan; opciono GitHub `/user` ili javni profil. |
-| `npm run doctor -- --fix` | Isto + pokreće `web/scripts/sync-content.mjs` na početku provera. |
-| `npm run doctor -- --strict` | Izlaz 1 i na WARN (pogodno za automatizaciju). |
+| Komanda                      | Šta radi                                                                                                                                                                                       |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run doctor`             | Čita root `.env`, validira URL-e, proverava `content/*`, upoređuje `cv.json` sa `web/_content/`, zove lokalni API ako je `PORTFOLIO_API_URL` validan; opciono GitHub `/user` ili javni profil. |
+| `npm run doctor -- --fix`    | Isto + pokreće `web/scripts/sync-content.mjs` na početku provera.                                                                                                                              |
+| `npm run doctor -- --strict` | Izlaz 1 i na WARN (pogodno za automatizaciju).                                                                                                                                                 |
 
 Skripta: [`scripts/portfolio-doctor.mjs`](scripts/portfolio-doctor.mjs) (Node 18+; koristi ugrađeni `fetch`). Ako hoćeš istu proveru **pre** svakog punog `npm run dev`: `npm run dev:with-doctor` (staje na prvoj ERROR stavci doktor-a).
 
@@ -62,11 +62,11 @@ Skripta: [`scripts/portfolio-doctor.mjs`](scripts/portfolio-doctor.mjs) (Node 18
 
 Cilj: **jedna komanda** koja najčešće vraća predvidljivo stanje bez ručnog nagađanja.
 
-| Nivo | Komanda (iz korena, **Windows**) | Kada |
-|------|-----------------------------------|------|
-| **Minimalni** | `npm run workflow:minimal` | „Nešto čudno“, sumnja na zaglavljen port ili desinhronizovan `content/`; **ne** briše `.next`. Redosled: `kill:dev` → doktor sa `--fix` (sync `content/` → `web/_content`) → `dev`. Ako doktor nađe **ERROR**, `dev` se ne pokreće dok ne središ korake koje ispiše. |
-| **Puni režim + debug u pozadini** | `npm run dev:full` ili **`npm run workflow:reset`** (iste stvari) | **`clean:web`** → doktor **`--fix`** → paralelno **API (8020)** + **Next (3000)** → nakon ~14 s (**`POST_DEV_DOCTOR_DELAY_MS`**) još jedan doktor u **trećoj** concurrently traci (`doc`) da proveri `/health` i `/health/ready` dok su serveri već podignuti. Za samo paralelni dev bez čišćenja koristi `npm run dev`. |
-| **Unix** | Nema PowerShell `kill:dev` — ručno zaustavi **3000** i **8020**, zatim `cd web && npm run clean` po potrebi, `npm run doctor -- --fix`, pa pokreni API i `web` odvojeno (ili paralelno) kao u [Setup](#setup). |
+| Nivo                              | Komanda (iz korena, **Windows**)                                                                                                                                                                               | Kada                                                                                                                                                                                                                                                                                                                     |
+| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Minimalni**                     | `npm run workflow:minimal`                                                                                                                                                                                     | „Nešto čudno“, sumnja na zaglavljen port ili desinhronizovan `content/`; **ne** briše `.next`. Redosled: `kill:dev` → doktor sa `--fix` (sync `content/` → `web/_content`) → `dev`. Ako doktor nađe **ERROR**, `dev` se ne pokreće dok ne središ korake koje ispiše.                                                     |
+| **Puni režim + debug u pozadini** | `npm run dev:full` ili **`npm run workflow:reset`** (iste stvari)                                                                                                                                              | **`clean:web`** → doktor **`--fix`** → paralelno **API (8020)** + **Next (3000)** → nakon ~14 s (**`POST_DEV_DOCTOR_DELAY_MS`**) još jedan doktor u **trećoj** concurrently traci (`doc`) da proveri `/health` i `/health/ready` dok su serveri već podignuti. Za samo paralelni dev bez čišćenja koristi `npm run dev`. |
+| **Unix**                          | Nema PowerShell `kill:dev` — ručno zaustavi **3000** i **8020**, zatim `cd web && npm run clean` po potrebi, `npm run doctor -- --fix`, pa pokreni API i `web` odvojeno (ili paralelno) kao u [Setup](#setup). |
 
 **Stabilnost:** root **`.env`** mora imati **`PORTFOLIO_API_URL`** na istom portu kao lokalni API (preporuka **8020**, kao u root `package.json`).
 
@@ -120,13 +120,13 @@ Ako sumnjaš na pokvaren Chroma indeks lokalno: zaustavi API, obriši folder **`
 
 ## Layout
 
-| Path | Role |
-|------|------|
-| [`web/`](web/) | Next.js App Router frontend |
-| [`api/portfolio_api/`](api/portfolio_api/) | FastAPI app, RAG, ReAct agent |
-| [`content/`](content/) | Markdown indexed into Chroma (`about.md`, `skills.md`, …) |
-| `data/chroma/` | Persistent Chroma store (gitignored) |
-| `data/raw/` | Cached README files from ingest (gitignored) |
+| Path                                       | Role                                                      |
+| ------------------------------------------ | --------------------------------------------------------- |
+| [`web/`](web/)                             | Next.js App Router frontend                               |
+| [`api/portfolio_api/`](api/portfolio_api/) | FastAPI app, RAG, ReAct agent                             |
+| [`content/`](content/)                     | Markdown indexed into Chroma (`about.md`, `skills.md`, …) |
+| `data/chroma/`                             | Persistent Chroma store (gitignored)                      |
+| `data/raw/`                                | Cached README files from ingest (gitignored)              |
 
 ## Optional: Qdrant later
 

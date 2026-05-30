@@ -23,10 +23,10 @@ export default function ContactPage() {
         <ul className="space-y-2">
           <li>
             <a
-              href="mailto:mewbluewood@gmail.com"
+              href="mailto:newbluewood@gmail.com"
               className="font-medium text-cyan-400 underline-offset-4 hover:underline"
             >
-              mewbluewood@gmail.com
+              newbluewood@gmail.com
             </a>
           </li>
           <li>

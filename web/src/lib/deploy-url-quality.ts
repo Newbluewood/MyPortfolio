@@ -33,6 +33,14 @@ export function isJunkOrDocsDeployUrl(url: string): boolean {
       "developer.mozilla.org",
       "mdn.dev",
       "web.dev",
+      "aistudio.google.com",
+      "makersuite.google.com",
+      "ai.google.dev",
+      "console.cloud.google.com",
+      "cloud.google.com",
+      "huggingface.co",
+      "openai.com",
+      "platform.openai.com",
     ]);
     if (junkHosts.has(h)) return true;
     if (h === "github.com" || h === "www.github.com") return true;

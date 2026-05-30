@@ -16,7 +16,7 @@ import {
 } from "@/lib/project-groups";
 import { liveSiteDisplayLabel, portfolioRepoLiveUrl } from "@/lib/repo-live-url";
 import { serverEnv } from "@/lib/env/server";
-import { fetchReadmeLiveUrlLookup } from "@/lib/readme-live-url";
+import { fetchReadmeLiveUrlLookup, fetchReadmeDescriptionLookup } from "@/lib/readme-live-url";
 
 /** Stranica se osvežava nakon 300s; GitHub/Netlify fetch imaju isti revalidate gde je primenjivo. */
 export const revalidate = 300;
@@ -75,11 +75,13 @@ function GitHubRepoCard({
   repo,
   netlifyIndex,
   readmeLiveByFullName,
+  readmeDescByFullName,
   groupIds,
 }: {
   repo: GitHubRepo;
   netlifyIndex: NetlifyDeployIndex;
   readmeLiveByFullName: ReadonlyMap<string, string>;
+  readmeDescByFullName: ReadonlyMap<string, string>;
   groupIds: ProjectGroupId[];
 }) {
   const liveUrl = portfolioRepoLiveUrl(
@@ -107,9 +109,9 @@ function GitHubRepoCard({
         <span className="text-xs text-zinc-500">★ {repo.stargazers_count}</span>
       </div>
       <GroupChips groupIds={groupIds} />
-      {repo.description ? (
+      {repo.description || readmeDescByFullName.get(repo.full_name) ? (
         <p className="mt-2 flex-1 text-sm leading-relaxed text-zinc-400">
-          {repo.description}
+          {repo.description ?? readmeDescByFullName.get(repo.full_name)}
         </p>
       ) : (
         <p className="mt-2 flex-1 text-sm italic text-zinc-600"><T en="No description" sr="Bez opisa" /></p>
@@ -216,9 +218,12 @@ export default async function ProjectsPage() {
 
   const repos = ghOutcome.ok ? ghOutcome.r : [];
   const error = ghOutcome.ok ? null : ghOutcome.message;
-  const readmeLiveByFullName = ghOutcome.ok
-    ? await fetchReadmeLiveUrlLookup(repos, netlifyIndex, serverEnv().GITHUB_TOKEN)
-    : new Map<string, string>();
+  const [readmeLiveByFullName, readmeDescByFullName] = ghOutcome.ok
+    ? await Promise.all([
+        fetchReadmeLiveUrlLookup(repos, netlifyIndex, serverEnv().GITHUB_TOKEN),
+        fetchReadmeDescriptionLookup(repos, serverEnv().GITHUB_TOKEN),
+      ])
+    : [new Map<string, string>(), new Map<string, string>()];
 
   type ProjectListRow =
     | { kind: "manual"; project: ManualProject }
@@ -310,6 +315,7 @@ export default async function ProjectsPage() {
                 repo={row.repo}
                 netlifyIndex={netlifyIndex}
                 readmeLiveByFullName={readmeLiveByFullName}
+                readmeDescByFullName={readmeDescByFullName}
                 groupIds={projectGroupIdsForRepo(row.repo)}
               />
             </li>

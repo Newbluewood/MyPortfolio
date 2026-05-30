@@ -59,6 +59,8 @@ const REPO_DESCRIPTION_FALLBACK: Partial<Record<string, string>> = {
   CB_Internship:
     "Zadatak za internship prijavu u Node.js okruženju (node_modules pristup): simulacija košarkaškog turnira na OI od grupne faze do finala; statistika i matematika.",
   "my-first-repo": "Prvi repo / uvod u Git.",
+  "Gemini-Models-List-App":
+    "Interaktivna veb aplikacija za pregled, analizu i testiranje svih 52 zvanična Google Gemini AI modela — katalog i živi playground (Playground) za tekstualne, vizuelne i audio mogućnosti; Express proxy čuva API ključ na serveru.",
 };
 
 function normalizeGithubDescription(raw: string | null | undefined): string {

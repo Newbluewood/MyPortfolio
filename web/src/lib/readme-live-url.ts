@@ -135,8 +135,84 @@ async function fetchRepoReadmeRaw(
   return res.text();
 }
 
+/** * Izvuci prvu smislenu rečenicu / paragraf iz README markdown-a za upotrebu kao opis kartice.
+ * Preskače headinge, badge linije, prazne linije i code blokove.
+ */
+export function extractDescriptionFromReadme(markdown: string): string | null {
+  if (!markdown?.trim()) return null;
+
+  const lines = markdown.split("\n");
+  const buf: string[] = [];
+  let inCode = false;
+
+  for (const raw of lines) {
+    const line = raw.trim();
+
+    if (line.startsWith("```") || line.startsWith("~~~")) {
+      inCode = !inCode;
+      continue;
+    }
+    if (inCode) continue;
+    if (line.startsWith("#")) continue;
+    // Badge / image linije
+    if (/^(?:\[!\[|!\[)/.test(line)) continue;
+    // HTML tagovi
+    if (/^<[a-zA-Z/]/.test(line)) continue;
+    // Horizontalne linije
+    if (/^[-*_]{3,}$/.test(line)) continue;
+
+    if (!line) {
+      if (buf.length > 0) break; // kraj prvog paragrafa
+      continue;
+    }
+
+    buf.push(line);
+  }
+
+  // Ukloni markdown inline formatiranje (*bold*, _italic_, [text](url), `code`)
+  const text = buf
+    .join(" ")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/[*_`~]+/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (text.length < 20) return null;
+
+  const MAX = 180;
+  if (text.length <= MAX) return text;
+  const cut = text.lastIndexOf(" ", MAX);
+  return (cut > 0 ? text.slice(0, cut) : text.slice(0, MAX)) + "…";
+}
+
 /**
- * Za repoe bez GitHub „Website” i bez Netlify mapiranja, povlači README i traži deploy link.
+ * Za repoe bez GitHub opisa, povlači README i izvlači opis iz prvog paragrafa.
+ */
+export async function fetchReadmeDescriptionLookup(
+  repos: GitHubRepo[],
+  token: string | undefined,
+): Promise<ReadonlyMap<string, string>> {
+  const map = new Map<string, string>();
+  const need = repos
+    .filter((r) => !r.description)
+    .sort((a, b) => (b.pushed_at || "").localeCompare(a.pushed_at || ""));
+  const batch = readmeLiveConcurrency();
+
+  for (let i = 0; i < need.length; i += batch) {
+    const slice = need.slice(i, i + batch);
+    await Promise.all(
+      slice.map(async (r) => {
+        const md = await fetchRepoReadmeRaw(r.full_name, token);
+        if (!md) return;
+        const desc = extractDescriptionFromReadme(md);
+        if (desc) map.set(r.full_name, desc);
+      }),
+    );
+  }
+  return map;
+}
+
+/** * Za repoe bez GitHub „Website” i bez Netlify mapiranja, povlači README i traži deploy link.
  */
 export async function fetchReadmeLiveUrlLookup(
   repos: GitHubRepo[],

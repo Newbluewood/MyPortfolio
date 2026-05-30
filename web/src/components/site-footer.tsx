@@ -8,7 +8,7 @@ export function SiteFooter() {
   const { lang, T } = useLang();
 
   return (
-    <footer className="mt-auto overflow-x-hidden border-t border-white/10 bg-[#0b0f14]">
+    <footer className="mt-auto overflow-x-hidden border-t border-white/10 bg-[#0b0f14] print:hidden">
       <div className="mx-auto max-w-5xl min-w-0 space-y-4 px-4 py-8 sm:px-6">
         <div className="flex flex-col gap-2 text-sm text-zinc-500 sm:flex-row sm:items-center sm:justify-between">
           <p>{T.footer.built}</p>

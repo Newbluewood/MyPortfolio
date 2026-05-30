@@ -280,7 +280,7 @@ export function ChatDock() {
 
   return (
     <div
-      className="fixed z-50 flex max-w-[calc(100%-1.5rem)] flex-col items-end gap-2"
+      className="fixed z-50 flex max-w-[calc(100%-1.5rem)] flex-col items-end gap-2 print:hidden"
       style={cornerFabStyle}
     >
       {open ? (

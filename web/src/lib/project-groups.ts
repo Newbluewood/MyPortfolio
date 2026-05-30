@@ -25,57 +25,76 @@ export const PROJECT_GROUP_ORDER: ProjectGroupId[] = [
 ];
 
 /** Kratak tekst na narandžastim čipovima (tooltip = meta.intro). */
-export const PROJECT_GROUP_CHIP_LABEL: Record<ProjectGroupId, string> = {
-  early_static: "Rani rad",
-  nodejs_env: "Node.js",
-  python: "Python",
-  csr_framework: "CSR / SPA",
-  fullstack: "Full stack",
-  ai_vibe: "AI / Vibe",
-  wordpress: "WordPress",
-  other: "Ostalo",
+export const PROJECT_GROUP_CHIP_LABEL: Record<ProjectGroupId, { en: string; sr: string }> = {
+  early_static: { en: "Early work", sr: "Rani rad" },
+  nodejs_env:   { en: "Node.js",    sr: "Node.js" },
+  python:       { en: "Python",     sr: "Python" },
+  csr_framework:{ en: "CSR / SPA",  sr: "CSR / SPA" },
+  fullstack:    { en: "Full stack", sr: "Full stack" },
+  ai_vibe:      { en: "AI / Vibe",  sr: "AI / Vibe" },
+  wordpress:    { en: "WordPress",  sr: "WordPress" },
+  other:        { en: "Other",      sr: "Ostalo" },
 };
 
 export const PROJECT_GROUP_META: Record<
   ProjectGroupId,
-  { title: string; intro: string }
+  { title: { en: string; sr: string }; intro: { en: string; sr: string } }
 > = {
   early_static: {
-    title: "Rani radovi",
-    intro:
-      "HTML, CSS i JavaScript bez build okruženja — direktno u pregledaču i editoru.",
+    title: { en: "Early work", sr: "Rani radovi" },
+    intro: {
+      en: "HTML, CSS and JavaScript without a build environment — directly in the browser and editor.",
+      sr: "HTML, CSS i JavaScript bez build okruženja — direktno u pregledaču i editoru.",
+    },
   },
   nodejs_env: {
-    title: "Node.js i sopstveno okruženje",
-    intro:
-      "Node.js, napredniji JavaScript (moduli, klase, testovi) i alati koje si sam složio oko projekta.",
+    title: { en: "Node.js & custom setup", sr: "Node.js i sopstveno okruženje" },
+    intro: {
+      en: "Node.js, more advanced JavaScript (modules, classes, tests), and tooling assembled around the project.",
+      sr: "Node.js, napredniji JavaScript (moduli, klase, testovi) i alati koje si sam složio oko projekta.",
+    },
   },
   python: {
-    title: "Python",
-    intro:
-      "Python u projektu: skripte, OOP, analiza podataka ili backend (npr. FastAPI) — uključujući materijal sa kursa.",
+    title: { en: "Python", sr: "Python" },
+    intro: {
+      en: "Python in the project: scripts, OOP, data analysis or backend (e.g. FastAPI) — including course material.",
+      sr: "Python u projektu: skripte, OOP, analiza podataka ili backend (npr. FastAPI) — uključujući materijal sa kursa.",
+    },
   },
   csr_framework: {
-    title: "Klijentski frameworki (CSR)",
-    intro: "Aplikacije u klijentskim frameworkima — prvenstveno Vue / SPA tok.",
+    title: { en: "Client-side frameworks (CSR)", sr: "Klijentski frameworki (CSR)" },
+    intro: {
+      en: "Apps built with client-side frameworks — primarily Vue / SPA flow.",
+      sr: "Aplikacije u klijentskim frameworkima — prvenstveno Vue / SPA tok.",
+    },
   },
   fullstack: {
-    title: "Full stack",
-    intro:
-      "Vite, Express, MySQL i slično — ili hostovanje na cloud servisima sa punim stogom.",
+    title: { en: "Full stack", sr: "Full stack" },
+    intro: {
+      en: "Vite, Express, MySQL and similar — or cloud-hosted projects with a full stack.",
+      sr: "Vite, Express, MySQL i slično — ili hostovanje na cloud servisima sa punim stogom.",
+    },
   },
   ai_vibe: {
-    title: "Vibe coding i AI razvoj",
-    intro:
-      "Eksperimenti sa AI alatima, asistentima u editoru i brzim iteracijama.",
+    title: { en: "Vibe coding & AI development", sr: "Vibe coding i AI razvoj" },
+    intro: {
+      en: "Experiments with AI tools, editor assistants and rapid iteration.",
+      sr: "Eksperimenti sa AI alatima, asistentima u editoru i brzim iteracijama.",
+    },
   },
   wordpress: {
-    title: "WordPress",
-    intro: "Sadržajski sajtovi u WordPressu.",
+    title: { en: "WordPress", sr: "WordPress" },
+    intro: {
+      en: "Content sites built with WordPress.",
+      sr: "Sadržajski sajtovi u WordPressu.",
+    },
   },
   other: {
-    title: "Ostalo",
-    intro: "Materijal za kurs, probe i projekti koji ne upadaju u ostale oznake.",
+    title: { en: "Other", sr: "Ostalo" },
+    intro: {
+      en: "Course material, experiments, and projects that don't fit the other categories.",
+      sr: "Materijal za kurs, probe i projekti koji ne upadaju u ostale oznake.",
+    },
   },
 };
 

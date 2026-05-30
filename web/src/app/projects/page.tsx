@@ -30,14 +30,14 @@ export const metadata = {
 function GroupChips({ groupIds }: { groupIds: ProjectGroupId[] }) {
   if (groupIds.length === 0) return null;
   return (
-    <ul className="mt-2 flex flex-wrap gap-1.5" aria-label="Kategorije">
+    <ul className="mt-2 flex flex-wrap gap-1.5" aria-label="Categories">
       {groupIds.map((id) => (
         <li key={id}>
           <span
-            title={PROJECT_GROUP_META[id].intro}
+            title={PROJECT_GROUP_META[id].intro.en}
             className="inline-block rounded-md border border-amber-500/35 bg-amber-500/10 px-2 py-0.5 text-[11px] font-medium text-amber-200/95"
           >
-            {PROJECT_GROUP_CHIP_LABEL[id]}
+            <T en={PROJECT_GROUP_CHIP_LABEL[id].en} sr={PROJECT_GROUP_CHIP_LABEL[id].sr} />
           </span>
         </li>
       ))}
@@ -48,7 +48,7 @@ function GroupChips({ groupIds }: { groupIds: ProjectGroupId[] }) {
 function formatProjectMonthYear(iso: string): string {
   const ms = Date.parse(iso);
   if (Number.isNaN(ms)) return "";
-  return new Intl.DateTimeFormat("sr-Latn-RS", {
+  return new Intl.DateTimeFormat("en-US", {
     month: "long",
     year: "numeric",
     timeZone: "UTC",
@@ -259,9 +259,10 @@ export default async function ProjectsPage() {
       ) : null}
 
       <p className="mb-8 max-w-2xl text-sm leading-relaxed text-zinc-500">
-        Svaki projekat može imati više kategorija — prikazane su kao narandžasti čipovi
-        (tooltip na čipu daje duži opis). Ispod je legenda; kartice su hronološki poredane
-        po nastanku — najnoviji projekat je prvi (GitHub: datum kreiranja repozitorijuma).
+        <T
+          en="Each project can have multiple categories — shown as orange chips (tooltip on the chip gives a longer description). Below is a legend; cards are sorted chronologically by creation — newest first (GitHub: repository creation date)."
+          sr="Svaki projekat može imati više kategorija — prikazane su kao narandžasti čipovi (tooltip na čipu daje duži opis). Ispod je legenda; kartice su hronološki poredane po nastanku — najnoviji projekat je prvi (GitHub: datum kreiranja repozitorijuma)."
+        />
       </p>
 
       {error ? (
@@ -276,7 +277,7 @@ export default async function ProjectsPage() {
 
       <div
         className="mb-10 grid min-w-0 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-        aria-label="Legenda kategorija"
+        aria-label="Category legend"
       >
         {PROJECT_GROUP_ORDER.map((id) => {
           const meta = PROJECT_GROUP_META[id];
@@ -287,9 +288,11 @@ export default async function ProjectsPage() {
               className="rounded-xl border border-amber-500/25 bg-amber-500/[0.06] p-3"
             >
               <h3 className="text-xs font-semibold tracking-wide text-amber-200/95">
-                {chip}
+                <T en={chip.en} sr={chip.sr} />
               </h3>
-              <p className="mt-1.5 text-xs leading-relaxed text-zinc-400">{meta.intro}</p>
+              <p className="mt-1.5 text-xs leading-relaxed text-zinc-400">
+                <T en={meta.intro.en} sr={meta.intro.sr} />
+              </p>
             </div>
           );
         })}

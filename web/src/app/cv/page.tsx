@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 
 import { CvAvatar } from "@/components/cv-avatar";
+import { CvPrintButton } from "@/components/cv-print-button";
 import { T } from "@/components/translated-text";
 import { getCvData } from "@/lib/cv-load";
 
@@ -35,25 +36,19 @@ export default async function CvPage() {
     cvData;
 
   return (
-    <div className="mx-auto min-w-0 max-w-5xl px-4 py-12 sm:px-6 sm:py-16 print:max-w-none print:bg-white print:py-8 print:text-black">
-      <p className="mb-6 text-center text-xs text-zinc-500 print:text-zinc-600 sm:text-left">
+    <div className="mx-auto min-w-0 max-w-5xl px-4 py-12 sm:px-6 sm:py-16 print:max-w-none print:bg-white print:py-4 print:text-black">
+      <p className="mb-3 text-center text-xs text-zinc-500 print:hidden sm:text-left">
         <T
           en='Edit CV content in content/cv.json; override "Applying for" with CV_HEADLINE_APPLYING_FOR in .env.'
           sr={"Sadržaj CV-ja menjaš u content/cv.json; polje \u201eApplying for\u201c možeš prepisati i preko CV_HEADLINE_APPLYING_FOR u .env."}
         />
       </p>
-
-      <p className="mb-6 text-center text-xs text-zinc-500 print:text-zinc-600 sm:text-left">
-        <T
-          en="Printable A4-friendly layout — use Print from the browser."
-          sr="Raspored prilagođen A4 štampi — koristite Print u pregledaču."
-        />
-      </p>
+      <CvPrintButton />
 
       <article className="break-words overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] shadow-xl shadow-black/20 print:rounded-none print:border-0 print:bg-white print:shadow-none">
         <div className="grid min-w-0 md:grid-cols-[minmax(0,260px)_1fr] print:grid-cols-[240px_1fr]">
           {/* Left column */}
-          <aside className="min-w-0 space-y-6 border-b border-white/10 bg-zinc-900/80 p-6 md:border-b-0 md:border-r md:border-white/10 print:border-black/15 print:bg-zinc-100">
+          <aside className="min-w-0 space-y-6 border-b border-white/10 bg-zinc-900/80 p-6 md:border-b-0 md:border-r md:border-white/10 print:border-black/15 print:bg-zinc-100 print:p-4 print:space-y-4">
             <div className="flex justify-center md:justify-start print:justify-start">
               <CvAvatar name={name} photo={photo} />
             </div>
@@ -115,9 +110,9 @@ export default async function CvPage() {
           </aside>
 
           {/* Right column */}
-          <div className="min-w-0 space-y-8 p-6 md:p-8">
-            <header className="space-y-2 border-b border-white/10 pb-6 print:border-black/15">
-              <h1 className="text-3xl font-bold tracking-tight text-white print:text-black sm:text-4xl">
+          <div className="min-w-0 space-y-8 p-6 md:p-8 print:p-4 print:space-y-5">
+            <header className="space-y-2 border-b border-white/10 pb-6 print:border-black/15 print:pb-3">
+              <h1 className="text-3xl font-bold tracking-tight text-white print:text-black print:text-2xl sm:text-4xl">
                 {name}
               </h1>
               <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-3">
@@ -132,11 +127,11 @@ export default async function CvPage() {
 
             <section>
               <SectionTitle><T en="Experience" sr="Iskustvo" /></SectionTitle>
-              <div className="space-y-6">
+              <div className="space-y-6 print:space-y-3">
                 {experience.map((job) => (
                   <div
                     key={job.company}
-                    className="grid gap-3 border-b border-white/5 pb-6 last:border-0 last:pb-0 sm:grid-cols-[minmax(0,40%)_1fr] print:border-black/10"
+                    className="grid gap-3 border-b border-white/5 pb-6 last:border-0 last:pb-0 sm:grid-cols-[minmax(0,40%)_1fr] print:border-black/10 print:pb-3 print:gap-2"
                   >
                     <div className="space-y-1 border-white/10 pr-0 sm:border-r sm:pr-4 print:border-black/15">
                       <h4 className="font-semibold text-white print:text-black">
@@ -166,12 +161,12 @@ export default async function CvPage() {
             </section>
 
             <section>
-              <SectionTitle><T en="Education & Courses" sr="Obrazovanje i kursevi" /></SectionTitle>
-              <div className="space-y-6">
+              <SectionTitle><T en="Education &amp; Courses" sr="Obrazovanje i kursevi" /></SectionTitle>
+              <div className="space-y-6 print:space-y-3">
                 {education.map((ed) => (
                   <div
                     key={ed.institution}
-                    className="grid gap-3 border-b border-white/5 pb-6 last:border-0 last:pb-0 sm:grid-cols-[minmax(0,40%)_1fr] print:border-black/10"
+                    className="grid gap-3 border-b border-white/5 pb-6 last:border-0 last:pb-0 sm:grid-cols-[minmax(0,40%)_1fr] print:border-black/10 print:pb-3 print:gap-2"
                   >
                     <div className="space-y-1 border-white/10 pr-0 sm:border-r sm:pr-4 print:border-black/15">
                       <h4 className="font-semibold text-white print:text-black">

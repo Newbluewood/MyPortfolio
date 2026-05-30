@@ -18,6 +18,13 @@ body {
   font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
 
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 8mm 10mm;
+  }
+}
+
 /* Chat dock: thin scrollbar aligned with dark panel (Firefox + WebKit) */
 .chat-dock-scroll {
   scrollbar-width: thin;

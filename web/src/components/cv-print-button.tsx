@@ -4,7 +4,12 @@ export function CvPrintButton() {
   return (
     <div className="mb-6 flex flex-wrap items-center gap-3 print:hidden">
       <button
-        onClick={() => window.print()}
+        onClick={() => {
+          const prev = document.title;
+          document.title = "Nebojsa-Simovic-CV";
+          window.print();
+          document.title = prev;
+        }}
         className="inline-flex items-center gap-2 rounded-lg border border-cyan-500/30 bg-cyan-500/10 px-4 py-2 text-sm font-medium text-cyan-300 transition hover:bg-cyan-500/20 hover:text-cyan-200 active:scale-95"
       >
         <svg

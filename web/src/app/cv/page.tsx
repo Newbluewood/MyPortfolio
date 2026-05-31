@@ -134,8 +134,7 @@ export default async function CvPage() {
                     className="grid gap-3 border-b border-white/5 pb-6 last:border-0 last:pb-0 sm:grid-cols-[minmax(0,40%)_1fr] print:border-black/10 print:pb-1.5 print:gap-1"
                   >
                     <div className="space-y-1 border-white/10 pr-0 sm:border-r sm:pr-4 print:border-black/15">
-                      <h4 className="font-semibold text-white print:text-black">
-                        {job.company}
+                      <h4 className="font-semibold text-white print:text-black print:text-[12px]">
                       </h4>
                       {job.period ? (
                         <p className="text-center text-xs text-zinc-500 sm:text-left print:text-zinc-600">
@@ -169,8 +168,7 @@ export default async function CvPage() {
                     className="grid gap-3 border-b border-white/5 pb-6 last:border-0 last:pb-0 sm:grid-cols-[minmax(0,40%)_1fr] print:border-black/10 print:pb-1.5 print:gap-1"
                   >
                     <div className="space-y-1 border-white/10 pr-0 sm:border-r sm:pr-4 print:border-black/15">
-                      <h4 className="font-semibold text-white print:text-black">
-                        {ed.institution}
+                      <h4 className="font-semibold text-white print:text-black print:text-[12px]">
                       </h4>
                       {ed.period ? (
                         <p className="text-center text-xs text-zinc-500 sm:text-left print:text-zinc-600">

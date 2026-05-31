@@ -94,11 +94,21 @@ export function ChatDock() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [vvRect, setVvRect] = useState({ top: 0, height: 0 });
+  const [isMobile, setIsMobile] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
   const assistantIdxRef = useRef(-1);
   const { lang, T } = useLang();
   const langRef = useRef(lang);
   langRef.current = lang;
+
+  useLayoutEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia(MQ_MOBILE);
+    const syncMobile = () => setIsMobile(mq.matches);
+    syncMobile();
+    mq.addEventListener("change", syncMobile);
+    return () => mq.removeEventListener("change", syncMobile);
+  }, []);
 
   useLayoutEffect(() => {
     if (!open) {
@@ -258,8 +268,9 @@ export function ChatDock() {
     }
   }, [busy, input]);
 
-  const mobileVvStyle: CSSProperties | undefined =
-    open && vvRect.height > 0
+  const mobileVvStyle: CSSProperties | undefined = !isMobile
+    ? undefined
+    : open && vvRect.height > 0
       ? {
           top: vvRect.top,
           height: vvRect.height,
@@ -287,7 +298,7 @@ export function ChatDock() {
         <div
           role="dialog"
           aria-label={T.chat.ariaLabel}
-          className="flex min-h-0 w-full max-w-[min(24rem,calc(100%-2rem))] flex-col overflow-hidden border border-white/15 bg-[#111820] shadow-2xl shadow-black/50 max-md:fixed max-md:left-0 max-md:right-0 max-md:top-0 max-md:z-[220] max-md:w-full max-md:max-w-none max-md:rounded-none max-md:border-x-0 max-md:border-b-0 max-md:border-t md:h-[min(32rem,calc(100vh-6rem))] md:rounded-2xl"
+          className="flex min-h-0 w-full max-w-[min(24rem,calc(100%-2rem))] flex-col overflow-hidden border border-white/15 bg-[#111820] shadow-2xl shadow-black/50 max-md:fixed max-md:left-0 max-md:right-0 max-md:top-0 max-md:z-[220] max-md:w-full max-md:max-w-none max-md:rounded-none max-md:border-x-0 max-md:border-b-0 max-md:border-t md:h-[min(32rem,calc(100dvh-5.5rem-1.5rem))] md:max-h-[min(32rem,calc(100dvh-5.5rem-1.5rem))] md:rounded-2xl"
           style={mobileVvStyle}
         >
           <div className="flex shrink-0 items-center justify-between border-b border-white/10 px-4 py-3">
@@ -391,7 +402,7 @@ export function ChatDock() {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className={`flex h-12 items-center gap-2 rounded-full bg-gradient-to-r from-cyan-500 to-violet-600 px-5 text-sm font-medium text-zinc-950 shadow-lg shadow-cyan-500/20 ${open ? "max-md:hidden" : ""}`}
+        className={`flex h-12 items-center gap-2 rounded-full bg-gradient-to-r from-cyan-500 to-violet-600 px-5 text-sm font-medium text-zinc-950 shadow-lg shadow-cyan-500/20 ${open ? "hidden" : ""}`}
       >
         {open ? T.chat.close : T.chat.fab}
       </button>

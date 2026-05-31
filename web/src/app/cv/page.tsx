@@ -24,7 +24,7 @@ function SectionTitle({
 }) {
   const TagEl = Tag;
   return (
-    <TagEl className="mb-3 w-full border-b border-white/15 pb-1 text-xs font-semibold uppercase tracking-[0.12em] text-cyan-400/90 print:border-black/20 print:mb-1 print:text-cyan-800">
+    <TagEl className="mb-3 w-full border-b border-white/15 pb-1 text-xs font-semibold uppercase tracking-[0.12em] text-cyan-400/90 print:border-black/20 print:mb-1 print:text-[9px] print:tracking-[0.08em] print:text-cyan-800">
       {children}
     </TagEl>
   );
@@ -112,14 +112,14 @@ export default async function CvPage() {
           {/* Right column */}
           <div className="min-w-0 space-y-8 p-6 md:p-8 print:p-3 print:space-y-3">
             <header className="space-y-2 border-b border-white/10 pb-6 print:border-black/15 print:pb-2 print:space-y-0.5">
-              <h1 className="text-3xl font-bold tracking-tight text-white print:text-black print:text-xl sm:text-4xl">
+              <h1 className="text-3xl font-bold tracking-tight text-white print:text-black print:text-[22px] sm:text-4xl">
                 {name}
               </h1>
               <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-3">
                 <span className="shrink-0 text-sm text-zinc-500 print:text-zinc-600">
                   <T en="Applying for:" sr="Pozicija:" />
                 </span>
-                <p className="text-lg font-medium italic text-amber-400/95 print:text-amber-900 print:text-sm">
+                <p className="text-lg font-medium italic text-amber-400/95 print:text-amber-900 print:text-base">
                   {cvData.headlineApplyingFor}
                 </p>
               </div>

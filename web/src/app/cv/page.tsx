@@ -137,6 +137,7 @@ export default async function CvPage() {
                       <h4 className="font-semibold text-white print:text-black print:text-[12px]">
                         {job.company}
                       </h4>
+                      {job.period ? (
                         <p className="text-center text-xs text-zinc-500 sm:text-left print:text-zinc-600">
                           {job.period}
                         </p>
@@ -171,6 +172,7 @@ export default async function CvPage() {
                       <h4 className="font-semibold text-white print:text-black print:text-[12px]">
                         {ed.institution}
                       </h4>
+                      {ed.period ? (
                         <p className="text-center text-xs text-zinc-500 sm:text-left print:text-zinc-600">
                           {ed.period}
                         </p>

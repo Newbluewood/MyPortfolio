@@ -24,7 +24,7 @@ function SectionTitle({
 }) {
   const TagEl = Tag;
   return (
-    <TagEl className="mb-3 w-full border-b border-white/15 pb-1 text-xs font-semibold uppercase tracking-[0.12em] text-cyan-400/90 print:border-black/20 print:mb-1 print:text-[7.5px] print:tracking-[0.18em] print:text-cyan-800">
+    <TagEl className="mb-3 w-full border-b border-white/15 pb-1 text-xs font-semibold uppercase tracking-[0.12em] text-cyan-400/90 print:border-black/20 print:mb-1 print:text-[11px] print:tracking-[0.15em] print:text-cyan-800">
       {children}
     </TagEl>
   );

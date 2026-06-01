@@ -1,7 +1,12 @@
+"use client";
+
+import { useLang } from "@/lib/i18n/context";
+
 /** Lab /test-animation: zašto su oblaci prazni ili nisu učitani. */
 export type LabGithubHint = "none" | "missing_identity" | "fetch_failed";
 
 export function LabGithubHintBanner({ hint }: { hint: LabGithubHint }) {
+  const { T } = useLang();
   if (hint === "none") return null;
 
   const box =
@@ -10,35 +15,37 @@ export function LabGithubHintBanner({ hint }: { hint: LabGithubHint }) {
   if (hint === "missing_identity") {
     return (
       <p className={box}>
-        Nisu učitani repo oblaci — u <strong className="font-medium">root</strong>{" "}
+        {T.lab.hint.missingIdentity.intro}{" "}
+        <strong className="font-medium">root</strong>{" "}
         <code className="rounded bg-black/30 px-1 font-mono text-[10px]">.env</code>{" "}
-        dodaj bar jedno:{" "}
+        {T.lab.hint.missingIdentity.addAtLeastOne}{" "}
         <code className="rounded bg-black/30 px-1 font-mono text-[10px]">
           NEXT_PUBLIC_GITHUB_URL
         </code>{" "}
-        (URL profila),{" "}
+        {T.lab.hint.missingIdentity.profileUrl},{" "}
         <code className="rounded bg-black/30 px-1 font-mono text-[10px]">
           GITHUB_USERNAME
         </code>{" "}
-        ili{" "}
+        {T.lab.hint.missingIdentity.or}{" "}
         <code className="rounded bg-black/30 px-1 font-mono text-[10px]">
           GITHUB_TOKEN
         </code>
-        , pa restartuj <code className="font-mono text-[10px]">next dev</code>. Oblaci
-        su samo projekti sa deploy linkom (GitHub Website ili Netlify).
+        , {T.lab.hint.missingIdentity.restart}{" "}
+        <code className="font-mono text-[10px]">next dev</code>.{" "}
+        {T.lab.hint.missingIdentity.note}
       </p>
     );
   }
 
   return (
     <p className={box}>
-      GitHub / Netlify podaci nisu učitani (izuzetak na serveru — npr. mreža, rate
-      limit, pogrešan token). Proveri terminal za{" "}
-      <code className="font-mono text-[10px]">next dev</code> i pokreni{" "}
-      <code className="font-mono text-[10px]">npm run doctor</code>. Ako je{" "}
-      <code className="font-mono text-[10px]">NEXT_PUBLIC_GITHUB_URL</code> tek
-      dodat, obavezno restartuj dev server. Oblaci i dalje: samo projekti sa deploy
-      linkom.
+      {T.lab.hint.fetchFailed.intro} {T.lab.hint.fetchFailed.checkTerminal}{" "}
+      <code className="font-mono text-[10px]">next dev</code>{" "}
+      {T.lab.hint.fetchFailed.andRun}{" "}
+      <code className="font-mono text-[10px]">npm run doctor</code>.{" "}
+      {T.lab.hint.fetchFailed.restartIfAdded}{" "}
+      <code className="font-mono text-[10px]">NEXT_PUBLIC_GITHUB_URL</code>,{" "}
+      {T.lab.hint.fetchFailed.restartDev} {T.lab.hint.fetchFailed.note}
     </p>
   );
 }

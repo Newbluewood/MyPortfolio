@@ -66,6 +66,35 @@ export const t = {
       sources: "Sources",
       closeChat: "Close chat",
     },
+    lab: {
+      hint: {
+        missingIdentity: {
+          intro: "Repo clouds weren’t loaded — in the repo root",
+          addAtLeastOne: "add at least one:",
+          profileUrl: "(profile URL)",
+          or: "or",
+          restart: "then restart",
+          note: "Clouds show only projects with a deploy link (GitHub Website or Netlify).",
+        },
+        fetchFailed: {
+          intro: "GitHub / Netlify data couldn’t be loaded (server exception — e.g. network, rate limit, wrong token).",
+          checkTerminal: "Check the terminal for",
+          andRun: "and run",
+          restartIfAdded: "If you just added",
+          restartDev: "restart the dev server.",
+          note: "Clouds still show only projects with a deploy link.",
+        },
+      },
+      aang: {
+        heading: "Why Aang?",
+        body:
+          "Aang from the series Avatar: The Last Airbender remains one of those characters who keeps a childlike core — not naive, but uncorrupted and kind-hearted: through mistakes, fear, and responsibility he learns, listens, and returns to the path even when it would be easier to quit. In the end he grows from a runaway into someone who connects and unites — his strength isn’t brutality, but calm and the choice to protect what’s shared. I carry that metaphor into my projects: steady work, learning from experience, and intent for something useful to become stable (like the “deploy” clouds around him).",
+        rights:
+          "The character, titles, and visual world of the series belong to the rights holders (e.g. Nickelodeon / Paramount). This site doesn’t use official series material; the reference is cultural and made in a spirit of respect for the original work.",
+        wikiAang: "Wikipedia — Aang",
+        wikiSeries: "Wikipedia — series",
+      },
+    },
   },
   sr: {
     nav: {
@@ -131,6 +160,36 @@ export const t = {
       close: "Zatvori",
       sources: "Izvori",
       closeChat: "Zatvori razgovor",
+    },
+    lab: {
+      hint: {
+        missingIdentity: {
+          intro: "Nisu učitani repo oblaci — u",
+          addAtLeastOne: "dodaj bar jedno:",
+          profileUrl: "(URL profila)",
+          or: "ili",
+          restart: "pa restartuj",
+          note: "Oblaci su samo projekti sa deploy linkom (GitHub Website ili Netlify).",
+        },
+        fetchFailed: {
+          intro:
+            "GitHub / Netlify podaci nisu učitani (izuzetak na serveru — npr. mreža, rate limit, pogrešan token).",
+          checkTerminal: "Proveri terminal za",
+          andRun: "i pokreni",
+          restartIfAdded: "Ako je tek dodat",
+          restartDev: "obavezno restartuj dev server.",
+          note: "Oblaci i dalje: samo projekti sa deploy linkom.",
+        },
+      },
+      aang: {
+        heading: "Zašto Aang?",
+        body:
+          "Aang iz serije Avatar: Poslednji vladar vetrova (Avatar: The Last Airbender) ostaje jedan od onih likova koji u sebi čuvaju dete — ne naivno, nego neiskvareno i dobrog srca: kroz greške, strah i odgovornost uči, sluša druge i vraća se putu iako bi bilo lakše odustati. Na kraju izrasta iz begunca u nekoga ko povezuje i ujedinjuje — snaga mu nije surovost, nego smirenje i izbor da štiti ono što je zajedničko. Tu metaforu nosim i u radu na projektima: rad, učenje iz iskustva i namena da nešto korisno za druge postane stabilno (kao ti „deploy“ oblaci oko njega).",
+        rights:
+          "Lik, naslovi i vizuelni svet serije u vlasništvu su nosilaca prava (npr. Nickelodeon / Paramount). Ovaj sajt ne koristi zvaničan materijal serije; referenca je kulturna i u duhu poštovanja prema autorskom delu.",
+        wikiAang: "Wikipedia — Aang",
+        wikiSeries: "Wikipedia — serija",
+      },
     },
   },
 } as const;

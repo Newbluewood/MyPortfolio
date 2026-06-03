@@ -21,6 +21,21 @@ const educationSchema = z.object({
   bulletsSr: z.array(z.string()).optional(),
 });
 
+export const credentialKindSchema = z.enum([
+  "diploma",
+  "certificate",
+  "letter",
+]);
+
+export const credentialSchema = z.object({
+  kind: credentialKindSchema,
+  title: z.string().min(1),
+  titleSr: z.string().optional(),
+  period: z.string().optional(),
+  /** Path under `web/public`, e.g. `/credentials/ukisai-bootcamp.pdf` */
+  file: z.string().min(1),
+});
+
 export const cvDataSchema = z.object({
   name: z.string().min(1),
   headlineApplyingFor: z.string().min(1),
@@ -43,8 +58,11 @@ export const cvDataSchema = z.object({
   }),
   experience: z.array(experienceSchema),
   education: z.array(educationSchema),
+  credentials: z.array(credentialSchema).default([]),
   skills: z.array(z.string()),
   portfolioLinks: z.array(cvLinkSchema),
 });
 
 export type CvData = z.infer<typeof cvDataSchema>;
+export type CvCredential = z.infer<typeof credentialSchema>;
+export type CvCredentialKind = z.infer<typeof credentialKindSchema>;

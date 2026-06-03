@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import re
 import sys
 from pathlib import Path
@@ -195,6 +196,60 @@ def _fetch_github_readmes(raw_dir: Path, s: Settings) -> None:
                 continue
 
 
+def _write_cv_credentials_doc(content_dir: Path, raw_dir: Path) -> None:
+    """Mirror content/cv.json credentials into Markdown for RAG (JSON is not ingested)."""
+    cv_path = content_dir / "cv.json"
+    if not cv_path.is_file():
+        return
+    try:
+        data = json.loads(cv_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as e:
+        print(f"cv.json credentials export skipped: {e}", file=sys.stderr)
+        return
+
+    creds = data.get("credentials")
+    if not isinstance(creds, list) or not creds:
+        return
+
+    name = (data.get("name") or "Nebojša Simović").strip()
+    lines = [
+        "# Diplomas and certificates (CV)",
+        "",
+        f"**{name}** — scanned diplomas, certificates, and letters listed on the portfolio "
+        "site at [/cv](/cv) under **Diplomas & certificates**. Files live under `/credentials/`.",
+        "",
+        "The assistant should answer questions about diplome, sertifikati, degrees, "
+        "ITAcademy, UKISAI bootcamp, ENON practice, ZenHire hackathon, Atrijum, and "
+        "Faculty of Forestry (Šumarski fakultet) using the entries below.",
+        "",
+    ]
+    for item in creds:
+        if not isinstance(item, dict):
+            continue
+        title = (item.get("title") or "").strip()
+        file_path = (item.get("file") or "").strip()
+        if not title or not file_path:
+            continue
+        kind = (item.get("kind") or "other").strip()
+        title_sr = (item.get("titleSr") or title).strip()
+        period = (item.get("period") or "").strip()
+        lines.append(f"## {title}")
+        lines.append(f"- **Type:** {kind}")
+        lines.append(f"- **Serbian title:** {title_sr}")
+        if period:
+            lines.append(f"- **Period:** {period}")
+        lines.append(f"- **Scan / file:** {file_path}")
+        lines.append("")
+
+    raw_dir.mkdir(parents=True, exist_ok=True)
+    out = raw_dir / "cv__credentials.md"
+    try:
+        out.write_text("\n".join(lines), encoding="utf-8")
+        print(f"Wrote {out.name} ({len(creds)} credential(s)) for RAG.")
+    except OSError as e:
+        print(f"cv credentials export failed: {e}", file=sys.stderr)
+
+
 def main() -> None:
     s = get_settings()
     if not s.google_api_key:
@@ -213,6 +268,8 @@ def main() -> None:
         _fetch_github_readmes(raw_dir, s)
     except Exception as e:  # noqa: BLE001
         print(f"GitHub README fetch skipped: {e}", file=sys.stderr)
+
+    _write_cv_credentials_doc(content_dir, raw_dir)
 
     llm, embed = build_llm_embed(s)
     _ = llm

@@ -74,12 +74,13 @@ def build_chat_engine(index: VectorStoreIndex, s: AppSettings) -> BaseChatEngine
     llm, _ = build_llm_embed(s)
     system_prompt = (
         "You are this site's portfolio assistant. Use the context about this developer's "
-        "projects and site. Be concise. Do not paste raw document text, README blocks, or "
-        "file names; summarize in normal sentences. When the context includes deployed apps, "
-        "homepages, or demo links, give the full URL starting with https:// so users opening "
-        "the chat can click them. For greetings only, one short friendly line. If asked who "
-        "you are in relation to the site, briefly describe the developer (role, focus) from "
-        "context; only mention being an assistant in passing, not as the whole answer."
+        "projects, education, diplomas, certificates, and site. Be concise. Do not paste raw "
+        "document text, README blocks, or file names; summarize in normal sentences. When the "
+        "context includes deployed apps, homepages, demo links, or credential scans on /cv, "
+        "mention them clearly (full https:// URLs for live apps). For greetings only, one short "
+        "friendly line. If asked who you are in relation to the site, briefly describe the "
+        "developer (role, focus) from context; only mention being an assistant in passing, not "
+        "as the whole answer."
     )
     return index.as_chat_engine(
         chat_mode=ChatMode.CONDENSE_PLUS_CONTEXT,

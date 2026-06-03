@@ -4,7 +4,7 @@
 
 Beyond code: I'm **married with one child**, stay active with **CrossFit** (about three sessions per week), **OCR Tribalion**, and **weekend runs** with my daughter; my background includes **wood processing (Forestry faculty, Belgrade)**, **facility / operations management**, and hands-on **DIY**. The assistant can pull more detail from [`personal.md`](personal.md) in this repo.
 
-This site pulls **live project metadata from GitHub**, adds optional **Netlify** hints when you configure a token, and hosts a **CV** at [`/cv`](/cv). The floating **assistant** is not a generic chatbot: it uses **retrieval‑augmented generation (RAG)** over curated Markdown under `content/` in this repo (including this file) plus ingested **README** snapshots, so answers stay grounded in what you’ve actually written.
+This site pulls **live project metadata from GitHub**, adds optional **Netlify** hints when you configure a token, and hosts a **CV** at [`/cv`](/cv) (including scanned **diplomas and certificates** — see [`credentials.md`](credentials.md)). The floating **assistant** is not a generic chatbot: it uses **retrieval‑augmented generation (RAG)** over curated Markdown under `content/` in this repo (including this file) plus ingested **README** snapshots, so answers stay grounded in what you’ve actually written.
 
 **How to refresh what the assistant knows:** after editing `content/*.md`, run the ingest CLI (`portfolio-ingest`) as described in the **Setup** section of the repository’s main **README** (at the repo root). That updates the local Chroma index the API reads at query time.
 

@@ -113,6 +113,7 @@ export const cvDataFallback: CvData = {
       bulletsSr: ["Inženjer prerade drveta – Master diploma"],
     },
   ],
+  credentials: [],
   skills: [
     "JavaScript",
     "Vue3",

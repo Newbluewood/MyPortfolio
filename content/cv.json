@@ -108,6 +108,48 @@
       "bulletsSr": ["Inženjer prerade drveta – Master diploma"]
     }
   ],
+  "credentials": [
+    {
+      "kind": "diploma",
+      "title": "Faculty of Forestry, University of Belgrade — undergraduate degree (Wood Processing / TMP)",
+      "titleSr": "Šumarski fakultet, Univerzitet u Beogradu — diploma osnovnih studija (Prerada drveta / TMP)",
+      "file": "/credentials/diploma-sumarski-osnovne.jpg"
+    },
+    {
+      "kind": "certificate",
+      "title": "ITAcademy — Certified JavaScript Developer",
+      "titleSr": "ITAcademy — Certified JavaScript Developer",
+      "period": "2024",
+      "file": "/credentials/certified-javascript-developer.jpg"
+    },
+    {
+      "kind": "certificate",
+      "title": "UKISAI Academy — AI Bootcamp completion certificate",
+      "titleSr": "UKISAI Academy — sertifikat o završetku AI bootcampa",
+      "period": "2026",
+      "file": "/credentials/ukisai-bootcamp.pdf"
+    },
+    {
+      "kind": "certificate",
+      "title": "IT Practice Center — ENON Solutions (confirmation of practice)",
+      "titleSr": "IT Practice Center — ENON Solutions (potvrda o praksi)",
+      "period": "2024–2025",
+      "file": "/credentials/potvrda-enon.jpg"
+    },
+    {
+      "kind": "certificate",
+      "title": "ZenHire AI Coding Hackathon (Startit × CDT Hub)",
+      "titleSr": "ZenHire AI Coding Hackathon (Startit × CDT Hub)",
+      "period": "Apr 2026",
+      "file": "/credentials/zenhire-hackathon.jpg"
+    },
+    {
+      "kind": "letter",
+      "title": "Faculty of Forestry — Atrijum project (letter of appreciation)",
+      "titleSr": "Šumarski fakultet — projekat Atrijum (zahvalnica)",
+      "file": "/credentials/zahvalnica-atrijum-sfb.jpg"
+    }
+  ],
   "skills": [
     "JavaScript",
     "Vue3",

@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 
 import { CvAvatar } from "@/components/cv-avatar";
+import { CvCredentials } from "@/components/cv-credentials";
 import { CvPrintButton } from "@/components/cv-print-button";
 import { T } from "@/components/translated-text";
 import { getCvData } from "@/lib/cv-load";
@@ -32,7 +33,7 @@ function SectionTitle({
 
 export default async function CvPage() {
   const cvData = await getCvData();
-  const { photo, name, contact, languages, experience, education, skills } =
+  const { photo, name, contact, languages, experience, education, credentials, skills } =
     cvData;
 
   return (
@@ -187,6 +188,15 @@ export default async function CvPage() {
                 ))}
               </div>
             </section>
+
+            {credentials.length > 0 ? (
+              <section className="print:hidden">
+                <SectionTitle>
+                  <T en="Diplomas &amp; certificates" sr="Diplome i sertifikati" />
+                </SectionTitle>
+                <CvCredentials items={credentials} />
+              </section>
+            ) : null}
 
             <section>
               <SectionTitle><T en="Skills" sr="Veštine" /></SectionTitle>

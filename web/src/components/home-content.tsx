@@ -3,18 +3,27 @@
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 
+import { CvCredentials } from "@/components/cv-credentials";
 import { Section } from "@/components/section";
 import { useLang } from "@/lib/i18n/context";
 import { clientEnv } from "@/lib/env/client";
+import type { CvCredential } from "@/lib/cv-schema";
 
 type Props = {
   aboutEn: string | null;
   aboutSr: string | null;
   skillsEn: string | null;
   skillsSr: string | null;
+  credentials: CvCredential[];
 };
 
-export function HomeContent({ aboutEn, aboutSr, skillsEn, skillsSr }: Props) {
+export function HomeContent({
+  aboutEn,
+  aboutSr,
+  skillsEn,
+  skillsSr,
+  credentials,
+}: Props) {
   const { lang, T } = useLang();
   const { NEXT_PUBLIC_DISPLAY_NAME, NEXT_PUBLIC_GITHUB_URL } = clientEnv;
 
@@ -104,6 +113,20 @@ export function HomeContent({ aboutEn, aboutSr, skillsEn, skillsSr }: Props) {
       {skills ? (
         <Section eyebrow={T.home.skillsEyebrow} title={T.home.skillsTitle} id="skills">
           <ReactMarkdown>{skills}</ReactMarkdown>
+        </Section>
+      ) : null}
+
+      {credentials.length > 0 ? (
+        <Section
+          id="credentials"
+          eyebrow={T.home.credentialsEyebrow}
+          title={T.home.credentialsTitle}
+          wide
+        >
+          <p className="mb-4 max-w-2xl text-sm text-zinc-500">
+            {T.home.credentialsHint}
+          </p>
+          <CvCredentials items={credentials} />
         </Section>
       ) : null}
     </>

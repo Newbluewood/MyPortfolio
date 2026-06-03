@@ -32,7 +32,7 @@ export const credentialSchema = z.object({
   title: z.string().min(1),
   titleSr: z.string().optional(),
   period: z.string().optional(),
-  /** Path under `web/public`, e.g. `/credentials/ukisai-bootcamp.pdf` */
+  /** Path under `web/public`, e.g. `/credentials/ukisai-bootcamp.jpg` */
   file: z.string().min(1),
 });
 

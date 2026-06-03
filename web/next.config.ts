@@ -7,6 +7,16 @@ loadEnvConfig(repoRoot);
 loadEnvConfig(path.resolve(__dirname));
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/credentials/ukisai-bootcamp.pdf",
+        destination: "/credentials/ukisai-bootcamp.jpg",
+        permanent: true,
+      },
+    ];
+  },
+
   // Allow dev HMR when opening the app via LAN IP (e.g. phone / another PC).
   allowedDevOrigins: ["192.168.1.11"],
 

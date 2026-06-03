@@ -22,6 +22,9 @@ export const t = {
       aboutTitle: "What I do",
       skillsEyebrow: "Stack",
       skillsTitle: "Skills",
+      credentialsEyebrow: "Proof",
+      credentialsTitle: "Diplomas & certificates",
+      credentialsHint: "Tap a card to open the scan. Full résumé on the CV page.",
     },
     footer: {
       built: "Built with Next.js and a RAG-powered assistant.",
@@ -118,6 +121,9 @@ export const t = {
       aboutTitle: "Šta radim",
       skillsEyebrow: "Stack",
       skillsTitle: "Veštine",
+      credentialsEyebrow: "Dokazi",
+      credentialsTitle: "Diplome i sertifikati",
+      credentialsHint: "Klik na karticu otvara sken. Kompletan CV je na stranici CV.",
     },
     footer: {
       built: "Napravljeno sa Next.js i RAG asistentom.",

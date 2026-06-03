@@ -1,6 +1,6 @@
 # Diplome i sertifikati
 
-**Nebojša Simović** na portfoliju drži skenove **diploma**, **sertifikata** i **zahvalnica**. Prikazani su na [**/cv**](/cv) u sekciji **Diplome i sertifikati** (ne ulaze u štampu CV-ja). Svaka stavka se otvara kao slika ili PDF sa putanje `/credentials/`.
+**Nebojša Simović** na portfoliju drži skenove **diploma**, **sertifikata** i **zahvalnica**. Prikazani su na [**početnoj**](/) pri dnu (**Diplome i sertifikati** — niz malih kartica). Stranica [**/cv**](/cv) ostaje samo tekst za štampu. Svaka stavka se otvara kao slika ili PDF sa putanje `/credentials/`.
 
 Asistent treba da koristi ovu stranicu kad korisnik pita o: **diplomi**, **diplome**, **sertifikatu**, **ITAcademy**, **UKISAI**, **ENON**, **ZenHire**, **hakatonu**, **Atrijumu**, **Šumarskom fakultetu**, **preradi drveta**, **TMP**, ili **dokazima obrazovanja na sajtu**.
 
@@ -16,7 +16,7 @@ Asistent treba da koristi ovu stranicu kad korisnik pita o: **diplomi**, **diplo
 | Dokument | Detalji |
 |----------|---------|
 | **ITAcademy — Certified JavaScript Developer** | `/credentials/certified-javascript-developer.jpg` (2024). |
-| **UKISAI Academy — AI Bootcamp** | PDF sertifikat: `/credentials/ukisai-bootcamp.pdf` (2026). |
+| **UKISAI Academy — AI Bootcamp** | Sertifikat: `/credentials/ukisai-bootcamp.jpg` (2026). |
 | **IT Practice Center — ENON Solutions** | Potvrda o praksi: `/credentials/potvrda-enon.jpg` (2024–2025). |
 | **ZenHire AI Coding Hackathon** | Startit × CDT Hub, apr 2026: `/credentials/zenhire-hackathon.jpg`. |
 

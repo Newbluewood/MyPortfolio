@@ -1,6 +1,6 @@
 # Diplomas and certificates
 
-**Nebojša Simović** keeps scanned **diplomas**, **certificates**, and **letters of appreciation** on this portfolio. They appear on [**/cv**](/cv) in the section **Diplomas & certificates** (not in the printable CV layout). Each item opens as an image or PDF from `/credentials/`.
+**Nebojša Simović** keeps scanned **diplomas**, **certificates**, and **letters of appreciation** on this portfolio. They appear on the [**home page**](/) at the bottom (**Diplomas & certificates** — compact row of cards). The [**/cv**](/cv) page stays text-only for printing. Each item opens as an image or PDF from `/credentials/`.
 
 The chat assistant should use this page when users ask about: **diploma**, **degree**, **sertifikat**, **certificate**, **ITAcademy**, **UKISAI**, **ENON**, **ZenHire**, **hackathon**, **Atrijum**, **Šumarski fakultet**, **wood processing**, **TMP**, **prerada drveta**, or **what proof of education exists on the site**.
 
@@ -16,7 +16,7 @@ The chat assistant should use this page when users ask about: **diploma**, **deg
 | Document | Details |
 |----------|---------|
 | **ITAcademy — Certified JavaScript Developer** | `/credentials/certified-javascript-developer.jpg` (2024). |
-| **UKISAI Academy — AI Bootcamp** | Completion certificate PDF: `/credentials/ukisai-bootcamp.pdf` (2026). |
+| **UKISAI Academy — AI Bootcamp** | Completion certificate: `/credentials/ukisai-bootcamp.jpg` (2026). |
 | **IT Practice Center — ENON Solutions** | Practice confirmation: `/credentials/potvrda-enon.jpg` (2024–2025). |
 | **ZenHire AI Coding Hackathon** | Startit × CDT Hub, Apr 2026: `/credentials/zenhire-hackathon.jpg`. |
 

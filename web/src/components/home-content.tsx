@@ -40,7 +40,7 @@ export function HomeContent({
           <div className="absolute -left-1/4 top-0 h-96 w-96 rounded-full bg-cyan-500/30 blur-3xl" />
           <div className="absolute -right-1/4 bottom-0 h-96 w-96 rounded-full bg-violet-600/25 blur-3xl" />
         </div>
-        <div className="relative mx-auto max-w-5xl px-4 py-20 sm:px-6 sm:py-28">
+        <div className="relative mx-auto max-w-5xl px-4 pt-14 pb-10 sm:px-6 sm:pt-18 sm:pb-12">
           <p className="mb-4 text-xs font-medium uppercase tracking-[0.25em] text-cyan-400/90">
             {T.home.eyebrow}
           </p>
@@ -105,19 +105,30 @@ export function HomeContent({
       </section>
 
       {about ? (
-        <Section id="about" eyebrow={T.home.aboutEyebrow} title={T.home.aboutTitle}>
+        <Section
+          compact
+          id="about"
+          eyebrow={T.home.aboutEyebrow}
+          title={T.home.aboutTitle}
+        >
           <ReactMarkdown>{about}</ReactMarkdown>
         </Section>
       ) : null}
 
       {skills ? (
-        <Section eyebrow={T.home.skillsEyebrow} title={T.home.skillsTitle} id="skills">
+        <Section
+          compact
+          eyebrow={T.home.skillsEyebrow}
+          title={T.home.skillsTitle}
+          id="skills"
+        >
           <ReactMarkdown>{skills}</ReactMarkdown>
         </Section>
       ) : null}
 
       {credentials.length > 0 ? (
         <Section
+          compact
           id="credentials"
           eyebrow={T.home.credentialsEyebrow}
           title={T.home.credentialsTitle}

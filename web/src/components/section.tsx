@@ -6,6 +6,7 @@ export function Section({
   eyebrow,
   children,
   wide,
+  compact,
 }: {
   id?: string;
   title: ReactNode;
@@ -13,13 +14,19 @@ export function Section({
   children: ReactNode;
   /** Use full content width (e.g. horizontal credential row). */
   wide?: boolean;
+  /** Tighter vertical rhythm (e.g. stacked home sections). */
+  compact?: boolean;
 }) {
   return (
     <section
       id={id}
-      className="mx-auto min-w-0 max-w-5xl px-4 py-16 sm:px-6 sm:py-24"
+      className={
+        compact
+          ? "mx-auto min-w-0 max-w-5xl px-4 py-10 sm:px-6 sm:py-12"
+          : "mx-auto min-w-0 max-w-5xl px-4 py-16 sm:px-6 sm:py-24"
+      }
     >
-      <div className="mb-8 max-w-2xl">
+      <div className={compact ? "mb-6 max-w-2xl" : "mb-8 max-w-2xl"}>
         {eyebrow ? (
           <p className="mb-2 text-xs font-medium uppercase tracking-[0.2em] text-cyan-400/90">
             {eyebrow}

@@ -213,10 +213,11 @@ def _write_cv_credentials_doc(content_dir: Path, raw_dir: Path) -> None:
 
     name = (data.get("name") or "Nebojša Simović").strip()
     lines = [
-        "# Diplomas and certificates (CV)",
+        "# Diplomas and certificates (portfolio)",
         "",
-        f"**{name}** — scanned diplomas, certificates, and letters listed on the portfolio "
-        "site at [/cv](/cv) under **Diplomas & certificates**. Files live under `/credentials/`.",
+        f"**{name}** — scanned diplomas, certificates, and letters on the portfolio "
+        "site at the bottom of the [home page](/) (**Diplomas & certificates**). "
+        "[/cv](/cv) is text-only for printing. Files live under `/credentials/`.",
         "",
         "The assistant should answer questions about diplome, sertifikati, degrees, "
         "ITAcademy, UKISAI bootcamp, ENON practice, ZenHire hackathon, Atrijum, and "

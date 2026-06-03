@@ -11,7 +11,7 @@ This file supplements [**About**](about.md) with **life and work context** about
 ## Education (before IT pivot)
 
 - **Faculty of Forestry, University of Belgrade** — **Wood Processing** programme (**TMP / prerada drveta**), **Master’s degree** (2011).
-- **Undergraduate diploma scan** and other **certificates** (ITAcademy JS, UKISAI bootcamp, ENON, ZenHire, Atrijum letter) are on the site — see [`credentials.md`](credentials.md) and the **Diplomas & certificates** section at the bottom of the [**home page**](/).
+- **Undergraduate diploma scan** and other **certificates** (ITAcademy JS, UKISAI bootcamp, ENON, ZenHire, Atrijum letter) are on the site — **Diplomas & certificates** section at the bottom of the [**home page**](/#credentials).
 - Earlier career included **hands-on work in the woodworking / wood-processing field** (the same domain as the degree).
 
 ## Leadership & operations (pre‑developer roles)

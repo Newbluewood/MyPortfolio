@@ -11,7 +11,7 @@ Ovaj fajl dopunjuje [**O meni**](about.sr.md) sa **životnim i radnim kontekstom
 ## Obrazovanje (pre prelaska na IT)
 
 - **Šumarski fakultet, Univerzitet u Beogradu** — smer **Prerada drveta (TMP)**, **master diploma** (2011).
-- **Sken diploma osnovnih studija** i **sertifikati** (ITAcademy JS, UKISAI bootcamp, ENON, ZenHire, zahvalnica Atrijum) su na sajtu — vidi [`credentials.sr.md`](credentials.sr.md) i sekciju **Diplome i sertifikati** pri dnu [**početne**](/).
+- **Sken diploma osnovnih studija** i **sertifikati** (ITAcademy JS, UKISAI bootcamp, ENON, ZenHire, zahvalnica Atrijum) su na sajtu — odeljak **Diplome i sertifikati** pri dnu [**početne**](/#credentials).
 - Ranija karijera uključivala je **rad u struci** — praktičan rad u oblasti **prerade drveta / drvnoj industriji**, u skladu sa diplomom.
 
 ## Rukovođenje i operacije (pre developera)

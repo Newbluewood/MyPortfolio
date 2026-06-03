@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import dynamic from "next/dynamic";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -55,6 +56,7 @@ export default function RootLayout({
           <SiteFooter />
           <ChatDock />
         </LanguageProvider>
+        <Analytics />
       </body>
     </html>
   );

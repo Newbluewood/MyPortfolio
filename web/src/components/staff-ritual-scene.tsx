@@ -11,6 +11,7 @@ import {
   RepoRitualClouds,
   type RitualRepoLink,
 } from "@/components/repo-ritual-clouds";
+import { useLang } from "@/lib/i18n/context";
 
 type Phase = "sit" | "summon";
 
@@ -20,6 +21,7 @@ type Props = {
 };
 
 export function StaffRitualScene({ repos, labGithubHint = "none" }: Props) {
+  const { T } = useLang();
   const [runId, setRunId] = useState(0);
   const [phase, setPhase] = useState<Phase>("sit");
   const [shake, setShake] = useState(false);
@@ -42,14 +44,14 @@ export function StaffRitualScene({ repos, labGithubHint = "none" }: Props) {
     <div className="relative flex min-h-[calc(100vh-5.5rem)] flex-col items-center justify-center overflow-x-hidden px-4 py-10 pb-16">
       <LabGithubHintBanner hint={labGithubHint} />
       <p className="absolute left-4 top-4 z-[40] max-w-xs text-xs text-zinc-500">
-        Lab · Aang — oblaci su samo projekti sa deploy linkom (otvaraju live sajt)
+        {T.lab.scene.cornerHintPng}
       </p>
       <button
         type="button"
         onClick={() => setRunId((n) => n + 1)}
         className="absolute right-4 top-4 z-[40] rounded-xl border border-white/15 bg-white/5 px-3 py-1.5 text-xs text-zinc-300 transition hover:border-cyan-500/40 hover:bg-white/10 hover:text-white"
       >
-        Ponovi animaciju
+        {T.lab.scene.replay}
       </button>
 
       <div
@@ -92,7 +94,7 @@ export function StaffRitualScene({ repos, labGithubHint = "none" }: Props) {
               <div className="staff-ritual-aang-sit">
                 <Image
                   src="/aang-ritual.png"
-                  alt="Aang — The Last Airbender (fan art), borbeni stav sa štapom"
+                  alt={T.lab.scene.aangImageAlt}
                   width={800}
                   height={900}
                   priority
@@ -106,11 +108,11 @@ export function StaffRitualScene({ repos, labGithubHint = "none" }: Props) {
       </div>
 
       <p className="relative z-[30] mt-10 max-w-md text-center text-sm text-zinc-500">
-        Slika je u{" "}
+        {T.lab.scene.footerImageBefore}
         <code className="rounded bg-white/10 px-1.5 py-0.5 font-mono text-xs text-zinc-400">
           web/public/aang-ritual.png
         </code>
-        . Imena repozitorijuma sa GitHub liste (inače rezervna imena).
+        {T.lab.scene.footerImageAfter}
       </p>
     </div>
   );

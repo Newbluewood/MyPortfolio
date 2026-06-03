@@ -1,6 +1,5 @@
-import Link from "next/link";
-
 import { AangAttribution } from "@/components/aang-attribution";
+import { LabBackLink } from "@/components/lab-back-link";
 import { AangRitualScene } from "@/components/aang-ritual-scene";
 import { fetchUserRepos, hasGithubListingIdentity } from "@/lib/github";
 import { fetchNetlifyDeployIndex } from "@/lib/netlify";
@@ -59,12 +58,7 @@ export default async function TestAnimationPage() {
       <AangRitualScene repos={repos} labGithubHint={labGithubHint} />
       <AangAttribution />
       <div className="relative z-[30] flex justify-center pb-10 pt-2">
-        <Link
-          href="/projects"
-          className="text-sm text-cyan-400/90 underline-offset-4 hover:underline"
-        >
-          ← Nazad na projekte
-        </Link>
+        <LabBackLink />
       </div>
     </div>
   );

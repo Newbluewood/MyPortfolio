@@ -11,6 +11,7 @@ import {
   RepoRitualClouds,
   type RitualRepoLink,
 } from "@/components/repo-ritual-clouds";
+import { useLang } from "@/lib/i18n/context";
 
 type Props = {
   animationData: object;
@@ -23,6 +24,7 @@ export function AangLottieScene({
   repos,
   labGithubHint = "none",
 }: Props) {
+  const { T } = useLang();
   const [finished, setFinished] = useState(false);
   const [replayId, setReplayId] = useState(0);
   const lottieRef = useRef<LottieRefCurrentProps>(null);
@@ -39,14 +41,14 @@ export function AangLottieScene({
     <div className="relative flex min-h-[calc(100vh-5.5rem)] flex-col items-center justify-center overflow-x-hidden px-4 py-10 pb-16">
       <LabGithubHintBanner hint={labGithubHint} />
       <p className="absolute left-4 top-4 z-[40] max-w-xs text-xs text-zinc-500">
-        Lab · Lottie sekvenca (bez klika tokom animacije) · oblaci nakon kraja
+        {T.lab.scene.cornerHintLottie}
       </p>
       <button
         type="button"
         onClick={replay}
         className="absolute right-4 top-4 z-[40] rounded-xl border border-white/15 bg-white/5 px-3 py-1.5 text-xs text-zinc-300 transition hover:border-cyan-500/40 hover:bg-white/10 hover:text-white"
       >
-        Ponovi animaciju
+        {T.lab.scene.replay}
       </button>
 
       <div
@@ -94,13 +96,13 @@ export function AangLottieScene({
       </div>
 
       <p className="relative z-[30] mt-10 max-w-lg text-center text-sm text-zinc-500">
-        Stavi izvoz iz After Effects (Bodymovin / LottieFiles) u fajl{" "}
+        {T.lab.scene.footerLottieBefore}
         <code className="rounded bg-white/10 px-1.5 py-0.5 font-mono text-xs text-zinc-400">
           web/public/lottie/aang-ritual.json
         </code>
-        . Oblaci sa imenima repoa pojavljuju se kada Lottie jednom završi (
+        {T.lab.scene.footerLottieAfter}
         <code className="font-mono text-xs text-zinc-400">onComplete</code>
-        ).
+        {T.lab.scene.footerLottieEnd}
       </p>
     </div>
   );

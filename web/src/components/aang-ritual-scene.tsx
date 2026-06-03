@@ -8,6 +8,7 @@ import {
 } from "@/components/lab-github-hint-banner";
 import { StaffRitualScene } from "@/components/staff-ritual-scene";
 import type { RitualRepoLink } from "@/components/repo-ritual-clouds";
+import { useLang } from "@/lib/i18n/context";
 
 const LOTTIE_URL = "/lottie/aang-ritual.json";
 
@@ -18,6 +19,7 @@ type Props = {
 };
 
 export function AangRitualScene({ repos, labGithubHint = "none" }: Props) {
+  const { T } = useLang();
   const [status, setStatus] = useState<"loading" | "lottie" | "png">(
     "loading",
   );
@@ -46,7 +48,7 @@ export function AangRitualScene({ repos, labGithubHint = "none" }: Props) {
   if (status === "loading") {
     return (
       <div className="flex min-h-[50vh] items-center justify-center text-sm text-zinc-500">
-        Proveravam da li postoji Lottie fajl…
+        {T.lab.scene.loadingLottie}
       </div>
     );
   }

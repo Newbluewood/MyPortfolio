@@ -98,6 +98,24 @@ export const t = {
         wikiAang: "Wikipedia — Aang",
         wikiSeries: "Wikipedia — series",
       },
+      scene: {
+        cornerHintPng:
+          "Lab · Aang — clouds are only projects with a deploy link (they open the live site)",
+        cornerHintLottie:
+          "Lab · Lottie sequence (no clicks during animation) · clouds after it ends",
+        replay: "Replay animation",
+        loadingLottie: "Checking for a Lottie file…",
+        footerImageBefore: "Image is in ",
+        footerImageAfter:
+          ". Repository names come from the GitHub list (otherwise placeholder names).",
+        footerLottieBefore:
+          "Put your After Effects export (Bodymovin / LottieFiles) in ",
+        footerLottieAfter: ". Repo-name clouds appear once Lottie finishes (",
+        footerLottieEnd: ").",
+        aangImageAlt:
+          "Aang — The Last Airbender (fan art), fighting stance with staff",
+        backToProjects: "← Back to projects",
+      },
     },
   },
   sr: {
@@ -197,6 +215,25 @@ export const t = {
           "Lik, naslovi i vizuelni svet serije u vlasništvu su nosilaca prava (npr. Nickelodeon / Paramount). Ovaj sajt ne koristi zvaničan materijal serije; referenca je kulturna i u duhu poštovanja prema autorskom delu.",
         wikiAang: "Wikipedia — Aang",
         wikiSeries: "Wikipedia — serija",
+      },
+      scene: {
+        cornerHintPng:
+          "Lab · Aang — oblaci su samo projekti sa deploy linkom (otvaraju live sajt)",
+        cornerHintLottie:
+          "Lab · Lottie sekvenca (bez klika tokom animacije) · oblaci nakon kraja",
+        replay: "Ponovi animaciju",
+        loadingLottie: "Proveravam da li postoji Lottie fajl…",
+        footerImageBefore: "Slika je u ",
+        footerImageAfter:
+          ". Imena repozitorijuma sa GitHub liste (inače rezervna imena).",
+        footerLottieBefore:
+          "Stavi izvoz iz After Effects (Bodymovin / LottieFiles) u fajl ",
+        footerLottieAfter:
+          ". Oblaci sa imenima repoa pojavljuju se kada Lottie jednom završi (",
+        footerLottieEnd: ").",
+        aangImageAlt:
+          "Aang — Poslednji vladar vetrova (fan art), borbeni stav sa štapom",
+        backToProjects: "← Nazad na projekte",
       },
     },
   },

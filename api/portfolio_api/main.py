@@ -20,8 +20,13 @@ _mk = (os.environ.get("GEMINI_API_KEY") or "").strip()
 if _mk and not _gk:
     os.environ["GOOGLE_API_KEY"] = _mk
 
+import asyncio
+import hashlib
+import hmac
 import json
 import re
+import subprocess
+import sys
 from typing import Any, AsyncIterator
 
 from fastapi import FastAPI, HTTPException, Request
@@ -104,6 +109,7 @@ def root() -> dict[str, str]:
         "docs": "/docs",
         "chat": "POST /chat",
         "ingest": "POST /admin/ingest (Bearer INGEST_SECRET)",
+        "webhook": "POST /webhook/github (GitHub HMAC webhook)",
     }
 
 
@@ -161,6 +167,18 @@ def admin_invalidate_rag(request: Request) -> dict[str, str]:
     return {"status": "ok"}
 
 
+async def _run_ingest() -> tuple[int, str]:
+    """Run portfolio-ingest subprocess and return (returncode, output)."""
+    proc = await asyncio.create_subprocess_exec(
+        sys.executable, "-m", "portfolio_api.ingest",
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+    )
+    stdout, _ = await asyncio.wait_for(proc.communicate(), timeout=300)
+    output = stdout.decode(errors="replace") if stdout else ""
+    return proc.returncode or 0, output
+
+
 @app.post("/admin/ingest", response_model=None)
 async def admin_ingest(request: Request) -> JSONResponse:
     """Run portfolio-ingest then reload the RAG index.
@@ -180,22 +198,12 @@ async def admin_ingest(request: Request) -> JSONResponse:
     elif not _is_localhost(request):
         raise HTTPException(status_code=403, detail="set INGEST_SECRET to allow remote ingest")
 
-    import asyncio
-    import subprocess
-    import sys
-
     try:
-        proc = await asyncio.create_subprocess_exec(
-            sys.executable, "-m", "portfolio_api.ingest",
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-        )
-        stdout, _ = await asyncio.wait_for(proc.communicate(), timeout=300)
-        output = stdout.decode(errors="replace") if stdout else ""
-        if proc.returncode != 0:
+        returncode, output = await _run_ingest()
+        if returncode != 0:
             return JSONResponse(
                 status_code=500,
-                content={"status": "error", "returncode": proc.returncode, "output": output[-2000:]},
+                content={"status": "error", "returncode": returncode, "output": output[-2000:]},
             )
     except asyncio.TimeoutError:
         return JSONResponse(status_code=504, content={"status": "timeout", "detail": "ingest exceeded 300s"})
@@ -204,6 +212,55 @@ async def admin_ingest(request: Request) -> JSONResponse:
 
     invalidate_rag_cache()
     return JSONResponse(content={"status": "ok", "detail": "ingest complete, RAG cache cleared"})
+
+
+@app.post("/webhook/github", response_model=None)
+async def webhook_github(request: Request) -> JSONResponse:
+    """GitHub webhook — triggers portfolio-ingest on push events.
+
+    Setup: GitHub repo → Settings → Webhooks → Add webhook:
+      Payload URL : https://<your-railway-url>/webhook/github
+      Content type: application/json
+      Secret      : value of GITHUB_WEBHOOK_SECRET env var
+      Events      : Just the push event
+    """
+    s = get_settings()
+    webhook_secret = (s.github_webhook_secret or "").strip()
+    if not webhook_secret:
+        raise HTTPException(status_code=503, detail="GITHUB_WEBHOOK_SECRET not configured")
+
+    # Verify HMAC-SHA256 signature sent by GitHub.
+    sig_header = request.headers.get("x-hub-signature-256", "")
+    if not sig_header.startswith("sha256="):
+        raise HTTPException(status_code=400, detail="missing x-hub-signature-256")
+    body = await request.body()
+    expected = "sha256=" + hmac.new(
+        webhook_secret.encode(), body, hashlib.sha256
+    ).hexdigest()
+    if not hmac.compare_digest(sig_header, expected):
+        raise HTTPException(status_code=401, detail="invalid webhook signature")
+
+    # Only act on push events.
+    event = request.headers.get("x-github-event", "")
+    if event == "ping":
+        return JSONResponse(content={"status": "ok", "detail": "pong"})
+    if event != "push":
+        return JSONResponse(content={"status": "ignored", "detail": f"event '{event}' skipped"})
+
+    # Respond immediately — GitHub expects < 10s. Ingest runs in background.
+    async def _bg() -> None:
+        try:
+            returncode, output = await _run_ingest()
+            if returncode == 0:
+                invalidate_rag_cache()
+                print("[webhook] ingest complete, RAG cache cleared")
+            else:
+                print(f"[webhook] ingest failed (rc={returncode}):\n{output[-1000:]}")
+        except Exception as exc:
+            print(f"[webhook] ingest error: {exc}")
+
+    asyncio.create_task(_bg())
+    return JSONResponse(status_code=202, content={"status": "accepted", "detail": "ingest queued"})
 
 
 @app.post("/chat")

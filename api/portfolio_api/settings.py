@@ -105,6 +105,14 @@ class Settings(BaseSettings):
         validation_alias=AliasChoices("INGEST_SECRET", "ingest_secret"),
     )
 
+    # GitHub Webhook secret for POST /webhook/github (auto-ingest on push).
+    # Generate: python -c "import secrets; print(secrets.token_hex(32))"
+    # Set same value in GitHub repo → Settings → Webhooks → Secret.
+    github_webhook_secret: str = Field(
+        default="",
+        validation_alias=AliasChoices("GITHUB_WEBHOOK_SECRET", "github_webhook_secret"),
+    )
+
     @field_validator("github_repos_include_forks", "github_repos_include_archived", mode="before")
     @classmethod
     def _github_env_bool(cls, v: object) -> bool:

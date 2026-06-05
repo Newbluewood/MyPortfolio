@@ -98,6 +98,13 @@ class Settings(BaseSettings):
         validation_alias=AliasChoices("CORS_ORIGINS", "cors_origins"),
     )
 
+    # Optional secret for POST /admin/ingest (set INGEST_SECRET in env to enable remote ingest).
+    # If empty, the endpoint is localhost-only.
+    ingest_secret: str = Field(
+        default="",
+        validation_alias=AliasChoices("INGEST_SECRET", "ingest_secret"),
+    )
+
     @field_validator("github_repos_include_forks", "github_repos_include_archived", mode="before")
     @classmethod
     def _github_env_bool(cls, v: object) -> bool:

@@ -103,6 +103,7 @@ def root() -> dict[str, str]:
         "health_ready": "/health/ready",
         "docs": "/docs",
         "chat": "POST /chat",
+        "ingest": "POST /admin/ingest (Bearer INGEST_SECRET)",
     }
 
 
@@ -158,6 +159,51 @@ def admin_invalidate_rag(request: Request) -> dict[str, str]:
         raise HTTPException(status_code=403, detail="local only")
     invalidate_rag_cache()
     return {"status": "ok"}
+
+
+@app.post("/admin/ingest", response_model=None)
+async def admin_ingest(request: Request) -> JSONResponse:
+    """Run portfolio-ingest then reload the RAG index.
+
+    Auth (checked in order):
+    - If INGEST_SECRET is set: require header ``Authorization: Bearer <secret>``.
+    - Otherwise: localhost only.
+    """
+    s = get_settings()
+    secret = (s.ingest_secret or "").strip()
+
+    if secret:
+        auth = request.headers.get("authorization", "")
+        provided = auth.removeprefix("Bearer ").strip()
+        if not provided or provided != secret:
+            raise HTTPException(status_code=401, detail="invalid or missing Bearer token")
+    elif not _is_localhost(request):
+        raise HTTPException(status_code=403, detail="set INGEST_SECRET to allow remote ingest")
+
+    import asyncio
+    import subprocess
+    import sys
+
+    try:
+        proc = await asyncio.create_subprocess_exec(
+            sys.executable, "-m", "portfolio_api.ingest",
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+        )
+        stdout, _ = await asyncio.wait_for(proc.communicate(), timeout=300)
+        output = stdout.decode(errors="replace") if stdout else ""
+        if proc.returncode != 0:
+            return JSONResponse(
+                status_code=500,
+                content={"status": "error", "returncode": proc.returncode, "output": output[-2000:]},
+            )
+    except asyncio.TimeoutError:
+        return JSONResponse(status_code=504, content={"status": "timeout", "detail": "ingest exceeded 300s"})
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"status": "error", "detail": str(e)})
+
+    invalidate_rag_cache()
+    return JSONResponse(content={"status": "ok", "detail": "ingest complete, RAG cache cleared"})
 
 
 @app.post("/chat")

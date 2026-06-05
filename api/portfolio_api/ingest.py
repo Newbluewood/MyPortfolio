@@ -44,6 +44,14 @@ def _normalize_homepage(url: str | None) -> str:
     return f"https://{t}"
 
 
+def _fmt_date(iso: str | None) -> str:
+    """Return a readable date string from ISO 8601 (e.g. '2023-04-15') or empty string."""
+    if not iso:
+        return "n/a"
+    # GitHub returns e.g. "2023-04-15T10:22:33Z" — keep only the date part.
+    return iso[:10]
+
+
 def _build_repo_markdown(repo: dict, readme_body: str | None) -> str:
     name = repo["name"]
     html_url = repo.get("html_url") or ""
@@ -51,6 +59,9 @@ def _build_repo_markdown(repo: dict, readme_body: str | None) -> str:
     homepage = _normalize_homepage(repo.get("homepage"))
     topics = repo.get("topics") if isinstance(repo.get("topics"), list) else []
     language = (repo.get("language") or "").strip()
+    created_at = _fmt_date(repo.get("created_at"))
+    pushed_at = _fmt_date(repo.get("pushed_at"))
+    updated_at = _fmt_date(repo.get("updated_at"))
 
     topic_line = ", ".join(str(t) for t in topics) if topics else "(nema topics na GitHubu)"
 
@@ -61,6 +72,9 @@ def _build_repo_markdown(repo: dict, readme_body: str | None) -> str:
         f"**GitHub opis (kratko polje):** {desc if desc else '(prazno — dodaj u About na GitHubu ili u content/github-repos-notes.md)'}",
         f"**Prevashodni jezik (GitHub):** {language or 'n/a'}",
         f"**Topics:** {topic_line}",
+        f"**Datum kreiranja:** {created_at}",
+        f"**Poslednji push:** {pushed_at}",
+        f"**Poslednje ažuriranje:** {updated_at}",
     ]
     if homepage:
         parts.append(f"**Live sajt / deploy URL (GitHub homepage):** {homepage}")

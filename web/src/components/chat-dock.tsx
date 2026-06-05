@@ -208,9 +208,11 @@ export function ChatDock() {
     // Snapshot istorije pre dodavanja nove poruke (šaljemo prethodne razmene API-ju).
     let historySnapshot: Array<{ role: "user" | "assistant"; content: string }> = [];
     setMessages((m) => {
+      // Samo poslednje 2 razmene (4 poruke) — više istorije iskrivljuje RAG retrieval.
       historySnapshot = m
         .filter((msg) => msg.content.trim())
-        .map(({ role, content }) => ({ role, content }));
+        .map(({ role, content }) => ({ role, content }))
+        .slice(-4);
       const next = [
         ...m,
         { role: "user" as const, content: q },

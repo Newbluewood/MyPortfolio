@@ -97,9 +97,55 @@ export function ChatDock() {
   const [isMobile, setIsMobile] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
   const assistantIdxRef = useRef(-1);
+  const pendingRef = useRef("");
+  const typingTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const { lang, T } = useLang();
   const langRef = useRef(lang);
   langRef.current = lang;
+
+  const stopTyping = useCallback(() => {
+    if (typingTimerRef.current) {
+      clearInterval(typingTimerRef.current);
+      typingTimerRef.current = null;
+    }
+  }, []);
+
+  const flushPending = useCallback(() => {
+    if (!pendingRef.current) return;
+    stopTyping();
+    const remaining = pendingRef.current;
+    pendingRef.current = "";
+    const i = assistantIdxRef.current;
+    setMessages((m) => {
+      const copy = [...m];
+      const last = copy[i];
+      if (last?.role === "assistant") {
+        copy[i] = { ...last, content: last.content + remaining };
+      }
+      return copy;
+    });
+  }, [stopTyping]);
+
+  const startTyping = useCallback(() => {
+    if (typingTimerRef.current) return;
+    typingTimerRef.current = setInterval(() => {
+      if (!pendingRef.current) {
+        stopTyping();
+        return;
+      }
+      const char = pendingRef.current[0];
+      pendingRef.current = pendingRef.current.slice(1);
+      const i = assistantIdxRef.current;
+      setMessages((m) => {
+        const copy = [...m];
+        const last = copy[i];
+        if (last?.role === "assistant") {
+          copy[i] = { ...last, content: last.content + char };
+        }
+        return copy;
+      });
+    }, 18);
+  }, [stopTyping]);
 
   useLayoutEffect(() => {
     if (typeof window === "undefined") return;
@@ -155,6 +201,8 @@ export function ChatDock() {
   const send = useCallback(async () => {
     const q = input.trim();
     if (!q || busy) return;
+    stopTyping();
+    pendingRef.current = "";
     setInput("");
     setError(null);
     setMessages((m) => {
@@ -193,15 +241,8 @@ export function ChatDock() {
       let buf = "";
 
       const applyDelta = (text: string) => {
-        const i = assistantIdxRef.current;
-        setMessages((m) => {
-          const copy = [...m];
-          const last = copy[i];
-          if (last?.role === "assistant") {
-            copy[i] = { ...last, content: last.content + text };
-          }
-          return copy;
-        });
+        pendingRef.current += text;
+        startTyping();
       };
 
       while (true) {
@@ -248,6 +289,7 @@ export function ChatDock() {
         }
       }
     } catch (e) {
+      flushPending();
       const msg = e instanceof Error ? e.message : "Request failed";
       setError(msg);
       const i = assistantIdxRef.current;
@@ -264,9 +306,10 @@ export function ChatDock() {
         return copy;
       });
     } finally {
+      flushPending();
       setBusy(false);
     }
-  }, [busy, input]);
+  }, [busy, input, stopTyping, startTyping, flushPending]);
 
   const mobileVvStyle: CSSProperties | undefined = !isMobile
     ? undefined

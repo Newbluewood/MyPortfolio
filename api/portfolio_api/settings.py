@@ -49,9 +49,9 @@ class Settings(BaseSettings):
             s = s[1:-1]
         return s
 
-    # Chat / completion (generateContent). Free tier: 2.0-flash quotas often fill first;
-    # 2.5-flash-lite is geared for lower cost / separate limits. Override with GEMINI_MODEL.
-    gemini_model: str = "models/gemini-2.5-flash-lite"
+    # Chat / completion model. gemini-2.5-flash has higher free-tier limits than flash-lite.
+    # Override with GEMINI_MODEL env var if needed.
+    gemini_model: str = "models/gemini-2.5-flash"
     # embedContent (Gemini API): use stable text embedding IDs from
     # https://ai.google.dev/gemini-api/docs/embeddings — e.g. gemini-embedding-001
     # (text + task_type) or newer gemini-embedding-2 (multimodal; different batch semantics).

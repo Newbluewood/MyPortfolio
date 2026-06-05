@@ -34,6 +34,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseModel, Field
 
+from llama_index.core.llms import ChatMessage, MessageRole
+
 from portfolio_api.rag import get_index, get_rag_stack, invalidate_rag_cache
 from portfolio_api.rate_limit import SimpleRateLimiter
 from portfolio_api.settings import get_settings
@@ -53,8 +55,14 @@ app.add_middleware(
 limiter = SimpleRateLimiter(max_requests=24, window_seconds=60)
 
 
+class HistoryMessage(BaseModel):
+    role: str  # "user" | "assistant"
+    content: str
+
+
 class ChatBody(BaseModel):
     message: str = Field(min_length=1, max_length=4000)
+    history: list[HistoryMessage] = Field(default_factory=list, max_length=40)
 
 
 def _client_key(request: Request) -> str:
@@ -300,7 +308,13 @@ async def chat(request: Request, body: ChatBody) -> StreamingResponse:
             yield _sse("sources", {"sources": source_payload})
         sent_delta = False
         try:
-            stream = await chat_engine.astream_chat(body.message)
+            # Rekonstruiši istoriju razgovora za LlamaIndex.
+            chat_history: list[ChatMessage] = []
+            for m in body.history:
+                role = MessageRole.USER if m.role == "user" else MessageRole.ASSISTANT
+                chat_history.append(ChatMessage(role=role, content=m.content))
+
+            stream = await chat_engine.astream_chat(body.message, chat_history=chat_history)
             achat = stream.achat_stream
             if achat is None:
                 raise RuntimeError("Chat engine did not return an async stream")

@@ -205,7 +205,12 @@ export function ChatDock() {
     pendingRef.current = "";
     setInput("");
     setError(null);
+    // Snapshot istorije pre dodavanja nove poruke (šaljemo prethodne razmene API-ju).
+    let historySnapshot: Array<{ role: "user" | "assistant"; content: string }> = [];
     setMessages((m) => {
+      historySnapshot = m
+        .filter((msg) => msg.content.trim())
+        .map(({ role, content }) => ({ role, content }));
       const next = [
         ...m,
         { role: "user" as const, content: q },
@@ -220,7 +225,7 @@ export function ChatDock() {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: q }),
+        body: JSON.stringify({ message: q, history: historySnapshot }),
       });
       if (!res.ok || !res.body) {
         const t = await res.text();

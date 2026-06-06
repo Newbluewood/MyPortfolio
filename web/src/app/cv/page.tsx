@@ -6,6 +6,10 @@ import { CvAvatar } from "@/components/cv-avatar";
 import { CvPrintButton } from "@/components/cv-print-button";
 import { T } from "@/components/translated-text";
 import { getCvData } from "@/lib/cv-load";
+import {
+  cvSkillBadgeClass,
+  cvSkillCategory,
+} from "@/lib/cv-skill-category";
 
 export async function generateMetadata(): Promise<Metadata> {
   const cv = await getCvData();
@@ -74,6 +78,15 @@ export default async function CvPage() {
             <div>
               <SectionTitle as="h2"><T en="Contact" sr="Kontakt" /></SectionTitle>
               <div className="space-y-2 text-sm text-zinc-300 print:text-zinc-800 print:text-xs print:space-y-0.5">
+                {contact.location ? (
+                  <div>
+                    <T en="Location" sr="Lokacija" />:{" "}
+                    <T
+                      en={contact.location}
+                      sr={contact.locationSr ?? contact.location}
+                    />
+                  </div>
+                ) : null}
                 <div>
                   Email:{" "}
                   <a
@@ -194,7 +207,7 @@ export default async function CvPage() {
                 {skills.map((s) => (
                   <span
                     key={s}
-                    className="rounded-md border border-white/10 bg-zinc-900/50 px-2 py-1 text-xs text-zinc-200 print:border-black/15 print:bg-white print:text-black print:px-1.5 print:py-0"
+                    className={cvSkillBadgeClass(cvSkillCategory(s))}
                   >
                     {s}
                   </span>

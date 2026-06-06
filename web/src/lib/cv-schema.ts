@@ -53,6 +53,8 @@ export const cvDataSchema = z.object({
   ),
   contact: z.object({
     email: z.string().min(1),
+    location: z.string().optional(),
+    locationSr: z.string().optional(),
     linkedIn: cvLinkSchema,
     github: cvLinkSchema,
   }),

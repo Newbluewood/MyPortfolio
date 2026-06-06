@@ -16,6 +16,8 @@ Asistent treba da koristi ovu stranicu kad korisnik pita o: **diplomi**, **diplo
 | Dokument | Detalji |
 |----------|---------|
 | **ITAcademy — Certified JavaScript Developer** | `/credentials/certified-javascript-developer.jpg` (2024). |
+| **ITAcademy — AI & Python Development (pohađanje)** | Jednogodišnji program: `/credentials/ita-ai-python-attendance.jpg` (jun 2026). |
+| **ITAcademy — Certified Python Data Analyst** | `/credentials/ita-certified-python-data-analyst.jpg` (jun 2026). |
 | **UKISAI Academy — AI Bootcamp** | Sertifikat: `/credentials/ukisai-bootcamp.jpg` (2026). |
 | **IT Practice Center — ENON Solutions** | Potvrda o praksi: `/credentials/potvrda-enon.jpg` (2024–2025). |
 | **ZenHire AI Coding Hackathon** | Startit × CDT Hub, apr 2026: `/credentials/zenhire-hackathon.jpg`. |

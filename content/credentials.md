@@ -16,6 +16,8 @@ The chat assistant should use this page when users ask about: **diploma**, **deg
 | Document | Details |
 |----------|---------|
 | **ITAcademy — Certified JavaScript Developer** | `/credentials/certified-javascript-developer.jpg` (2024). |
+| **ITAcademy — AI & Python Development (attendance)** | One-year program: `/credentials/ita-ai-python-attendance.jpg` (Jun 2026). |
+| **ITAcademy — Certified Python Data Analyst** | `/credentials/ita-certified-python-data-analyst.jpg` (Jun 2026). |
 | **UKISAI Academy — AI Bootcamp** | Completion certificate: `/credentials/ukisai-bootcamp.jpg` (2026). |
 | **IT Practice Center — ENON Solutions** | Practice confirmation: `/credentials/potvrda-enon.jpg` (2024–2025). |
 | **ZenHire AI Coding Hackathon** | Startit × CDT Hub, Apr 2026: `/credentials/zenhire-hackathon.jpg`. |

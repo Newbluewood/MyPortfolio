@@ -124,6 +124,20 @@
     },
     {
       "kind": "certificate",
+      "title": "ITAcademy — AI & Python Development (program attendance)",
+      "titleSr": "ITAcademy — AI & Python Development (potvrda o pohađanju programa)",
+      "period": "Jun 2026",
+      "file": "/credentials/ita-ai-python-attendance.jpg"
+    },
+    {
+      "kind": "certificate",
+      "title": "ITAcademy — Certified Python Data Analyst",
+      "titleSr": "ITAcademy — Certified Python Data Analyst",
+      "period": "Jun 2026",
+      "file": "/credentials/ita-certified-python-data-analyst.jpg"
+    },
+    {
+      "kind": "certificate",
       "title": "UKISAI Academy — AI Bootcamp completion certificate",
       "titleSr": "UKISAI Academy — sertifikat o završetku AI bootcampa",
       "period": "2026",

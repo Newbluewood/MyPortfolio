@@ -5,6 +5,11 @@ const cvLinkSchema = z.object({
   href: z.string().min(1),
 });
 
+const cvPortfolioLinkSchema = cvLinkSchema.extend({
+  description: z.string().optional(),
+  descriptionSr: z.string().optional(),
+});
+
 const experienceSchema = z.object({
   company: z.string().min(1),
   period: z.string().optional(),
@@ -62,7 +67,7 @@ export const cvDataSchema = z.object({
   education: z.array(educationSchema),
   credentials: z.array(credentialSchema).default([]),
   skills: z.array(z.string()),
-  portfolioLinks: z.array(cvLinkSchema),
+  portfolioLinks: z.array(cvPortfolioLinkSchema),
 });
 
 export type CvData = z.infer<typeof cvDataSchema>;

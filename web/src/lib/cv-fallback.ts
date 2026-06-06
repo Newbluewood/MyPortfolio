@@ -143,12 +143,53 @@ export const cvDataFallback: CvData = {
     {
       label: "ZenHire AI Coding Hackathon (Startit)",
       href: "https://startit.rs/zenhire-ai-coding-hackathon-gradi-igru-koja-zaposljava-48-sati-vibe-codinga-i-psihometrije-25-i-26-aprila-u-cdt-hub-u-u-beogradu/",
+      description:
+        "48-hour hackathon — AI game prototype with hiring and psychometric mechanics.",
+      descriptionSr:
+        "48h hakaton — prototip AI igre sa zapošljavanjem i psihometrijom.",
     },
-    { label: "Nastavna Baza Goc", href: "https://nastavnabazagoc.netlify.app" },
-    { label: "Quizi App", href: "https://quizi-if-not-busy.netlify.app/" },
-    { label: "Open Meteo", href: "https://openmeteo.netlify.app/" },
-    { label: "Weather Forecast", href: "https://weatherforecastom.netlify.app/" },
-    { label: "Kuvar App", href: "https://kuvar.netlify.app/" },
-    { label: "Gemini Models List App", href: "https://github.com/Newbluewood/Gemini-Models-List-App" },
+    {
+      label: "Nastavna Baza Goc",
+      href: "https://nastavnabazagoc.netlify.app",
+      description:
+        "Teaching monorepo: Vue 3, Express, MySQL, and a RAG classroom assistant.",
+      descriptionSr:
+        "Nastavni monorepo: Vue 3, Express, MySQL i RAG asistent u učionici.",
+    },
+    {
+      label: "Quizi App",
+      href: "https://quizi-if-not-busy.netlify.app/",
+      description: "ITAcademy capstone — Vue 3 quiz app with Router and Pinia.",
+      descriptionSr:
+        "Završni rad ITAcademy — Vue 3 kviz aplikacija (Router, Pinia).",
+    },
+    {
+      label: "Open Meteo",
+      href: "https://openmeteo.netlify.app/",
+      description: "Weather UI on Open-Meteo API (Nunjucks, jQuery, Bulma).",
+      descriptionSr:
+        "Vremenska aplikacija preko Open-Meteo API-ja (Nunjucks, jQuery, Bulma).",
+    },
+    {
+      label: "Weather Forecast",
+      href: "https://weatherforecastom.netlify.app/",
+      description: "Internship qualification task — API-driven weather frontend.",
+      descriptionSr:
+        "Kvalifikacioni zadatak za praksu — frontend nad weather API-jem.",
+    },
+    {
+      label: "Kuvar App",
+      href: "https://kuvar.netlify.app/",
+      description: "Vue 3 cookbook with hosted backend and MySQL.",
+      descriptionSr:
+        "Vue 3 kuvar aplikacija sa hostovanim backendom i MySQL bazom.",
+    },
+    {
+      label: "Gemini Models List App",
+      href: "https://github.com/Newbluewood/Gemini-Models-List-App",
+      description:
+        "Catalog and playground for 52 Google Gemini models (Express proxy).",
+      descriptionSr: "Katalog i playground za 52 Gemini modela (Express proxy).",
+    },
   ],
 };

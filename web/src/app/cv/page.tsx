@@ -57,9 +57,9 @@ export default async function CvPage() {
               <CvAvatar name={name} photo={photo} />
             </div>
 
-            <div>
+            <div className="print:mb-[1px]">
               <SectionTitle as="h2"><T en="About me" sr="O meni" /></SectionTitle>
-              <p className="text-sm leading-relaxed text-zinc-300 print:text-zinc-800 print:text-xs print:leading-snug">
+              <p className="text-sm leading-[1.79] text-zinc-300 print:text-zinc-800 print:text-xs print:leading-[1.51]">
                 <T en={cvData.about} sr={cvData.aboutSr ?? cvData.about} />
               </p>
             </div>
@@ -217,9 +217,9 @@ export default async function CvPage() {
 
             <section>
               <SectionTitle><T en="Portfolio" sr="Portfolio" /></SectionTitle>
-              <ul className="flex flex-col gap-2 text-sm print:gap-0.5 print:text-xs">
+              <ul className="flex flex-col gap-2.5 text-sm print:gap-1 print:text-xs">
                 {cvData.portfolioLinks.map((p) => (
-                  <li key={p.href}>
+                  <li key={p.href} className="space-y-0.5 print:space-y-0">
                     <a
                       href={p.href}
                       target="_blank"
@@ -228,6 +228,14 @@ export default async function CvPage() {
                     >
                       {p.label}
                     </a>
+                    {p.description ? (
+                      <p className="text-xs leading-snug text-zinc-500 print:text-[10px] print:leading-tight print:text-zinc-600">
+                        <T
+                          en={p.description}
+                          sr={p.descriptionSr ?? p.description}
+                        />
+                      </p>
+                    ) : null}
                   </li>
                 ))}
               </ul>

@@ -44,7 +44,6 @@ export const t = {
       envHint: "Set NEXT_PUBLIC_GITHUB_URL in your env to show a profile link here.",
     },
     cv: {
-      editHint: 'Edit CV content in content/cv.json; override "Applying for" with CV_HEADLINE_APPLYING_FOR in .env.',
       printHint: "Printable A4-friendly layout — use Print from the browser.",
       applyingForClickToEdit: "Click to edit position title (this tab only)",
       applyingForInputLabel: "Position title for this application",
@@ -163,7 +162,6 @@ export const t = {
       envHint: "Podesi NEXT_PUBLIC_GITHUB_URL u .env da bi se prikazao link ka profilu.",
     },
     cv: {
-      editHint: "Sadržaj CV-ja menjaš u content/cv.json; polje \u201eApplying for\u201c možeš prepisati i preko CV_HEADLINE_APPLYING_FOR u .env.",
       printHint: "Raspored prilagođen A4 štampi — koristite Print u pregledaču.",
       applyingForClickToEdit: "Klikni da izmeniš naziv pozicije (samo u ovom tabu)",
       applyingForInputLabel: "Naziv pozicije za ovu prijavu",

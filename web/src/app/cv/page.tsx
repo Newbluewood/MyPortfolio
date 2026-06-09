@@ -46,12 +46,6 @@ export default async function CvPage() {
   return (
     <CvApplyingForProvider defaultHeadline={cvData.headlineApplyingFor}>
       <div className="mx-auto min-w-0 max-w-5xl px-4 py-12 sm:px-6 sm:py-16 print:max-w-none print:bg-white print:py-4 print:text-black">
-        <p className="mb-3 text-center text-xs text-zinc-500 print:hidden sm:text-left">
-          <T
-            en='Edit CV content in content/cv.json; override "Applying for" with CV_HEADLINE_APPLYING_FOR in .env.'
-            sr={"Sadržaj CV-ja menjaš u content/cv.json; polje \u201eApplying for\u201c možeš prepisati i preko CV_HEADLINE_APPLYING_FOR u .env."}
-          />
-        </p>
         <CvPrintButton />
 
       <article className="break-words overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] shadow-xl shadow-black/20 print:rounded-none print:border-0 print:bg-white print:shadow-none">

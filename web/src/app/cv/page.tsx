@@ -3,6 +3,10 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 
 import { CvAvatar } from "@/components/cv-avatar";
+import {
+  CvApplyingForHeadline,
+  CvApplyingForProvider,
+} from "@/components/cv-applying-for";
 import { CvPrintButton } from "@/components/cv-print-button";
 import { T } from "@/components/translated-text";
 import { getCvData } from "@/lib/cv-load";
@@ -40,14 +44,15 @@ export default async function CvPage() {
     cvData;
 
   return (
-    <div className="mx-auto min-w-0 max-w-5xl px-4 py-12 sm:px-6 sm:py-16 print:max-w-none print:bg-white print:py-4 print:text-black">
-      <p className="mb-3 text-center text-xs text-zinc-500 print:hidden sm:text-left">
-        <T
-          en='Edit CV content in content/cv.json; override "Applying for" with CV_HEADLINE_APPLYING_FOR in .env.'
-          sr={"Sadržaj CV-ja menjaš u content/cv.json; polje \u201eApplying for\u201c možeš prepisati i preko CV_HEADLINE_APPLYING_FOR u .env."}
-        />
-      </p>
-      <CvPrintButton />
+    <CvApplyingForProvider defaultHeadline={cvData.headlineApplyingFor}>
+      <div className="mx-auto min-w-0 max-w-5xl px-4 py-12 sm:px-6 sm:py-16 print:max-w-none print:bg-white print:py-4 print:text-black">
+        <p className="mb-3 text-center text-xs text-zinc-500 print:hidden sm:text-left">
+          <T
+            en='Edit CV content in content/cv.json; override "Applying for" with CV_HEADLINE_APPLYING_FOR in .env.'
+            sr={"Sadržaj CV-ja menjaš u content/cv.json; polje \u201eApplying for\u201c možeš prepisati i preko CV_HEADLINE_APPLYING_FOR u .env."}
+          />
+        </p>
+        <CvPrintButton />
 
       <article className="break-words overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] shadow-xl shadow-black/20 print:rounded-none print:border-0 print:bg-white print:shadow-none">
         <div className="grid min-w-0 md:grid-cols-[minmax(0,260px)_1fr] print:grid-cols-[210px_1fr]">
@@ -132,9 +137,7 @@ export default async function CvPage() {
                 <span className="shrink-0 text-sm text-zinc-500 print:text-zinc-600">
                   <T en="Applying for:" sr="Pozicija:" />
                 </span>
-                <p className="text-lg font-medium italic text-amber-400/95 print:text-amber-900 print:text-base">
-                  {cvData.headlineApplyingFor}
-                </p>
+                <CvApplyingForHeadline />
               </div>
             </header>
 
@@ -253,6 +256,7 @@ export default async function CvPage() {
           </div>
         </div>
       </article>
-    </div>
+      </div>
+    </CvApplyingForProvider>
   );
 }

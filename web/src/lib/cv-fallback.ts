@@ -86,18 +86,6 @@ export const cvDataFallback: CvData = {
       ],
     },
     {
-      institution: "ITAcademy – Frontend JavaScript Development",
-      period: "Nov 2023 – Jul 2024",
-      bullets: [
-        "Advanced JS, CSS, HTML, TypeScript",
-        "REST API, Express, Vue, React, Angular",
-      ],
-      bulletsSr: [
-        "Napredni JS, CSS, HTML, TypeScript",
-        "REST API, Express, Vue, React, Angular",
-      ],
-    },
-    {
       institution: "ITAcademy – AI & Python Development",
       period: "Nov 2024 – Jun 2026",
       bullets: [
@@ -107,6 +95,18 @@ export const cvDataFallback: CvData = {
       bulletsSr: [
         "OOP Python, analiza i vizuelizacija podataka",
         "Cloud data inženjering, mašinsko učenje",
+      ],
+    },
+    {
+      institution: "ITAcademy – Frontend JavaScript Development",
+      period: "Nov 2023 – Jul 2024",
+      bullets: [
+        "Advanced JS, CSS, HTML, TypeScript",
+        "REST API, Express, Vue, React, Angular",
+      ],
+      bulletsSr: [
+        "Napredni JS, CSS, HTML, TypeScript",
+        "REST API, Express, Vue, React, Angular",
       ],
     },
     {

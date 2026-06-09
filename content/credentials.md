@@ -2,7 +2,7 @@
 
 **Nebojša Simović** keeps scanned **diplomas**, **certificates**, and **letters of appreciation** on this portfolio. They appear on the [**home page**](/) at the bottom (**Diplomas & certificates** — compact row of cards). The [**/cv**](/cv) page stays text-only for printing. Each item opens as an image or PDF from `/credentials/`.
 
-The chat assistant should use this page when users ask about: **diploma**, **degree**, **sertifikat**, **certificate**, **ITAcademy**, **UKISAI**, **ENON**, **ZenHire**, **hackathon**, **Atrijum**, **Šumarski fakultet**, **wood processing**, **TMP**, **prerada drveta**, or **what proof of education exists on the site**.
+The chat assistant should use this page when users ask about: **diploma**, **degree**, **sertifikat**, **certificate**, **ITAcademy**, **UKISAI**, **ENON**, **ZenHire**, **hackathon**, **Atrijum**, **PDP**, **Personal Development Program**, **LINK group**, **Šumarski fakultet**, **wood processing**, **TMP**, **prerada drveta**, or **what proof of education exists on the site**.
 
 ## Diplomas
 
@@ -16,6 +16,7 @@ The chat assistant should use this page when users ask about: **diploma**, **deg
 | Document | Details |
 |----------|---------|
 | **ITAcademy — Certified JavaScript Developer** | `/credentials/certified-javascript-developer.jpg` (2024). |
+| **LINK group — Personal Development Program (PDP)** | `/credentials/pdp-link-group.jpg` (Oct 2024). |
 | **ITAcademy — AI & Python Development (attendance)** | One-year program: `/credentials/ita-ai-python-attendance.jpg` (Jun 2026). |
 | **ITAcademy — Certified Python Data Analyst** | `/credentials/ita-certified-python-data-analyst.jpg` (Jun 2026). |
 | **UKISAI Academy — AI Bootcamp** | Completion certificate: `/credentials/ukisai-bootcamp.jpg` (2026). |

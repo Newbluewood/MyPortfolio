@@ -18,8 +18,8 @@ export const cvDataFallback: CvData = {
     location: "Belgrade, Serbia",
     locationSr: "Beograd, Srbija",
     linkedIn: {
-      href: "https://www.linkedin.com/in/nebojsa-simovic-68258612",
-      label: "linkedin.com/in/nebojsa-simovic-68258612",
+      href: "https://www.linkedin.com/in/nebojsa-simovic",
+      label: "linkedin.com/in/nebojsa-simovic",
     },
     github: {
       href: "https://github.com/Newbluewood",

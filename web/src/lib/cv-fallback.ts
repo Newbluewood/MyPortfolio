@@ -28,6 +28,22 @@ export const cvDataFallback: CvData = {
   },
   experience: [
     {
+      company: "Nastavna Baza Goc (GitHub Project)",
+      period: "May 2026",
+      roleTitle: "Full Stack & AI Integration",
+      roleTitleSr: "Full Stack i AI integracija",
+      bullets: [
+        "Monorepo: Vue 3 + Vite frontend and Node.js/Express backend (MySQL, Qdrant, OpenAI, JWT).",
+        "Maintained multi-branch repo and implemented frontend features across multiple sprints.",
+        "Integrated a chat agent microservice with RAG pipeline on the backend.",
+      ],
+      bulletsSr: [
+        "Monorepo: Vue 3 + Vite frontend i Node.js/Express backend (MySQL, Qdrant, OpenAI, JWT).",
+        "Održavao repo sa više grana i implementirao frontend funkcionalnosti kroz više sprintova.",
+        "Integrisao mikroservis chat agenta sa RAG pipeline-om na backend strani.",
+      ],
+    },
+    {
       company: "ZenHire AI Coding Hackathon (Startit x CDT Hub)",
       period: "Apr 2026 (48h)",
       roleTitle: "Hackathon Participant",
@@ -53,22 +69,6 @@ export const cvDataFallback: CvData = {
       bulletsSr: [
         "Vue.js, Router/Pinia, VueUse, MySQL",
         "Praktične frontend tehnike i timski rad na projektu",
-      ],
-    },
-    {
-      company: "Nastavna Baza Goc (GitHub Project)",
-      period: "May 2026",
-      roleTitle: "Full Stack & AI Integration",
-      roleTitleSr: "Full Stack i AI integracija",
-      bullets: [
-        "Monorepo: Vue 3 + Vite frontend and Node.js/Express backend (MySQL, Qdrant, OpenAI, JWT).",
-        "Maintained multi-branch repo and implemented frontend features across multiple sprints.",
-        "Integrated a chat agent microservice with RAG pipeline on the backend.",
-      ],
-      bulletsSr: [
-        "Monorepo: Vue 3 + Vite frontend i Node.js/Express backend (MySQL, Qdrant, OpenAI, JWT).",
-        "Održavao repo sa više grana i implementirao frontend funkcionalnosti kroz više sprintova.",
-        "Integrisao mikroservis chat agenta sa RAG pipeline-om na backend strani.",
       ],
     },
   ],

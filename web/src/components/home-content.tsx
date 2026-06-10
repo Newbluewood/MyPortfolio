@@ -105,24 +105,26 @@ export function HomeContent({
       </section>
 
       {about ? (
-        <Section
-          compact
-          id="about"
-          eyebrow={T.home.aboutEyebrow}
-          title={T.home.aboutTitle}
-        >
-          <ReactMarkdown>{about}</ReactMarkdown>
-          <p className="mt-6 text-sm text-zinc-400">
-            <Link
-              href="https://my-portfolio-newbluewoods-projects.vercel.app/cv"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-cyan-400/90 underline-offset-4 hover:text-cyan-300 hover:underline"
-            >
-              {T.home.aboutPortfolioCvLink}
-            </Link>
-          </p>
-        </Section>
+        <>
+          <Section
+            compact
+            id="about"
+            eyebrow={T.home.aboutEyebrow}
+            title={T.home.aboutTitle}
+          >
+            <ReactMarkdown>{about}</ReactMarkdown>
+          </Section>
+          <div className="mx-auto max-w-5xl border-b border-white/10 px-4 pb-10 sm:px-6 sm:pb-12">
+            <div className="max-w-3xl">
+              <Link
+                href="/cv"
+                className="inline-flex items-center justify-center rounded-full border border-cyan-500/30 bg-cyan-500/10 px-5 py-2.5 text-sm font-medium text-cyan-300 transition hover:bg-cyan-500/20 hover:text-cyan-200"
+              >
+                {T.home.aboutPortfolioCvLink} →
+              </Link>
+            </div>
+          </div>
+        </>
       ) : null}
 
       {skills ? (

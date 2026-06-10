@@ -7,3 +7,5 @@ Beyond code: I'm **married with one child**, stay active with **CrossFit** (abou
 This site pulls **live project metadata from GitHub**, adds optional **Netlify** hints when you configure a token, hosts a printable **CV** at [`/cv`](/cv), and shows scanned **diplomas and certificates** in the [**Diplomas & certificates**](#credentials) section at the bottom of this page. The floating **assistant** is not a generic chatbot: it uses **retrieval‑augmented generation (RAG)** over curated Markdown under `content/` in this repo (including this file) plus ingested **README** snapshots, so answers stay grounded in what you’ve actually written.
 
 If you’re skimming quickly: start at [**Projects**](/projects) for repos, **[Lab](/test-animation)** for deploy links, [**Diplomas & certificates**](#credentials) below for scans, [**CV**](/cv) for a printable resume, and [**Contact**](/contact) to reach out.
+
+**[My Portfolio — CV](/cv)**

@@ -61,13 +61,12 @@ export default async function CvPage() {
               <p className="text-sm leading-[1.79] text-zinc-300 print:text-zinc-800 print:text-xs print:leading-[1.51]">
                 <T en={cvData.about} sr={cvData.aboutSr ?? cvData.about} />
               </p>
-              <p className="mt-3 text-sm font-medium leading-relaxed text-zinc-300 print:mt-2.5 print:text-[11px] print:font-semibold print:leading-snug print:text-zinc-900">
-                <T en="My Portfolio" sr="Moj portfolio" />:{" "}
+              <p className="mt-3 print:mt-2.5">
                 <a
                   href="https://my-portfolio-newbluewoods-projects.vercel.app/"
-                  className="text-cyan-400 underline underline-offset-2 hover:text-cyan-300 print:text-cyan-800 print:underline"
+                  className="text-sm font-medium text-cyan-400 underline underline-offset-2 hover:text-cyan-300 print:text-[11px] print:font-semibold print:text-cyan-800 print:underline"
                 >
-                  my-portfolio-newbluewoods-projects.vercel.app
+                  <T en="My Portfolio" sr="Moj portfolio" />
                 </a>
               </p>
             </div>

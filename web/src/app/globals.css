@@ -23,6 +23,13 @@ body {
     size: A4 portrait;
     margin: 5mm 8mm;
   }
+
+  /* Keep CV hyperlinks visible and clickable in browser PDF export */
+  article a[href] {
+    color: #155e75 !important;
+    text-decoration: underline !important;
+    text-underline-offset: 2px;
+  }
 }
 
 /* Chat dock: thin scrollbar aligned with dark panel (Firefox + WebKit) */

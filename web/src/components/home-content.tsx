@@ -112,6 +112,16 @@ export function HomeContent({
           title={T.home.aboutTitle}
         >
           <ReactMarkdown>{about}</ReactMarkdown>
+          <p className="mt-6 text-sm text-zinc-400">
+            <Link
+              href="https://my-portfolio-newbluewoods-projects.vercel.app/cv"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-cyan-400/90 underline-offset-4 hover:text-cyan-300 hover:underline"
+            >
+              {T.home.aboutPortfolioCvLink}
+            </Link>
+          </p>
         </Section>
       ) : null}
 

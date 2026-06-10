@@ -105,26 +105,14 @@ export function HomeContent({
       </section>
 
       {about ? (
-        <>
-          <Section
-            compact
-            id="about"
-            eyebrow={T.home.aboutEyebrow}
-            title={T.home.aboutTitle}
-          >
-            <ReactMarkdown>{about}</ReactMarkdown>
-          </Section>
-          <div className="mx-auto max-w-5xl border-b border-white/10 px-4 pb-10 sm:px-6 sm:pb-12">
-            <div className="max-w-3xl">
-              <Link
-                href="/cv"
-                className="inline-flex items-center justify-center rounded-full border border-cyan-500/30 bg-cyan-500/10 px-5 py-2.5 text-sm font-medium text-cyan-300 transition hover:bg-cyan-500/20 hover:text-cyan-200"
-              >
-                {T.home.aboutPortfolioCvLink} →
-              </Link>
-            </div>
-          </div>
-        </>
+        <Section
+          compact
+          id="about"
+          eyebrow={T.home.aboutEyebrow}
+          title={T.home.aboutTitle}
+        >
+          <ReactMarkdown>{about}</ReactMarkdown>
+        </Section>
       ) : null}
 
       {skills ? (

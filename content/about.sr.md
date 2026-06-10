@@ -7,5 +7,3 @@ Van koda: **oženjen sam, imam jedno dete**, redovno treniram (**CrossFit** oko 
 Ovaj sajt povlači **live metapodatke projekata sa GitHub-a**, dodaje opcione **Netlify** podatke kada je token konfigurisan, hostuje **CV** za štampu na [`/cv`](/cv), a skenove **diploma i sertifikata** prikazuje u odeljku [**Diplome i sertifikati**](#credentials) pri dnu ove stranice. Plutajući **asistent** nije generički čatbot: koristi **retrieval‑augmented generation (RAG)** nad odabranim Markdown fajlovima iz `content/` ovog repozitorijuma (uključujući ovaj fajl) i ingestovanim **README** snimcima, tako da odgovori ostaju zasnovani na onome što je zaista napisano.
 
 Ako prolazite brzo: počnite od [**Projekata**](/projects) za repoe, **[Lab](/test-animation)** za deploy linkove, odeljka [**Diplome i sertifikati**](#credentials) ispod za skenove, [**CV**](/cv) za štampljivi rezime, i [**Kontakta**](/contact) da stupite u vezu.
-
-**[Moj portfolio — CV](/cv)**

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import Link from "next/link";
 
 import { CvAvatar } from "@/components/cv-avatar";
 import {
@@ -10,6 +9,7 @@ import {
 import { CvPrintButton } from "@/components/cv-print-button";
 import { T } from "@/components/translated-text";
 import { getCvData } from "@/lib/cv-load";
+import { siteOrigin } from "@/lib/site-url";
 import {
   cvSkillBadgeClass,
   cvSkillCategory,
@@ -40,6 +40,7 @@ function SectionTitle({
 
 export default async function CvPage() {
   const cvData = await getCvData();
+  const origin = siteOrigin();
   const { photo, name, contact, languages, experience, education, skills } =
     cvData;
 
@@ -98,7 +99,7 @@ export default async function CvPage() {
                   Email:{" "}
                   <a
                     href={`mailto:${contact.email}`}
-                    className="text-cyan-400 underline-offset-2 hover:underline print:text-cyan-800"
+                    className="text-cyan-400 underline underline-offset-2 hover:text-cyan-300 print:text-cyan-800 print:underline"
                   >
                     {contact.email}
                   </a>
@@ -107,9 +108,7 @@ export default async function CvPage() {
                   LinkedIn:{" "}
                   <a
                     href={contact.linkedIn.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-cyan-400 underline-offset-2 hover:underline print:text-cyan-800"
+                    className="text-cyan-400 underline underline-offset-2 hover:text-cyan-300 print:text-cyan-800 print:underline"
                   >
                     {contact.linkedIn.label}
                   </a>
@@ -118,9 +117,7 @@ export default async function CvPage() {
                   GitHub:{" "}
                   <a
                     href={contact.github.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-cyan-400 underline-offset-2 hover:underline print:text-cyan-800"
+                    className="text-cyan-400 underline underline-offset-2 hover:text-cyan-300 print:text-cyan-800 print:underline"
                   >
                     {contact.github.label}
                   </a>
@@ -227,9 +224,7 @@ export default async function CvPage() {
                   <li key={p.href} className="space-y-0.5 print:space-y-0">
                     <a
                       href={p.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-cyan-400 underline-offset-2 hover:underline print:text-cyan-800"
+                      className="text-cyan-400 underline underline-offset-2 hover:text-cyan-300 print:text-cyan-800 print:underline"
                     >
                       {p.label}
                     </a>
@@ -246,12 +241,12 @@ export default async function CvPage() {
               </ul>
               <p className="mt-4 text-xs text-zinc-500 print:text-zinc-600 print:mt-1">
                 <T en="More projects at" sr="Više projekata na" />{" "}
-                <Link
-                  href="/projects"
-                  className="text-cyan-400/90 underline-offset-2 hover:underline print:text-cyan-800"
+                <a
+                  href={`${origin}/projects`}
+                  className="text-cyan-400/90 underline underline-offset-2 hover:text-cyan-300 print:text-cyan-800 print:underline"
                 >
                   /projects
-                </Link>
+                </a>
                 .
               </p>
             </section>

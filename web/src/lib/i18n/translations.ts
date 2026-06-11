@@ -44,7 +44,9 @@ export const t = {
       envHint: "Set NEXT_PUBLIC_GITHUB_URL in your env to show a profile link here.",
     },
     cv: {
-      printHint: "Printable A4-friendly layout — use Print from the browser.",
+      exportPdf: "Export PDF",
+      printHint:
+        "For clickable links in the PDF: in Chrome or Edge choose Destination → Save as PDF (not Microsoft Print to PDF). Set Margins → None and turn off Headers and footers.",
       applyingForClickToEdit: "Click to edit position title (this tab only)",
       applyingForInputLabel: "Position title for this application",
       aboutMe: "About me",
@@ -162,7 +164,9 @@ export const t = {
       envHint: "Podesi NEXT_PUBLIC_GITHUB_URL u .env da bi se prikazao link ka profilu.",
     },
     cv: {
-      printHint: "Raspored prilagođen A4 štampi — koristite Print u pregledaču.",
+      exportPdf: "Export PDF",
+      printHint:
+        "Da linkovi u PDF-u budu klikabilni: u Chrome-u ili Edge-u izaberi Odredište → Sačuvaj kao PDF (ne Microsoft Print to PDF). Margine → Nema, isključi zaglavlja i podnožja.",
       applyingForClickToEdit: "Klikni da izmeniš naziv pozicije (samo u ovom tabu)",
       applyingForInputLabel: "Naziv pozicije za ovu prijavu",
       aboutMe: "O meni",

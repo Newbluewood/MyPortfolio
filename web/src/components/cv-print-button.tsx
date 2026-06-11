@@ -1,8 +1,12 @@
 "use client";
 
+import { useLang } from "@/lib/i18n/context";
+
 export function CvPrintButton() {
+  const { T } = useLang();
+
   return (
-    <div className="mb-6 flex flex-wrap items-center gap-3 print:hidden">
+    <div className="mb-6 flex flex-col gap-2 print:hidden sm:flex-row sm:flex-wrap sm:items-start sm:gap-3">
       <button
         onClick={() => {
           const prev = document.title;
@@ -10,7 +14,7 @@ export function CvPrintButton() {
           window.print();
           document.title = prev;
         }}
-        className="inline-flex items-center gap-2 rounded-lg border border-cyan-500/30 bg-cyan-500/10 px-4 py-2 text-sm font-medium text-cyan-300 transition hover:bg-cyan-500/20 hover:text-cyan-200 active:scale-95"
+        className="inline-flex shrink-0 items-center gap-2 rounded-lg border border-cyan-500/30 bg-cyan-500/10 px-4 py-2 text-sm font-medium text-cyan-300 transition hover:bg-cyan-500/20 hover:text-cyan-200 active:scale-95"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -28,11 +32,11 @@ export function CvPrintButton() {
           <polyline points="7 10 12 15 17 10" />
           <line x1="12" y1="15" x2="12" y2="3" />
         </svg>
-        Export PDF
+        {T.cv.exportPdf}
       </button>
-      <span className="text-xs text-zinc-500">
-        In the print dialog: Margins → None, uncheck Headers and footers.
-      </span>
+      <p className="max-w-xl text-xs leading-relaxed text-zinc-500">
+        {T.cv.printHint}
+      </p>
     </div>
   );
 }

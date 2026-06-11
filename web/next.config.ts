@@ -7,8 +7,6 @@ loadEnvConfig(repoRoot);
 loadEnvConfig(path.resolve(__dirname));
 
 const nextConfig: NextConfig = {
-  serverExternalPackages: ["@sparticuz/chromium", "puppeteer-core"],
-
   async redirects() {
     return [
       {

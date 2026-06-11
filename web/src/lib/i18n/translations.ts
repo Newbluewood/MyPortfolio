@@ -44,12 +44,9 @@ export const t = {
       envHint: "Set NEXT_PUBLIC_GITHUB_URL in your env to show a profile link here.",
     },
     cv: {
-      exportPdf: "Download PDF",
-      exportPdfBusy: "Generating PDF…",
-      printManually: "Print manually",
-      pdfDownloadFailed: "PDF download failed. Try Print manually below.",
+      exportPdf: "Export PDF",
       printHint:
-        "Download PDF uses zero page margins with clickable links. Manual print: Edge → Save as PDF, Margins → None, Headers and footers off.",
+        "In the print dialog: Destination → Save as PDF, Margins → None, turn off Headers and footers.",
       applyingForClickToEdit: "Click to edit position title (this tab only)",
       applyingForInputLabel: "Position title for this application",
       aboutMe: "About me",
@@ -167,12 +164,9 @@ export const t = {
       envHint: "Podesi NEXT_PUBLIC_GITHUB_URL u .env da bi se prikazao link ka profilu.",
     },
     cv: {
-      exportPdf: "Preuzmi PDF",
-      exportPdfBusy: "Generišem PDF…",
-      printManually: "Štampaj ručno",
-      pdfDownloadFailed: "Preuzimanje PDF-a nije uspelo. Probaj Štampaj ručno ispod.",
+      exportPdf: "Export PDF",
       printHint:
-        "Preuzmi PDF koristi nulte margine stranice i klikabilne linkove. Ručna štampa: Edge → Sačuvaj kao PDF, Margine → Nema, isključi zaglavlja i podnožja.",
+        "U dijalogu za štampu: Odredište → Sačuvaj kao PDF, Margine → Nema, isključi zaglavlja i podnožja.",
       applyingForClickToEdit: "Klikni da izmeniš naziv pozicije (samo u ovom tabu)",
       applyingForInputLabel: "Naziv pozicije za ovu prijavu",
       aboutMe: "O meni",

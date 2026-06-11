@@ -2,11 +2,5 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
   "installCommand": "npm install --no-audit --no-fund",
-  "buildCommand": "npm run build",
-  "functions": {
-    "src/app/api/cv/pdf/route.ts": {
-      "maxDuration": 60,
-      "memory": 1024
-    }
-  }
+  "buildCommand": "npm run build"
 }

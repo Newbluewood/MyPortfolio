@@ -142,6 +142,14 @@ export const cvDataFallback: CvData = {
         "Nastavni monorepo: Vue 3, Express, MySQL i RAG asistent u učionici.",
     },
     {
+      label: "ZenHire AI Coding Hackathon (Startit)",
+      href: "https://station-recall-game.lovable.app/",
+      description:
+        "48-hour hackathon — AI game prototype with hiring and psychometric mechanics.",
+      descriptionSr:
+        "48h hakaton — prototip AI igre sa zapošljavanjem i psihometrijom.",
+    },
+    {
       label: "Kuvar App",
       href: "https://kuvar.netlify.app/",
       description: "Vue 3 cookbook with hosted backend and MySQL.",
@@ -161,6 +169,13 @@ export const cvDataFallback: CvData = {
       description: "Internship qualification task — API-driven weather frontend.",
       descriptionSr:
         "Kvalifikacioni zadatak za praksu — frontend nad weather API-jem.",
+    },
+    {
+      label: "Open Meteo",
+      href: "https://openmeteo.netlify.app/",
+      description: "Weather UI on Open-Meteo API (Nunjucks, jQuery, Bulma).",
+      descriptionSr:
+        "Vremenska aplikacija preko Open-Meteo API-ja (Nunjucks, jQuery, Bulma).",
     },
   ],
 };

@@ -65,7 +65,7 @@ export default async function CvPage() {
               <p className="mt-3 print:mt-2.5">
                 <a
                   href={`${origin}/`}
-                  className="text-sm font-medium text-cyan-400 underline underline-offset-2 hover:text-cyan-300 print:text-[11px] print:font-semibold print:text-cyan-800 print:underline"
+                  className="text-sm font-medium text-cyan-400 no-underline hover:text-cyan-300 print:text-[11px] print:font-semibold print:text-cyan-800"
                 >
                   <T en="My Portfolio" sr="Moj portfolio" />
                 </a>
@@ -99,7 +99,7 @@ export default async function CvPage() {
                   Email:{" "}
                   <a
                     href={`mailto:${contact.email}`}
-                    className="text-cyan-400 underline underline-offset-2 hover:text-cyan-300 print:text-cyan-800 print:underline"
+                    className="text-cyan-400 no-underline hover:text-cyan-300 print:text-cyan-800"
                   >
                     {contact.email}
                   </a>
@@ -108,7 +108,7 @@ export default async function CvPage() {
                   LinkedIn:{" "}
                   <a
                     href={contact.linkedIn.href}
-                    className="text-cyan-400 underline underline-offset-2 hover:text-cyan-300 print:text-cyan-800 print:underline"
+                    className="text-cyan-400 no-underline hover:text-cyan-300 print:text-cyan-800"
                   >
                     {contact.linkedIn.label}
                   </a>
@@ -117,7 +117,7 @@ export default async function CvPage() {
                   GitHub:{" "}
                   <a
                     href={contact.github.href}
-                    className="text-cyan-400 underline underline-offset-2 hover:text-cyan-300 print:text-cyan-800 print:underline"
+                    className="text-cyan-400 no-underline hover:text-cyan-300 print:text-cyan-800"
                   >
                     {contact.github.label}
                   </a>
@@ -224,7 +224,7 @@ export default async function CvPage() {
                   <li key={p.href} className="space-y-0.5 print:space-y-0">
                     <a
                       href={p.href}
-                      className="text-cyan-400 underline underline-offset-2 hover:text-cyan-300 print:text-cyan-800 print:underline"
+                      className="text-cyan-400 no-underline hover:text-cyan-300 print:text-cyan-800"
                     >
                       {p.label}
                     </a>
@@ -243,7 +243,7 @@ export default async function CvPage() {
                 <T en="More projects at" sr="Više projekata na" />{" "}
                 <a
                   href={`${origin}/projects`}
-                  className="text-cyan-400/90 underline underline-offset-2 hover:text-cyan-300 print:text-cyan-800 print:underline"
+                  className="text-cyan-400/90 no-underline hover:text-cyan-300 print:text-cyan-800"
                 >
                   /projects
                 </a>

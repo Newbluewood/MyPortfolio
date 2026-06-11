@@ -75,8 +75,7 @@ body {
 
   .cv-print-root article a[href] {
     color: #155e75 !important;
-    text-decoration: underline !important;
-    text-underline-offset: 2px;
+    text-decoration: none !important;
   }
 }
 

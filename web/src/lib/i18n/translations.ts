@@ -49,7 +49,7 @@ export const t = {
       printManually: "Print manually",
       pdfDownloadFailed: "PDF download failed. Try Print manually below.",
       printHint:
-        "Download PDF keeps clickable links. Manual print: Edge → Save as PDF (not Microsoft Print to PDF), Margins → None, Headers and footers off.",
+        "Download PDF uses zero page margins with clickable links. Manual print: Edge → Save as PDF, Margins → None, Headers and footers off.",
       applyingForClickToEdit: "Click to edit position title (this tab only)",
       applyingForInputLabel: "Position title for this application",
       aboutMe: "About me",
@@ -172,7 +172,7 @@ export const t = {
       printManually: "Štampaj ručno",
       pdfDownloadFailed: "Preuzimanje PDF-a nije uspelo. Probaj Štampaj ručno ispod.",
       printHint:
-        "Preuzmi PDF zadržava klikabilne linkove. Ručna štampa: Edge → Sačuvaj kao PDF (ne Microsoft Print to PDF), Margine → Nema, isključi zaglavlja i podnožja.",
+        "Preuzmi PDF koristi nulte margine stranice i klikabilne linkove. Ručna štampa: Edge → Sačuvaj kao PDF, Margine → Nema, isključi zaglavlja i podnožja.",
       applyingForClickToEdit: "Klikni da izmeniš naziv pozicije (samo u ovom tabu)",
       applyingForInputLabel: "Naziv pozicije za ovu prijavu",
       aboutMe: "O meni",

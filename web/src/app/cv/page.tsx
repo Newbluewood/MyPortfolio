@@ -46,7 +46,7 @@ export default async function CvPage() {
 
   return (
     <CvApplyingForProvider defaultHeadline={cvData.headlineApplyingFor}>
-      <div className="mx-auto min-w-0 max-w-5xl px-4 py-12 sm:px-6 sm:py-16 print:max-w-none print:bg-white print:py-4 print:text-black">
+      <div className="mx-auto min-w-0 max-w-5xl px-4 py-12 sm:px-6 sm:py-16 print:mx-0 print:max-w-none print:bg-white print:px-0 print:py-0 print:text-black">
         <CvPrintButton />
 
       <article className="break-words overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] shadow-xl shadow-black/20 print:rounded-none print:border-0 print:bg-white print:shadow-none">

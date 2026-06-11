@@ -11,9 +11,9 @@ function initials(name: string): string {
     .join("");
 }
 
-/** Portrait frame ~520×598 — full photo visible, no square crop. */
+/** Portrait frame — full photo, centered in the sidebar. */
 const frameClass =
-  "w-44 max-h-[13.5rem] overflow-hidden rounded-xl border-2 border-white/10 bg-zinc-900/40 shadow-lg print:w-[9.25rem] print:max-h-[10.5rem] print:border-black/20 print:bg-zinc-100";
+  "mx-auto block w-full max-w-[11.5rem] overflow-hidden rounded-xl border-2 border-white/10 bg-zinc-900/40 shadow-lg print:max-w-[10.5rem] print:border-zinc-300 print:bg-white print:shadow-md";
 
 export function CvAvatar({
   name,
@@ -44,8 +44,8 @@ export function CvAvatar({
     <img
       src={photo.src}
       alt={photo.alt}
-      width={176}
-      height={202}
+      width={168}
+      height={194}
       onError={onError}
       className={`${frameClass} h-auto object-contain object-center`}
     />

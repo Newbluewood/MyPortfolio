@@ -21,6 +21,7 @@ body {
 @media print {
   @page {
     size: A4 portrait;
+    margin: 10mm 12mm;
   }
 
   html {
@@ -53,23 +54,25 @@ body {
 
   .cv-print-root article {
     overflow: visible;
-    min-height: 277mm;
     background: #fff !important;
+    border: 1px solid #e4e4e7 !important;
+    box-shadow: none !important;
   }
 
   .cv-print-root .cv-print-grid {
-    min-height: 277mm;
     align-items: stretch;
   }
 
   .cv-print-root .cv-print-sidebar {
-    min-height: 277mm;
-    height: auto;
     align-self: stretch;
     background: #f4f4f5 !important;
+    border-right: 1px solid #d4d4d8 !important;
   }
 
-  /* Keep CV hyperlinks visible and clickable in browser PDF export */
+  .cv-print-root .cv-print-main {
+    background: #fff !important;
+  }
+
   .cv-print-root article a[href] {
     color: #155e75 !important;
     text-decoration: underline !important;

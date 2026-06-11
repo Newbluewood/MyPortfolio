@@ -32,7 +32,7 @@ function SectionTitle({
 }) {
   const TagEl = Tag;
   return (
-    <TagEl className="mb-3 w-full border-b border-white/15 pb-1 text-xs font-semibold uppercase tracking-[0.12em] text-cyan-400/90 print:border-black/20 print:mb-1 print:text-[11px] print:tracking-[0.15em] print:text-cyan-800">
+    <TagEl className="mb-3 w-full border-b border-white/15 pb-1 text-xs font-semibold uppercase tracking-[0.12em] text-cyan-400/90 print:mb-2 print:border-cyan-800/25 print:pb-1.5 print:text-[11px] print:tracking-[0.15em] print:text-cyan-800">
       {children}
     </TagEl>
   );
@@ -50,10 +50,10 @@ export default async function CvPage() {
         <CvPrintButton />
 
       <article className="break-words overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] shadow-xl shadow-black/20 print:overflow-visible print:rounded-none print:border-0 print:bg-white print:shadow-none">
-        <div className="cv-print-grid grid min-w-0 md:grid-cols-[minmax(0,260px)_1fr] print:grid-cols-[210px_1fr]">
+        <div className="cv-print-grid grid min-w-0 md:grid-cols-[minmax(0,260px)_1fr] print:grid-cols-[minmax(0,34%)_1fr]">
           {/* Left column */}
-          <aside className="cv-print-sidebar min-w-0 space-y-6 border-b border-white/10 bg-zinc-900/80 p-6 md:border-b-0 md:border-r md:border-white/10 print:border-black/15 print:bg-zinc-100 print:p-3 print:space-y-3">
-            <div className="flex justify-center md:justify-start print:justify-start">
+          <aside className="cv-print-sidebar min-w-0 space-y-6 border-b border-white/10 bg-zinc-900/80 p-6 md:border-b-0 md:border-r md:border-white/10 print:space-y-4 print:border-b-0 print:border-r print:border-zinc-300 print:bg-zinc-100 print:p-5">
+            <div className="flex justify-center md:justify-start print:justify-center">
               <CvAvatar name={name} photo={photo} />
             </div>
 
@@ -127,8 +127,8 @@ export default async function CvPage() {
           </aside>
 
           {/* Right column */}
-          <div className="min-w-0 space-y-8 p-6 md:p-8 print:p-3 print:space-y-3">
-            <header className="space-y-2 border-b border-white/10 pb-6 print:border-black/15 print:pb-2 print:space-y-0.5">
+          <div className="cv-print-main min-w-0 space-y-8 p-6 md:p-8 print:space-y-4 print:p-5">
+            <header className="space-y-2 border-b border-white/10 pb-6 print:border-zinc-300 print:pb-3 print:space-y-1">
               <h1 className="text-3xl font-bold tracking-tight text-white print:text-black print:text-[22px] sm:text-4xl">
                 {name}
               </h1>
@@ -142,11 +142,11 @@ export default async function CvPage() {
 
             <section>
               <SectionTitle><T en="Experience" sr="Iskustvo" /></SectionTitle>
-              <div className="space-y-6 print:space-y-2">
+              <div className="space-y-6 print:space-y-3">
                 {experience.map((job) => (
                   <div
                     key={job.company}
-                    className="grid gap-3 border-b border-white/5 pb-6 last:border-0 last:pb-0 sm:grid-cols-[minmax(0,40%)_1fr] print:border-black/10 print:pb-1.5 print:gap-1"
+                    className="grid gap-3 border-b border-white/5 pb-6 last:border-0 last:pb-0 sm:grid-cols-[minmax(0,40%)_1fr] print:gap-2 print:border-zinc-200 print:pb-2.5"
                   >
                     <div className="space-y-1 border-white/10 pr-0 sm:border-r sm:pr-4 print:border-black/15">
                       <h4 className="font-semibold text-white print:text-black print:text-[12px]">
@@ -177,11 +177,11 @@ export default async function CvPage() {
 
             <section>
               <SectionTitle><T en="Education &amp; Courses" sr="Obrazovanje i kursevi" /></SectionTitle>
-              <div className="space-y-6 print:space-y-2">
+              <div className="space-y-6 print:space-y-3">
                 {education.map((ed) => (
                   <div
                     key={ed.institution}
-                    className="grid gap-3 border-b border-white/5 pb-6 last:border-0 last:pb-0 sm:grid-cols-[minmax(0,40%)_1fr] print:border-black/10 print:pb-1.5 print:gap-1"
+                    className="grid gap-3 border-b border-white/5 pb-6 last:border-0 last:pb-0 sm:grid-cols-[minmax(0,40%)_1fr] print:gap-2 print:border-zinc-200 print:pb-2.5"
                   >
                     <div className="space-y-1 border-white/10 pr-0 sm:border-r sm:pr-4 print:border-black/15">
                       <h4 className="font-semibold text-white print:text-black print:text-[12px]">
@@ -205,7 +205,7 @@ export default async function CvPage() {
 
             <section>
               <SectionTitle><T en="Skills" sr="Veštine" /></SectionTitle>
-              <div className="flex flex-wrap gap-2 rounded-xl border border-white/5 bg-white/[0.02] p-3 print:border-black/10 print:bg-zinc-50 print:gap-1 print:p-2">
+              <div className="flex flex-wrap gap-2 rounded-xl border border-white/5 bg-white/[0.02] p-3 print:gap-1.5 print:border-zinc-200 print:bg-zinc-50 print:p-3">
                 {skills.map((s) => (
                   <span
                     key={s}

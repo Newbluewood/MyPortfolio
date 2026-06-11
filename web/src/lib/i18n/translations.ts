@@ -46,7 +46,7 @@ export const t = {
     cv: {
       exportPdf: "Export PDF",
       printHint:
-        "In the print dialog: Destination → Save as PDF, Margins → None, turn off Headers and footers.",
+        "Export PDF → Save as PDF. Margins: Default is fine (or None). Turn off Headers and footers.",
       applyingForClickToEdit: "Click to edit position title (this tab only)",
       applyingForInputLabel: "Position title for this application",
       aboutMe: "About me",
@@ -166,7 +166,7 @@ export const t = {
     cv: {
       exportPdf: "Export PDF",
       printHint:
-        "U dijalogu za štampu: Odredište → Sačuvaj kao PDF, Margine → Nema, isključi zaglavlja i podnožja.",
+        "Export PDF → Sačuvaj kao PDF. Margine: Default je OK (ili Nema). Isključi zaglavlja i podnožja.",
       applyingForClickToEdit: "Klikni da izmeniš naziv pozicije (samo u ovom tabu)",
       applyingForInputLabel: "Naziv pozicije za ovu prijavu",
       aboutMe: "O meni",

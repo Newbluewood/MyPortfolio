@@ -53,7 +53,7 @@ export default async function CvPage() {
         <div className="cv-print-grid grid min-w-0 md:grid-cols-[minmax(0,260px)_1fr] print:grid-cols-[minmax(0,34%)_1fr]">
           {/* Left column */}
           <aside className="cv-print-sidebar min-w-0 space-y-6 border-b border-white/10 bg-zinc-900/80 p-6 md:border-b-0 md:border-r md:border-white/10 print:space-y-4 print:border-b-0 print:border-r print:border-zinc-300 print:bg-zinc-100 print:p-5">
-            <div className="flex justify-center md:justify-start print:justify-center">
+            <div className="w-full">
               <CvAvatar name={name} photo={photo} />
             </div>
 

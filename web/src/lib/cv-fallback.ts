@@ -44,20 +44,6 @@ export const cvDataFallback: CvData = {
       ],
     },
     {
-      company: "ZenHire AI Coding Hackathon (Startit x CDT Hub)",
-      period: "Apr 2026 (48h)",
-      roleTitle: "Hackathon Participant",
-      roleTitleSr: "Učesnik hakatona",
-      bullets: [
-        "Built an AI-driven game prototype with hiring and psychometric mechanics during a 48-hour sprint.",
-        "Collaborated in a fast vibe-coding workflow and delivered a functional demo under deadline pressure.",
-      ],
-      bulletsSr: [
-        "Napravio prototip AI igre sa mehanizmima zapošljavanja i psihometrije tokom 48-satnog sprinta.",
-        "Sarađivao u brzom vibe-coding toku rada i isporučio funkcionalan demo pod vremenskim pritiskom.",
-      ],
-    },
-    {
       company: "IT Practice Center – ENON Solutions",
       period: "Nov 2024 – Feb 2025",
       roleTitle: "Web Development",
@@ -141,12 +127,11 @@ export const cvDataFallback: CvData = {
   ],
   portfolioLinks: [
     {
-      label: "ZenHire AI Coding Hackathon (Startit)",
-      href: "https://startit.rs/zenhire-ai-coding-hackathon-gradi-igru-koja-zaposljava-48-sati-vibe-codinga-i-psihometrije-25-i-26-aprila-u-cdt-hub-u-u-beogradu/",
+      label: "Gemini Models List App",
+      href: "https://github.com/Newbluewood/Gemini-Models-List-App",
       description:
-        "48-hour hackathon — AI game prototype with hiring and psychometric mechanics.",
-      descriptionSr:
-        "48h hakaton — prototip AI igre sa zapošljavanjem i psihometrijom.",
+        "Catalog and playground for 52 Google Gemini models (Express proxy).",
+      descriptionSr: "Katalog i playground za 52 Gemini modela (Express proxy).",
     },
     {
       label: "Nastavna Baza Goc",
@@ -157,27 +142,6 @@ export const cvDataFallback: CvData = {
         "Nastavni monorepo: Vue 3, Express, MySQL i RAG asistent u učionici.",
     },
     {
-      label: "Quizi App",
-      href: "https://quizi-if-not-busy.netlify.app/",
-      description: "ITAcademy capstone — Vue 3 quiz app with Router and Pinia.",
-      descriptionSr:
-        "Završni rad ITAcademy — Vue 3 kviz aplikacija (Router, Pinia).",
-    },
-    {
-      label: "Open Meteo",
-      href: "https://openmeteo.netlify.app/",
-      description: "Weather UI on Open-Meteo API (Nunjucks, jQuery, Bulma).",
-      descriptionSr:
-        "Vremenska aplikacija preko Open-Meteo API-ja (Nunjucks, jQuery, Bulma).",
-    },
-    {
-      label: "Weather Forecast",
-      href: "https://weatherforecastom.netlify.app/",
-      description: "Internship qualification task — API-driven weather frontend.",
-      descriptionSr:
-        "Kvalifikacioni zadatak za praksu — frontend nad weather API-jem.",
-    },
-    {
       label: "Kuvar App",
       href: "https://kuvar.netlify.app/",
       description: "Vue 3 cookbook with hosted backend and MySQL.",
@@ -185,11 +149,18 @@ export const cvDataFallback: CvData = {
         "Vue 3 kuvar aplikacija sa hostovanim backendom i MySQL bazom.",
     },
     {
-      label: "Gemini Models List App",
-      href: "https://github.com/Newbluewood/Gemini-Models-List-App",
-      description:
-        "Catalog and playground for 52 Google Gemini models (Express proxy).",
-      descriptionSr: "Katalog i playground za 52 Gemini modela (Express proxy).",
+      label: "Quizi App",
+      href: "https://quizi-if-not-busy.netlify.app/",
+      description: "ITAcademy capstone — Vue 3 quiz app with Router and Pinia.",
+      descriptionSr:
+        "Završni rad ITAcademy — Vue 3 kviz aplikacija (Router, Pinia).",
+    },
+    {
+      label: "Weather Forecast",
+      href: "https://weatherforecastom.netlify.app/",
+      description: "Internship qualification task — API-driven weather frontend.",
+      descriptionSr:
+        "Kvalifikacioni zadatak za praksu — frontend nad weather API-jem.",
     },
   ],
 };

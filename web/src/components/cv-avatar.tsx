@@ -11,9 +11,9 @@ function initials(name: string): string {
     .join("");
 }
 
-/** Portrait frame — full photo, centered in the sidebar. */
+/** Portrait frame — full sidebar width, left-aligned with text below. */
 const frameClass =
-  "mx-auto block w-full max-w-[11.5rem] overflow-hidden rounded-xl border-2 border-white/10 bg-zinc-900/40 shadow-lg print:max-w-[10.5rem] print:border-zinc-300 print:bg-white print:shadow-md";
+  "block w-full overflow-hidden rounded-xl border-2 border-white/10 bg-zinc-900/40 shadow-lg print:border-zinc-300 print:bg-white print:shadow-md";
 
 export function CvAvatar({
   name,

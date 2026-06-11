@@ -21,17 +21,11 @@ body {
 @media print {
   @page {
     size: A4 portrait;
-    margin: 0;
-  }
-
-  html,
-  body,
-  main {
-    margin: 0 !important;
-    padding: 0 !important;
   }
 
   body {
+    display: block !important;
+    min-height: auto !important;
     font-family: system-ui, -apple-system, "Segoe UI", sans-serif !important;
     background: #fff !important;
     color: #111 !important;
@@ -39,8 +33,24 @@ body {
     print-color-adjust: exact;
   }
 
+  main {
+    display: block !important;
+    min-height: auto !important;
+  }
+
+  .cv-print-root {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .cv-print-root article {
+    overflow: visible;
+  }
+
   /* Keep CV hyperlinks visible and clickable in browser PDF export */
-  article a[href] {
+  .cv-print-root article a[href] {
     color: #155e75 !important;
     text-decoration: underline !important;
     text-underline-offset: 2px;

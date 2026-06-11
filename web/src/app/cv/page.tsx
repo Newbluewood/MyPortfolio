@@ -64,7 +64,7 @@ export default async function CvPage() {
               </p>
               <p className="mt-3 print:mt-2.5">
                 <a
-                  href="https://my-portfolio-newbluewoods-projects.vercel.app/"
+                  href={`${origin}/`}
                   className="text-sm font-medium text-cyan-400 underline underline-offset-2 hover:text-cyan-300 print:text-[11px] print:font-semibold print:text-cyan-800 print:underline"
                 >
                   <T en="My Portfolio" sr="Moj portfolio" />

@@ -24,6 +24,14 @@ body {
     margin: 5mm 8mm;
   }
 
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif !important;
+    background: #fff !important;
+    color: #111 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
   /* Keep CV hyperlinks visible and clickable in browser PDF export */
   article a[href] {
     color: #155e75 !important;

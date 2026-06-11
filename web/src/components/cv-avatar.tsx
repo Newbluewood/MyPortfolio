@@ -11,6 +11,10 @@ function initials(name: string): string {
     .join("");
 }
 
+/** Portrait frame ~520×598 — full photo visible, no square crop. */
+const frameClass =
+  "w-44 max-h-[13.5rem] overflow-hidden rounded-xl border-2 border-white/10 bg-zinc-900/40 shadow-lg print:w-[9.25rem] print:max-h-[10.5rem] print:border-black/20 print:bg-zinc-100";
+
 export function CvAvatar({
   name,
   photo,
@@ -27,7 +31,7 @@ export function CvAvatar({
   if (failed) {
     return (
       <div
-        className="flex h-44 w-44 items-center justify-center rounded-xl border-2 border-dashed border-white/20 bg-zinc-800/80 text-3xl font-semibold text-zinc-400 print:border-black/25 print:bg-zinc-200 print:text-zinc-600"
+        className={`${frameClass} flex aspect-[520/598] items-center justify-center border-dashed bg-zinc-800/80 text-3xl font-semibold text-zinc-400 print:bg-zinc-200 print:text-zinc-600`}
         aria-hidden
       >
         {initials(name)}
@@ -41,9 +45,9 @@ export function CvAvatar({
       src={photo.src}
       alt={photo.alt}
       width={176}
-      height={176}
+      height={202}
       onError={onError}
-      className="h-44 w-44 rounded-xl border-2 border-white/10 object-cover object-top shadow-lg print:h-40 print:w-40 print:border-black/20"
+      className={`${frameClass} h-auto object-contain object-center`}
     />
   );
 }

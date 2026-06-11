@@ -43,7 +43,7 @@ export function CvAvatar({
       width={176}
       height={176}
       onError={onError}
-      className="h-44 w-44 rounded-xl border-2 border-white/10 object-cover shadow-lg print:border-black/20"
+      className="h-44 w-44 rounded-xl border-2 border-white/10 object-cover object-top shadow-lg print:h-40 print:w-40 print:border-black/20"
     />
   );
 }

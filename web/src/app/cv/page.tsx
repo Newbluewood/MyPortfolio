@@ -46,13 +46,13 @@ export default async function CvPage() {
 
   return (
     <CvApplyingForProvider defaultHeadline={cvData.headlineApplyingFor}>
-      <div className="cv-print-root mx-auto min-w-0 max-w-5xl px-4 py-12 sm:px-6 sm:py-16 print:max-w-none print:bg-white print:text-black">
+      <div className="cv-print-root mx-auto min-w-0 max-w-5xl px-4 py-12 sm:px-6 sm:py-16 print:max-w-none print:bg-white print:px-0 print:py-0 print:text-black">
         <CvPrintButton />
 
       <article className="break-words overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] shadow-xl shadow-black/20 print:overflow-visible print:rounded-none print:border-0 print:bg-white print:shadow-none">
-        <div className="grid min-w-0 md:grid-cols-[minmax(0,260px)_1fr] print:grid-cols-[210px_1fr]">
+        <div className="cv-print-grid grid min-w-0 md:grid-cols-[minmax(0,260px)_1fr] print:grid-cols-[210px_1fr]">
           {/* Left column */}
-          <aside className="min-w-0 space-y-6 border-b border-white/10 bg-zinc-900/80 p-6 md:border-b-0 md:border-r md:border-white/10 print:border-black/15 print:bg-zinc-100 print:p-3 print:space-y-3">
+          <aside className="cv-print-sidebar min-w-0 space-y-6 border-b border-white/10 bg-zinc-900/80 p-6 md:border-b-0 md:border-r md:border-white/10 print:border-black/15 print:bg-zinc-100 print:p-3 print:space-y-3">
             <div className="flex justify-center md:justify-start print:justify-start">
               <CvAvatar name={name} photo={photo} />
             </div>

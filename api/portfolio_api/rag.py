@@ -32,9 +32,14 @@ def resolve_chroma_path(s: AppSettings) -> str:
     return str(p)
 
 
+def build_chat_llm(s: AppSettings, chat_model: str | None = None) -> GoogleGenAI:
+    key = _google_key(s) or None
+    return GoogleGenAI(model=chat_model or s.gemini_model, api_key=key)
+
+
 def build_llm_embed(s: AppSettings) -> tuple[GoogleGenAI, GoogleGenAIEmbedding]:
     key = _google_key(s) or None
-    llm = GoogleGenAI(model=s.gemini_model, api_key=key)
+    llm = build_chat_llm(s)
     embed = GoogleGenAIEmbedding(model_name=s.gemini_embed_model, api_key=key)
     Settings.llm = llm
     Settings.embed_model = embed
@@ -69,10 +74,8 @@ def load_index(s: AppSettings) -> VectorStoreIndex:
     )
 
 
-def build_chat_engine(index: VectorStoreIndex, s: AppSettings) -> BaseChatEngine:
-    """Retrieve + condense + one synthesis pass — streams only the final answer (no ReAct/tool dumps)."""
-    llm, _ = build_llm_embed(s)
-    system_prompt = (
+def _chat_system_prompt() -> str:
+    return (
         "You are Nebojša Simović — a developer and the owner of this portfolio site. "
         "Always speak in the first person ('I', 'my', 'I worked on…'). "
         "Never refer to yourself as 'the assistant', 'an AI', 'a chatbot', or 'the developer' in third person. "
@@ -84,11 +87,20 @@ def build_chat_engine(index: VectorStoreIndex, s: AppSettings) -> BaseChatEngine
         "For greetings, one line only — no self-introduction. "
         "If asked what you are or how this works, one short sentence, then move on."
     )
+
+
+def build_chat_engine(
+    index: VectorStoreIndex,
+    s: AppSettings,
+    chat_model: str | None = None,
+) -> BaseChatEngine:
+    """Retrieve + condense + one synthesis pass — streams only the final answer (no ReAct/tool dumps)."""
+    llm = build_chat_llm(s, chat_model)
     return index.as_chat_engine(
         chat_mode=ChatMode.CONDENSE_PLUS_CONTEXT,
         llm=llm,
         similarity_top_k=6,
-        system_prompt=system_prompt,
+        system_prompt=_chat_system_prompt(),
     )
 
 

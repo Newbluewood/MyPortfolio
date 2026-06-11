@@ -11,9 +11,9 @@ import {
   type ReactNode,
 } from "react";
 
+import { formatChatError } from "@/lib/chat-error";
 import { clientEnv } from "@/lib/env/client";
 import { useLang } from "@/lib/i18n/context";
-import { t } from "@/lib/i18n/translations";
 
 type Source = { text?: string; file?: string };
 
@@ -223,6 +223,20 @@ export function ChatDock() {
     });
     setBusy(true);
 
+    const showChatError = (raw: string) => {
+      const friendly = formatChatError(raw, langRef.current);
+      setError(friendly);
+      const i = assistantIdxRef.current;
+      setMessages((m) => {
+        const copy = [...m];
+        const last = copy[i];
+        if (last?.role === "assistant" && !last.content.trim()) {
+          copy[i] = { ...last, content: friendly };
+        }
+        return copy;
+      });
+    };
+
     try {
       const res = await fetch("/api/chat", {
         method: "POST",
@@ -288,30 +302,17 @@ export function ChatDock() {
           if (ev.event === "error") {
             try {
               const j = JSON.parse(ev.data) as { message?: string };
-              setError(j.message ?? ev.data);
+              showChatError(j.message ?? ev.data);
             } catch {
-              setError(ev.data);
+              showChatError(ev.data);
             }
           }
         }
       }
     } catch (e) {
       flushPending();
-      const msg = e instanceof Error ? e.message : "Request failed";
-      setError(msg);
-      const i = assistantIdxRef.current;
-      const errorFallback = t[langRef.current].chat.error;
-      setMessages((m) => {
-        const copy = [...m];
-        const last = copy[i];
-        if (last?.role === "assistant" && !last.content) {
-          copy[i] = {
-            ...last,
-            content: errorFallback,
-          };
-        }
-        return copy;
-      });
+      const raw = e instanceof Error ? e.message : "Request failed";
+      showChatError(raw);
     } finally {
       flushPending();
       setBusy(false);

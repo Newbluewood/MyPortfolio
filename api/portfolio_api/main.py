@@ -34,9 +34,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseModel, Field
 
+from llama_index.core.chat_engine.types import BaseChatEngine
 from llama_index.core.llms import ChatMessage, MessageRole
 
-from portfolio_api.rag import get_index, get_rag_stack, invalidate_rag_cache
+from portfolio_api.gemini_retry import friendly_gemini_error, is_gemini_retryable
+from portfolio_api.rag import build_chat_engine, get_index, get_rag_stack, invalidate_rag_cache
 from portfolio_api.rate_limit import SimpleRateLimiter
 from portfolio_api.settings import get_settings
 
@@ -98,6 +100,30 @@ def _skip_ui_sources(message: str) -> bool:
 
 
 _SNIPPET_LEN = 90
+
+
+async def _stream_chat_deltas(
+    chat_engine: BaseChatEngine,
+    message: str,
+    chat_history: list[ChatMessage],
+) -> AsyncIterator[str]:
+    stream = await chat_engine.astream_chat(message, chat_history=chat_history)
+    achat = stream.achat_stream
+    if achat is None:
+        raise RuntimeError("Chat engine did not return an async stream")
+    async for chunk in achat:
+        d = chunk.delta or ""
+        if d:
+            yield d
+
+
+def _chat_models_to_try() -> list[str]:
+    s = get_settings()
+    models: list[str] = [s.gemini_model]
+    fallback = (s.gemini_model_fallback or "").strip()
+    if fallback and fallback not in models:
+        models.append(fallback)
+    return models
 
 
 def _collapse_snippet(text: str, max_len: int = _SNIPPET_LEN) -> str:
@@ -303,40 +329,58 @@ async def chat(request: Request, body: ChatBody) -> StreamingResponse:
         except Exception:
             pass
 
+    s = get_settings()
+    models_to_try = _chat_models_to_try()
+
     async def event_stream() -> AsyncIterator[str]:
         if source_payload:
             yield _sse("sources", {"sources": source_payload})
-        sent_delta = False
-        try:
-            # Rekonstruiši istoriju razgovora za LlamaIndex.
-            chat_history: list[ChatMessage] = []
-            for m in body.history:
-                role = MessageRole.USER if m.role == "user" else MessageRole.ASSISTANT
-                chat_history.append(ChatMessage(role=role, content=m.content))
 
-            stream = await chat_engine.astream_chat(body.message, chat_history=chat_history)
-            achat = stream.achat_stream
-            if achat is None:
-                raise RuntimeError("Chat engine did not return an async stream")
-            async for chunk in achat:
-                d = chunk.delta or ""
-                if d:
-                    sent_delta = True
-                    yield _sse("delta", {"text": d})
-        except Exception as exc:  # noqa: BLE001
-            yield _sse("error", {"message": str(exc)})
-            sent_delta = True
-        if not sent_delta:
-            yield _sse(
-                "error",
-                {
-                    "message": (
-                        "Assistant returned no text. Common causes: Gemini API quota or "
-                        "rate limit (429 — wait or check https://ai.google.dev/gemini-api/docs/rate-limits), "
-                        "or an invalid API key."
-                    ),
-                },
+        chat_history: list[ChatMessage] = []
+        for m in body.history:
+            role = MessageRole.USER if m.role == "user" else MessageRole.ASSISTANT
+            chat_history.append(ChatMessage(role=role, content=m.content))
+
+        sent_delta = False
+        last_exc: BaseException | None = None
+
+        for attempt, model in enumerate(models_to_try):
+            engine = (
+                chat_engine
+                if attempt == 0
+                else build_chat_engine(index, s, chat_model=model)
             )
+            try:
+                async for delta in _stream_chat_deltas(engine, body.message, chat_history):
+                    sent_delta = True
+                    yield _sse("delta", {"text": delta})
+                last_exc = None
+                break
+            except Exception as exc:  # noqa: BLE001
+                last_exc = exc
+                has_fallback = attempt < len(models_to_try) - 1
+                if has_fallback and is_gemini_retryable(exc):
+                    print(
+                        f"[chat] {model} failed ({str(exc)[:200]}), "
+                        f"retrying with {models_to_try[attempt + 1]}",
+                        flush=True,
+                    )
+                    continue
+                yield _sse("error", {"message": friendly_gemini_error(exc)})
+                sent_delta = True
+                break
+
+        if not sent_delta:
+            msg = (
+                friendly_gemini_error(last_exc)
+                if last_exc is not None
+                else (
+                    "Assistant returned no text. Common causes: Gemini API quota or "
+                    "rate limit (429 — wait or check https://ai.google.dev/gemini-api/docs/rate-limits), "
+                    "or an invalid API key."
+                )
+            )
+            yield _sse("error", {"message": msg})
         yield _sse("done", {})
 
     return StreamingResponse(

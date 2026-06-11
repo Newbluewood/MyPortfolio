@@ -65,6 +65,15 @@ export const t = {
       ariaLabel: "Chat with Nebojša",
       empty: "Ask about my skills, projects, or background. I'll answer based on what's on this site.",
       error: "Sorry — something went wrong. Is the API running?",
+      errorGeneric: "Something went wrong. Try sending your message again.",
+      errorBusy:
+        "The AI is under heavy load right now. Wait a moment and try again.",
+      errorRateLimit:
+        "Too many requests — please wait a minute and try again.",
+      errorApiUnreachable:
+        "Can't reach the assistant right now. Try again in a bit.",
+      errorApiMisconfigured:
+        "Chat isn't configured for this site yet (API URL missing or wrong).",
       inputLabel: "Message",
       placeholder: "Ask me anything…",
       send: "Send",
@@ -185,6 +194,15 @@ export const t = {
       ariaLabel: "Razgovor sa Nebojšom",
       empty: "Pitaj o mojim veštinama, projektima ili iskustvu. Odgovaram na osnovu sadržaja ovog sajta.",
       error: "Nažalost, nešto nije prošlo. Da li API radi?",
+      errorGeneric: "Nešto nije prošlo. Pošalji poruku ponovo.",
+      errorBusy:
+        "AI model je trenutno preopterećen. Sačekaj malo pa probaj ponovo.",
+      errorRateLimit:
+        "Previše zahteva — sačekaj minut i probaj ponovo.",
+      errorApiUnreachable:
+        "Asistent trenutno nije dostupan. Probaj ponovo za trenutak.",
+      errorApiMisconfigured:
+        "Chat nije podešen za ovaj sajt (API URL nedostaje ili je pogrešan).",
       inputLabel: "Poruka",
       placeholder: "Pitaj me nešto…",
       send: "Pošalji",

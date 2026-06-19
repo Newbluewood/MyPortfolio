@@ -28,33 +28,87 @@ export const cvDataFallback: CvData = {
   },
   experience: [
     {
-      company: "Nastavna Baza Goc (GitHub Project)",
-      period: "May 2026",
-      roleTitle: "Full Stack & AI Integration",
-      roleTitleSr: "Full Stack i AI integracija",
+      company: "University of Belgrade — Faculty of Forestry (Atrijum)",
+      period: "Apr – May 2026",
+      roleTitle: "WordPress Developer",
+      roleTitleSr: "WordPress developer",
       bullets: [
-        "Monorepo: Vue 3 + Vite frontend and Node.js/Express backend (MySQL, Qdrant, OpenAI, JWT).",
-        "Maintained multi-branch repo and implemented frontend features across multiple sprints.",
-        "Integrated a chat agent microservice with RAG pipeline on the backend.",
+        "Built and deployed a WordPress site for the Atrijum facility on faculty infrastructure.",
+        "Site is in production at atrijum.sfb.bg.ac.rs and used by the faculty.",
+        "Structured content and CMS setup for the client's needs.",
       ],
       bulletsSr: [
-        "Monorepo: Vue 3 + Vite frontend i Node.js/Express backend (MySQL, Qdrant, OpenAI, JWT).",
-        "Održavao repo sa više grana i implementirao frontend funkcionalnosti kroz više sprintova.",
-        "Integrisao mikroservis chat agenta sa RAG pipeline-om na backend strani.",
+        "Izgradio i deployovao WordPress sajt za objekat Atrijum na infrastrukturi fakulteta.",
+        "Sajt je u produkciji na atrijum.sfb.bg.ac.rs i koristi ga fakultet.",
+        "Struktura sadržaja i CMS podešavanje prema potrebama klijenta.",
+      ],
+    },
+    {
+      company: "ZenHire AI Coding Hackathon (Startit × CDT Hub)",
+      period: "Apr 2026",
+      roleTitle: "Hackathon Participant — AI Product Build",
+      roleTitleSr: "Učesnik hackathona — AI produkt",
+      bullets: [
+        "48-hour event: shipped Metro Dispatcher — a working-memory assessment game prototype.",
+        "Built with Lovable (AI-assisted rapid iteration); live demo on Lovable deploy.",
+        "Mechanics aligned with hiring / psychometric assessment context (ZenHire).",
+      ],
+      bulletsSr: [
+        "48h događaj: isporučen Metro Dispatcher — prototip igre za procenu radnog memorijskog kapaciteta.",
+        "Razvoj uz Lovable (brze AI iteracije); live demo na Lovable deployu.",
+        "Mehanika u kontekstu zapošljavanja i psihometrijske procene (ZenHire).",
       ],
     },
     {
       company: "IT Practice Center – ENON Solutions",
       period: "Nov 2024 – Feb 2025",
-      roleTitle: "Web Development",
-      roleTitleSr: "Web razvoj",
+      roleTitle: "Web Development Internship",
+      roleTitleSr: "Praksa — web razvoj",
       bullets: [
-        "Vue.js, Router/Pinia, VueUse, MySQL",
-        "Practical frontend techniques and project teamwork",
+        "Vue 3, Vue Router, Pinia, VueUse — frontend on a team cookbook project.",
+        "Practical SPA patterns and collaboration in a four-person squad.",
+        "MySQL-backed features with a hosted backend.",
       ],
       bulletsSr: [
-        "Vue.js, Router/Pinia, VueUse, MySQL",
-        "Praktične frontend tehnike i timski rad na projektu",
+        "Vue 3, Vue Router, Pinia, VueUse — frontend na timskom cookbook projektu.",
+        "Praktični SPA obrasci i saradnja u timu od četiri osobe.",
+        "Funkcionalnosti uz hostovani backend i MySQL.",
+      ],
+    },
+  ],
+  selectedProjects: [
+    {
+      name: "Nastavna baza GOC",
+      period: "2026 – present",
+      roleTitle: "Full Stack & AI Integration",
+      roleTitleSr: "Full stack i AI integracija",
+      liveUrl: "https://nastavnabazagoc.netlify.app",
+      bullets: [
+        "Monorepo: Vue 3 + Vite frontend and Node.js/Express backend (MySQL, Qdrant, OpenAI, JWT).",
+        "Multi-branch repo; frontend features delivered across several sprints.",
+        "Chat agent microservice with RAG pipeline on the backend.",
+      ],
+      bulletsSr: [
+        "Monorepo: Vue 3 + Vite frontend i Node.js/Express backend (MySQL, Qdrant, OpenAI, JWT).",
+        "Repo sa više grana; frontend funkcionalnosti kroz više sprintova.",
+        "Mikroservis chat agenta sa RAG pipeline-om na backend strani.",
+      ],
+    },
+    {
+      name: "NBW Portfolio (this site)",
+      period: "2026",
+      roleTitle: "Next.js + RAG Assistant",
+      roleTitleSr: "Next.js + RAG asistent",
+      liveUrl: "https://my-portfolio-newbluewoods-projects.vercel.app/",
+      bullets: [
+        "Next.js 15 App Router, React 19, Tailwind v4 — GitHub-backed projects and printable CV.",
+        "Browser → Next BFF → FastAPI → Gemini + Chroma RAG assistant over curated content.",
+        "Monorepo deploy: Vercel (web) + Docker API host; env and secrets kept server-side.",
+      ],
+      bulletsSr: [
+        "Next.js 15 App Router, React 19, Tailwind v4 — GitHub projekti i CV za štampu.",
+        "Browser → Next BFF → FastAPI → Gemini + Chroma RAG asistent nad kuriranim sadržajem.",
+        "Monorepo deploy: Vercel (web) + Docker API host; env i tajne samo na serveru.",
       ],
     },
   ],
@@ -63,12 +117,12 @@ export const cvDataFallback: CvData = {
       institution: "UKISAI Academy - AI Bootcamp",
       period: "4-week intensive program (2026)",
       bullets: [
-        "Completed practical AI bootcamp focused on product building and modern AI tooling.",
-        "Earned bootcamp completion certificate.",
+        "Practical AI bootcamp focused on product building and modern AI tooling.",
+        "Bootcamp completion certificate.",
       ],
       bulletsSr: [
-        "Završio praktičan AI bootcamp fokusiran na izgradnju produkata i moderne AI alate.",
-        "Stekao sertifikat o završetku bootcampa.",
+        "Praktičan AI bootcamp fokusiran na izgradnju produkata i moderne AI alate.",
+        "Sertifikat o završetku bootcampa.",
       ],
     },
     {
@@ -107,12 +161,15 @@ export const cvDataFallback: CvData = {
     "JavaScript",
     "Vue3",
     "React",
+    "Next.js",
     "Node.js",
     "Express",
     "Python",
+    "FastAPI",
     "R",
     "Jupyter",
     "ML",
+    "RAG",
     "Data Analysis",
     "AWS",
     "Git/GitHub",
@@ -121,61 +178,9 @@ export const cvDataFallback: CvData = {
     "CSS/HTML",
     "Tailwind",
     "Bootstrap",
+    "WordPress",
     "Figma",
     "Data Visualization",
-    "AI Tools (Copilot, Claude, Gemini, Cursor, Antigravity AI, Loveable)",
-  ],
-  portfolioLinks: [
-    {
-      label: "Gemini Models List App",
-      href: "https://github.com/Newbluewood/Gemini-Models-List-App",
-      description:
-        "Catalog and playground for 52 Google Gemini models (Express proxy).",
-      descriptionSr: "Katalog i playground za 52 Gemini modela (Express proxy).",
-    },
-    {
-      label: "Nastavna Baza Goc",
-      href: "https://nastavnabazagoc.netlify.app",
-      description:
-        "Teaching monorepo: Vue 3, Express, MySQL, and a RAG classroom assistant.",
-      descriptionSr:
-        "Nastavni monorepo: Vue 3, Express, MySQL i RAG asistent u učionici.",
-    },
-    {
-      label: "ZenHire AI Coding Hackathon (Startit)",
-      href: "https://station-recall-game.lovable.app/",
-      description:
-        "48-hour hackathon — AI game prototype with hiring and psychometric mechanics.",
-      descriptionSr:
-        "48h hakaton — prototip AI igre sa zapošljavanjem i psihometrijom.",
-    },
-    {
-      label: "Kuvar App",
-      href: "https://kuvar.netlify.app/",
-      description: "Vue 3 cookbook with hosted backend and MySQL.",
-      descriptionSr:
-        "Vue 3 kuvar aplikacija sa hostovanim backendom i MySQL bazom.",
-    },
-    {
-      label: "Quizi App",
-      href: "https://quizi-if-not-busy.netlify.app/",
-      description: "ITAcademy capstone — Vue 3 quiz app with Router and Pinia.",
-      descriptionSr:
-        "Završni rad ITAcademy — Vue 3 kviz aplikacija (Router, Pinia).",
-    },
-    {
-      label: "Weather Forecast",
-      href: "https://weatherforecastom.netlify.app/",
-      description: "Internship qualification task — API-driven weather frontend.",
-      descriptionSr:
-        "Kvalifikacioni zadatak za praksu — frontend nad weather API-jem.",
-    },
-    {
-      label: "Open Meteo",
-      href: "https://openmeteo.netlify.app/",
-      description: "Weather UI on Open-Meteo API (Nunjucks, jQuery, Bulma).",
-      descriptionSr:
-        "Vremenska aplikacija preko Open-Meteo API-ja (Nunjucks, jQuery, Bulma).",
-    },
+    "AI Tools (Copilot, Claude, Gemini, Cursor, Lovable)",
   ],
 };

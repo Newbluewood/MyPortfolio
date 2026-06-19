@@ -9,6 +9,7 @@ import {
 import { CvPrintButton } from "@/components/cv-print-button";
 import { T } from "@/components/translated-text";
 import { getCvData } from "@/lib/cv-load";
+import { liveSiteDisplayLabel } from "@/lib/repo-live-url";
 import { siteOrigin } from "@/lib/site-url";
 import {
   cvSkillBadgeClass,
@@ -38,10 +39,27 @@ function SectionTitle({
   );
 }
 
+function CvSkillsSection({ skills }: { skills: string[] }) {
+  return (
+    <div className="cv-print-section">
+      <SectionTitle as="h2">
+        <T en="Skills" sr="Veštine" />
+      </SectionTitle>
+      <div className="flex flex-wrap gap-2 rounded-xl border border-white/5 bg-white/[0.02] p-3 print:gap-1.5 print:border-0 print:bg-transparent print:p-0 print:pt-0.5">
+        {skills.map((s) => (
+          <span key={s} className={cvSkillBadgeClass(cvSkillCategory(s))}>
+            {s}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default async function CvPage() {
   const cvData = await getCvData();
   const origin = siteOrigin();
-  const { photo, name, contact, languages, experience, education, skills } =
+  const { photo, name, contact, languages, experience, education, skills, selectedProjects } =
     cvData;
 
   return (
@@ -50,19 +68,19 @@ export default async function CvPage() {
         <CvPrintButton />
 
       <article className="break-words overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] shadow-xl shadow-black/20 print:overflow-visible print:rounded-none print:border-0 print:bg-white print:shadow-none">
-        <div className="cv-print-grid grid min-w-0 md:grid-cols-[minmax(0,260px)_1fr] print:grid-cols-[minmax(0,34%)_1fr]">
+        <div className="cv-print-grid grid min-w-0 md:grid-cols-[minmax(0,260px)_1fr] print:grid-cols-[minmax(0,36%)_1fr]">
           {/* Left column */}
-          <aside className="cv-print-sidebar min-w-0 space-y-6 border-b border-white/10 bg-zinc-900/80 p-6 md:border-b-0 md:border-r md:border-white/10 print:space-y-4 print:border-b-0 print:border-r print:border-zinc-300 print:bg-zinc-100 print:p-5">
-            <div className="w-full">
+          <aside className="cv-print-sidebar min-w-0 space-y-6 border-b border-white/10 bg-zinc-900/80 p-6 md:border-b-0 md:border-r md:border-white/10 print:space-y-0 print:border-b-0 print:border-r print:border-zinc-300 print:bg-zinc-100 print:p-5">
+            <div className="cv-print-photo w-full">
               <CvAvatar name={name} photo={photo} />
             </div>
 
-            <div className="print:mb-[1px]">
+            <div className="cv-print-section">
               <SectionTitle as="h2"><T en="About me" sr="O meni" /></SectionTitle>
-              <p className="text-sm leading-[1.79] text-zinc-300 print:text-zinc-800 print:text-xs print:leading-[1.51]">
+              <p className="text-sm leading-[1.79] text-zinc-300 print:text-zinc-800 print:text-xs print:leading-relaxed">
                 <T en={cvData.about} sr={cvData.aboutSr ?? cvData.about} />
               </p>
-              <p className="mt-3 print:mt-2.5">
+              <p className="mt-3 print:hidden">
                 <a
                   href={`${origin}/`}
                   className="text-sm font-medium text-cyan-400 no-underline hover:text-cyan-300 print:text-[11px] print:font-semibold print:text-cyan-800"
@@ -72,9 +90,9 @@ export default async function CvPage() {
               </p>
             </div>
 
-            <div>
+            <div className="cv-print-section">
               <SectionTitle as="h2"><T en="Languages" sr="Jezici" /></SectionTitle>
-              <ul className="space-y-1 text-sm text-zinc-300 print:text-zinc-800 print:text-xs print:space-y-0">
+              <ul className="space-y-1 text-sm text-zinc-300 print:text-zinc-800 print:text-xs print:space-y-1">
                 {languages.map((l) => (
                   <li key={l.label}>
                     {l.label} – {l.level}
@@ -83,9 +101,9 @@ export default async function CvPage() {
               </ul>
             </div>
 
-            <div>
+            <div className="cv-print-section">
               <SectionTitle as="h2"><T en="Contact" sr="Kontakt" /></SectionTitle>
-              <div className="space-y-2 text-sm text-zinc-300 print:text-zinc-800 print:text-xs print:space-y-0.5">
+              <div className="space-y-2 text-sm text-zinc-300 print:text-zinc-800 print:text-xs print:space-y-1.5 print:leading-relaxed">
                 {contact.location ? (
                   <div>
                     <T en="Location" sr="Lokacija" />:{" "}
@@ -124,11 +142,13 @@ export default async function CvPage() {
                 </div>
               </div>
             </div>
+
+            <CvSkillsSection skills={skills} />
           </aside>
 
           {/* Right column */}
-          <div className="cv-print-main min-w-0 space-y-8 p-6 md:p-8 print:space-y-4 print:p-5">
-            <header className="space-y-2 border-b border-white/10 pb-6 print:border-zinc-300 print:pb-3 print:space-y-1">
+          <div className="cv-print-main min-w-0 space-y-8 p-6 md:p-8 print:space-y-3 print:p-4">
+            <header className="cv-print-section space-y-2 border-b border-white/10 pb-6 print:border-zinc-300 print:pb-2 print:space-y-0.5">
               <h1 className="text-3xl font-bold tracking-tight text-white print:text-black print:text-[22px] sm:text-4xl">
                 {name}
               </h1>
@@ -140,13 +160,13 @@ export default async function CvPage() {
               </div>
             </header>
 
-            <section>
+            <section className="cv-print-section">
               <SectionTitle><T en="Experience" sr="Iskustvo" /></SectionTitle>
-              <div className="space-y-6 print:space-y-3">
+              <div className="space-y-6 print:space-y-2">
                 {experience.map((job) => (
                   <div
-                    key={job.company}
-                    className="grid gap-3 border-b border-white/5 pb-6 last:border-0 last:pb-0 sm:grid-cols-[minmax(0,40%)_1fr] print:gap-2 print:border-zinc-200 print:pb-2.5"
+                    key={`${job.company}-${job.period ?? ""}`}
+                    className="grid gap-3 border-b border-white/5 pb-6 last:border-0 last:pb-0 sm:grid-cols-[minmax(0,40%)_1fr] print:gap-1.5 print:border-zinc-200 print:pb-2 last:print:pb-0"
                   >
                     <div className="space-y-1 border-white/10 pr-0 sm:border-r sm:pr-4 print:border-black/15">
                       <h4 className="font-semibold text-white print:text-black print:text-[12px]">
@@ -175,13 +195,79 @@ export default async function CvPage() {
               </div>
             </section>
 
-            <section>
+            {selectedProjects.length > 0 ? (
+              <section className="cv-print-section">
+                <SectionTitle>
+                  <T en="Selected Projects" sr="Istaknuti projekti" />
+                </SectionTitle>
+                <div className="space-y-6 print:space-y-2">
+                  {selectedProjects.map((project) => (
+                    <div
+                      key={`${project.name}-${project.period ?? ""}`}
+                      className="grid gap-3 border-b border-white/5 pb-6 last:border-0 last:pb-0 sm:grid-cols-[minmax(0,40%)_1fr] print:gap-1.5 print:border-zinc-200 print:pb-2 last:print:pb-0"
+                    >
+                      <div className="space-y-1 border-white/10 pr-0 sm:border-r sm:pr-4 print:border-black/15">
+                        <h4 className="font-semibold text-white print:text-black print:text-[12px]">
+                          {project.name}
+                        </h4>
+                        {project.period ? (
+                          <p className="text-center text-xs text-zinc-500 sm:text-left print:text-zinc-600">
+                            {project.period}
+                          </p>
+                        ) : null}
+                      </div>
+                      <div className="min-w-0">
+                        {project.roleTitle ? (
+                          <h5 className="mb-1 text-[13px] font-medium italic text-zinc-400 print:text-zinc-700">
+                            <T
+                              en={project.roleTitle}
+                              sr={project.roleTitleSr ?? project.roleTitle}
+                            />
+                          </h5>
+                        ) : null}
+                        {project.liveUrl ? (
+                          <p className="mb-1.5 text-xs print:mb-1">
+                            <a
+                              href={project.liveUrl}
+                              className="text-cyan-400 no-underline hover:text-cyan-300 print:text-cyan-800"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {liveSiteDisplayLabel(project.liveUrl)}
+                            </a>
+                          </p>
+                        ) : null}
+                        <ul className="list-inside list-disc space-y-0.5 text-[13px] text-zinc-400 print:text-zinc-800 print:leading-tight print:text-[11px]">
+                          {project.bullets.map((b, i) => (
+                            <li key={b}>
+                              <T en={b} sr={project.bulletsSr?.[i] ?? b} />
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <p className="mt-4 text-xs text-zinc-500 print:hidden">
+                  <T en="More projects at" sr="Više projekata na" />{" "}
+                  <a
+                    href={`${origin}/projects`}
+                    className="text-cyan-400/90 no-underline hover:text-cyan-300 print:text-cyan-800"
+                  >
+                    /projects
+                  </a>
+                  .
+                </p>
+              </section>
+            ) : null}
+
+            <section className="cv-print-section">
               <SectionTitle><T en="Education &amp; Courses" sr="Obrazovanje i kursevi" /></SectionTitle>
-              <div className="space-y-6 print:space-y-3">
+              <div className="space-y-6 print:space-y-2">
                 {education.map((ed) => (
                   <div
                     key={ed.institution}
-                    className="grid gap-3 border-b border-white/5 pb-6 last:border-0 last:pb-0 sm:grid-cols-[minmax(0,40%)_1fr] print:gap-2 print:border-zinc-200 print:pb-2.5"
+                    className="grid gap-3 border-b border-white/5 pb-6 last:border-0 last:pb-0 sm:grid-cols-[minmax(0,40%)_1fr] print:gap-1.5 print:border-zinc-200 print:pb-2 last:print:pb-0"
                   >
                     <div className="space-y-1 border-white/10 pr-0 sm:border-r sm:pr-4 print:border-black/15">
                       <h4 className="font-semibold text-white print:text-black print:text-[12px]">
@@ -201,54 +287,6 @@ export default async function CvPage() {
                   </div>
                 ))}
               </div>
-            </section>
-
-            <section>
-              <SectionTitle><T en="Skills" sr="Veštine" /></SectionTitle>
-              <div className="flex flex-wrap gap-2 rounded-xl border border-white/5 bg-white/[0.02] p-3 print:gap-1.5 print:border-zinc-200 print:bg-zinc-50 print:p-3">
-                {skills.map((s) => (
-                  <span
-                    key={s}
-                    className={cvSkillBadgeClass(cvSkillCategory(s))}
-                  >
-                    {s}
-                  </span>
-                ))}
-              </div>
-            </section>
-
-            <section>
-              <SectionTitle><T en="Portfolio" sr="Portfolio" /></SectionTitle>
-              <ul className="flex flex-col gap-2.5 text-sm print:gap-1 print:text-xs">
-                {cvData.portfolioLinks.map((p) => (
-                  <li key={p.href} className="space-y-0.5 print:space-y-0">
-                    <a
-                      href={p.href}
-                      className="text-cyan-400 no-underline hover:text-cyan-300 print:text-cyan-800"
-                    >
-                      {p.label}
-                    </a>
-                    {p.description ? (
-                      <p className="text-xs leading-snug text-zinc-500 print:text-[10px] print:leading-tight print:text-zinc-600">
-                        <T
-                          en={p.description}
-                          sr={p.descriptionSr ?? p.description}
-                        />
-                      </p>
-                    ) : null}
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-4 text-xs text-zinc-500 print:text-zinc-600 print:mt-1">
-                <T en="More projects at" sr="Više projekata na" />{" "}
-                <a
-                  href={`${origin}/projects`}
-                  className="text-cyan-400/90 no-underline hover:text-cyan-300 print:text-cyan-800"
-                >
-                  /projects
-                </a>
-                .
-              </p>
             </section>
           </div>
         </div>

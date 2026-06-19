@@ -27,7 +27,7 @@ Asistent treba da koristi ovu stranicu kad korisnik pita o: **diplomi**, **diplo
 
 | Dokument | Detalji |
 |----------|---------|
-| **Atrijum (WordPress projekat za Šumarski fakultet)** | Zahvalnica: `/credentials/zahvalnica-atrijum-sfb.jpg`. |
+| **Atrijum (WordPress projekat za Šumarski fakultet)** | WordPress sajt (apr–maj 2026); live: [atrijum.sfb.bg.ac.rs](https://atrijum.sfb.bg.ac.rs). Na CV u **Iskustvu** i na `/projects`. Zahvalnica: `/credentials/zahvalnica-atrijum-sfb.jpg`. |
 
 ## Ažuriranje
 

@@ -5,11 +5,6 @@ const cvLinkSchema = z.object({
   href: z.string().min(1),
 });
 
-const cvPortfolioLinkSchema = cvLinkSchema.extend({
-  description: z.string().optional(),
-  descriptionSr: z.string().optional(),
-});
-
 const experienceSchema = z.object({
   company: z.string().min(1),
   period: z.string().optional(),
@@ -22,6 +17,16 @@ const experienceSchema = z.object({
 const educationSchema = z.object({
   institution: z.string().min(1),
   period: z.string().optional(),
+  bullets: z.array(z.string()),
+  bulletsSr: z.array(z.string()).optional(),
+});
+
+const selectedProjectSchema = z.object({
+  name: z.string().min(1),
+  period: z.string().optional(),
+  roleTitle: z.string().optional(),
+  roleTitleSr: z.string().optional(),
+  liveUrl: z.string().optional(),
   bullets: z.array(z.string()),
   bulletsSr: z.array(z.string()).optional(),
 });
@@ -64,10 +69,10 @@ export const cvDataSchema = z.object({
     github: cvLinkSchema,
   }),
   experience: z.array(experienceSchema),
+  selectedProjects: z.array(selectedProjectSchema).default([]),
   education: z.array(educationSchema),
   credentials: z.array(credentialSchema).default([]),
   skills: z.array(z.string()),
-  portfolioLinks: z.array(cvPortfolioLinkSchema),
 });
 
 export type CvData = z.infer<typeof cvDataSchema>;

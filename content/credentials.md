@@ -27,7 +27,7 @@ The chat assistant should use this page when users ask about: **diploma**, **deg
 
 | Document | Details |
 |----------|---------|
-| **Atrijum (Faculty of Forestry WordPress project)** | Letter of appreciation: `/credentials/zahvalnica-atrijum-sfb.jpg`. |
+| **Atrijum (Faculty of Forestry WordPress project)** | WordPress site built Apr–May 2026; live at [atrijum.sfb.bg.ac.rs](https://atrijum.sfb.bg.ac.rs). Also on CV **Experience** and `/projects`. Letter: `/credentials/zahvalnica-atrijum-sfb.jpg`. |
 
 ## How to update
 

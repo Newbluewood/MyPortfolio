@@ -182,14 +182,24 @@ export type ManualProject = {
 
 export const MANUAL_PROJECTS: ManualProject[] = [
   {
+    id: "zenhire-metro-dispatcher",
+    name: "Metro Dispatcher (ZenHire Hackathon)",
+    description:
+      "48h ZenHire AI Coding Hackathon (Startit × CDT Hub): working-memory assessment game prototype built with Lovable; live demo on Lovable deploy.",
+    liveUrl: "https://station-recall-game.lovable.app/",
+    groupIds: ["ai_vibe"],
+    language: "Lovable / AI",
+    listedAt: "2026-04-15T12:00:00Z",
+  },
+  {
     id: "atrijum-wordpress",
     name: "Atrijum (Šumarski fakultet)",
     description:
-      "Realizovan projekat na WordPressu za Atrijum — Šumarski fakultet Univerziteta u Beogradu.",
+      "WordPress sajt za objekat Atrijum — Univerzitet u Beogradu, Šumarski fakultet (Apr–Maj 2026). U produkciji na fakultetskom serveru.",
     liveUrl: "https://atrijum.sfb.bg.ac.rs",
     groupIds: ["wordpress"],
     language: "WordPress",
-    listedAt: "2024-09-01T12:00:00Z",
+    listedAt: "2026-05-01T12:00:00Z",
   },
 ];
 

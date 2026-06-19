@@ -21,7 +21,7 @@ body {
 @media print {
   @page {
     size: A4 portrait;
-    margin: 10mm 12mm;
+    margin: 8mm 10mm;
   }
 
   html {
@@ -65,8 +65,22 @@ body {
 
   .cv-print-root .cv-print-sidebar {
     align-self: stretch;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.2rem !important;
     background: #f4f4f5 !important;
     border-right: 1px solid #d4d4d8 !important;
+    padding: 1.35rem 1.15rem !important;
+  }
+
+  .cv-print-root .cv-print-sidebar .cv-print-section:not(:first-child) {
+    padding-top: 0;
+  }
+
+  .cv-print-root .cv-print-sidebar h2,
+  .cv-print-root .cv-print-sidebar h3 {
+    margin-bottom: 0.55rem !important;
+    padding-bottom: 0.35rem !important;
   }
 
   .cv-print-root .cv-print-main {
@@ -76,6 +90,25 @@ body {
   .cv-print-root article a[href] {
     color: #155e75 !important;
     text-decoration: none !important;
+  }
+
+  .cv-print-section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* ~10% smaller than full sidebar width — saves vertical space without shrinking too much */
+  .cv-print-root .cv-print-photo {
+    display: flex;
+    justify-content: center;
+  }
+
+  .cv-print-root .cv-print-photo img,
+  .cv-print-root .cv-print-photo > div {
+    width: 90% !important;
+    max-width: 90%;
+    height: auto !important;
+    margin-inline: auto;
   }
 }
 

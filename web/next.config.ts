@@ -10,6 +10,11 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/test-animation",
+        destination: "/lab",
+        permanent: true,
+      },
+      {
         source: "/credentials/ukisai-bootcamp.pdf",
         destination: "/credentials/ukisai-bootcamp.jpg",
         permanent: true,

@@ -2,25 +2,27 @@ import { AangAttribution } from "@/components/aang-attribution";
 import { LabBackLink } from "@/components/lab-back-link";
 import { AangRitualScene } from "@/components/aang-ritual-scene";
 import { fetchUserRepos, hasGithubListingIdentity } from "@/lib/github";
+import {
+  githubLabDeployLinks,
+  manualLabDeployLinks,
+  mergeLabDeployLinks,
+} from "@/lib/lab-deploy-links";
 import { fetchNetlifyDeployIndex } from "@/lib/netlify";
 import { fetchReadmeLiveUrlLookup } from "@/lib/readme-live-url";
-import { GITHUB_REPO_LIVE_URL_OVERRIDES } from "@/lib/project-groups";
-import { portfolioRepoLiveUrl } from "@/lib/repo-live-url";
 import { serverEnv } from "@/lib/env/server";
 
 export const metadata = {
-  title: "Staff ritual",
-  description: "Lottie or PNG fallback — Aang ritual, repo clouds",
+  title: "Lab",
+  description: "Deploy clouds — GitHub live sites and featured manual projects",
 };
 
-export default async function TestAnimationPage() {
-  let repos: { name: string; html_url: string }[] = [];
+export default async function LabPage() {
+  let githubLinks: ReturnType<typeof githubLabDeployLinks> = [];
   const missingIdentity = !hasGithubListingIdentity();
   let fetchFailed = false;
+
   try {
-    if (missingIdentity) {
-      repos = [];
-    } else {
+    if (!missingIdentity) {
       const [allRepos, netlifyIndex] = await Promise.all([
         fetchUserRepos(),
         fetchNetlifyDeployIndex(),
@@ -30,22 +32,18 @@ export default async function TestAnimationPage() {
         netlifyIndex,
         serverEnv().GITHUB_TOKEN,
       );
-      repos = allRepos
-        .map((repo) => {
-          const deploy = portfolioRepoLiveUrl(
-            repo,
-            netlifyIndex,
-            readmeLiveByFullName,
-            GITHUB_REPO_LIVE_URL_OVERRIDES,
-          );
-          return deploy ? { name: repo.name, html_url: deploy } : null;
-        })
-        .filter((x): x is { name: string; html_url: string } => x != null);
+      githubLinks = githubLabDeployLinks(
+        allRepos,
+        netlifyIndex,
+        readmeLiveByFullName,
+      );
     }
   } catch {
     fetchFailed = true;
-    repos = [];
+    githubLinks = [];
   }
+
+  const repos = mergeLabDeployLinks(githubLinks, manualLabDeployLinks());
 
   const labGithubHint = missingIdentity
     ? ("missing_identity" as const)

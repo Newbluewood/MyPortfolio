@@ -23,7 +23,7 @@ export function SiteFooter() {
               (vlasništvo{" "}
               <span lang="en">Nickelodeon</span> / <span lang="en">Paramount</span>). Više:{" "}
               <Link
-                href="/test-animation#aang-attribution"
+                href="/lab#aang-attribution"
                 className="text-cyan-500/90 underline-offset-2 hover:text-cyan-400 hover:underline"
               >
                 {T.footer.labNoteLink}
@@ -37,7 +37,7 @@ export function SiteFooter() {
               <cite className="not-italic text-zinc-500">Avatar: The Last Airbender</cite>{" "}
               (property of Nickelodeon / Paramount). More:{" "}
               <Link
-                href="/test-animation#aang-attribution"
+                href="/lab#aang-attribution"
                 className="text-cyan-500/90 underline-offset-2 hover:text-cyan-400 hover:underline"
               >
                 {T.footer.labNoteLink}

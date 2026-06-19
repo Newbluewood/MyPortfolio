@@ -2,7 +2,7 @@
 
 import { useLang } from "@/lib/i18n/context";
 
-/** Lab /test-animation: zašto su oblaci prazni ili nisu učitani. */
+/** Lab /lab: zašto GitHub oblaci nisu učitani (manual projekti uvek idu u oblake). */
 export type LabGithubHint = "none" | "missing_identity" | "fetch_failed";
 
 export function LabGithubHintBanner({ hint }: { hint: LabGithubHint }) {

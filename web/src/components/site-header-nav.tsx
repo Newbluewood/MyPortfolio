@@ -17,7 +17,7 @@ export function SiteHeaderNav() {
     { href: "/", label: T.nav.home },
     { href: "/projects", label: T.nav.projects },
     { href: "/cv", label: T.nav.cv },
-    { href: "/test-animation", label: T.nav.lab },
+    { href: "/lab", label: T.nav.lab },
     { href: "/contact", label: T.nav.contact },
   ];
 

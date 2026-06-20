@@ -21,7 +21,7 @@ Before focusing on software, Nebojša also worked as:
 - **Facility manager**
 - **Operations manager**
 
-In those roles he **led teams** — both **office staff and craftspeople / tradespeople** (“majstori”) — coordinating people, tools, and day‑to‑day operations on site.
+In those roles he **led teams** — both **office staff and craftspeople / tradespeople** (“majstori”) — coordinating people, tools, and day‑to‑day operations on site. Company Name: "Hauzmajstor doo"
 
 ## Fitness & endurance
 

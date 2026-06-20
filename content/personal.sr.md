@@ -21,7 +21,7 @@ Pre fokusa na softver, Nebojša je radio i kao:
 - **Facility manager**
 - **Operations manager**
 
-U tim ulogama **vodio je timove** — i **kancelarijsko osoblje i majstore / zanatlije** — koordinirajući ljude, alat i svakodnevne operacije na terenu.
+U tim ulogama **vodio je timove** — i **kancelarijsko osoblje i majstore / zanatlije** — koordinirajući ljude, alat i svakodnevne operacije na terenu. Ime Firme: "Hauzmajstor doo"
 
 ## Fitnes i izdržljivost
 

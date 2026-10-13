@@ -32,12 +32,13 @@ export const cvDataFallback: CvData = {
       period: "Apr – May 2026",
       roleTitle: "WordPress Developer",
       roleTitleSr: "WordPress developer",
+      liveUrl: "https://atrijum.sfb.bg.ac.rs",
       bullets: [
-        "Built and deployed a WordPress site for the Atrijum facility on faculty infrastructure: atrijum.sfb.bg.ac.rs.",
+        "Built and deployed a WordPress site for the Atrijum facility on faculty infrastructure.",
         "Structured content and CMS setup for the client's needs.",
       ],
       bulletsSr: [
-        "Izgradio i deployovao WordPress sajt za objekat Atrijum na infrastrukturi fakulteta: atrijum.sfb.bg.ac.rs.",
+        "Izgradio i deployovao WordPress sajt za objekat Atrijum na infrastrukturi fakulteta.",
         "Struktura sadržaja i CMS podešavanje prema potrebama klijenta.",
       ],
     },

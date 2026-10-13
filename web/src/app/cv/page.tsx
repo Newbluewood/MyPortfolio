@@ -184,6 +184,18 @@ export default async function CvPage() {
                           <T en={job.roleTitle} sr={job.roleTitleSr ?? job.roleTitle} />
                         </h5>
                       ) : null}
+                      {job.liveUrl ? (
+                          <p className="mb-1.5 text-xs print:mb-1">
+                            <a
+                              href={job.liveUrl}
+                              className="text-cyan-400 no-underline hover:text-cyan-300 print:text-cyan-800"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {liveSiteDisplayLabel(job.liveUrl)}
+                            </a>
+                          </p>
+                        ) : null}
                       <ul className="list-inside list-disc space-y-0.5 text-[13px] text-zinc-400 print:text-zinc-800 print:leading-tight print:text-[11px]">
                         {job.bullets.map((b, i) => (
                           <li key={b}><T en={b} sr={job.bulletsSr?.[i] ?? b} /></li>

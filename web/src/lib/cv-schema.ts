@@ -10,6 +10,7 @@ const experienceSchema = z.object({
   period: z.string().optional(),
   roleTitle: z.string().optional(),
   roleTitleSr: z.string().optional(),
+  liveUrl: z.string().optional(),
   bullets: z.array(z.string()),
   bulletsSr: z.array(z.string()).optional(),
 });

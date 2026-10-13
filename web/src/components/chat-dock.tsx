@@ -362,11 +362,10 @@ export function ChatDock() {
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-sm font-medium text-zinc-300 hover:bg-white/15 hover:text-white active:bg-white/20 transition-colors"
+              className="relative -mr-2 flex h-8 w-8 items-center justify-center rounded-full bg-zinc-700/50 text-zinc-300 hover:bg-zinc-700 hover:text-white"
               aria-label={T.chat.closeChat}
             >
-              <span>{T.chat.closeChat}</span>
-              <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+              <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
               </svg>
             </button>

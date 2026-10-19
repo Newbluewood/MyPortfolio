@@ -1,143 +1,192 @@
-# Portfolio (Next.js + FastAPI + LlamaIndex)
+# NBW — Portfolio
 
-**Live:** [NBW — Portfolio](https://my-portfolio-newbluewoods-projects.vercel.app/)
+Personal portfolio monorepo: marketing site with GitHub-backed project list, printable CV, optional Netlify enrichment, and a RAG on-site assistant.
 
-**NBW / New Blue Wood** — personal portfolio monorepo: marketing site with GitHub-backed project list, **CV** route, optional Netlify enrichment, and a **RAG** on-site assistant (Gemini + Chroma + optional Tavily).
+**[Otvori sajt](https://my-portfolio-newbluewoods-projects.vercel.app/)** · CV: [`/cv`](https://my-portfolio-newbluewoods-projects.vercel.app/cv)
 
-**AI / agent context (stack, layout, deploy pitfalls):** see **[`CLAUDE.md`](CLAUDE.md)** (and [`AGENTS.md`](AGENTS.md) for a short Cursor-oriented index).
+[![Next.js 15](https://img.shields.io/badge/Next.js-15-000000?logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![React 19](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev/)
+[![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![LlamaIndex](https://img.shields.io/badge/LlamaIndex-RAG-8B5CF6)](https://www.llamaindex.ai/)
+[![Gemini](https://img.shields.io/badge/Gemini-Google_AI-4285F4?logo=googlegemini&logoColor=white)](https://ai.google.dev/)
+[![Vercel](https://img.shields.io/badge/Frontend-Vercel-000000?logo=vercel&logoColor=white)](https://vercel.com/)
+[![Railway](https://img.shields.io/badge/API-Railway-0B0D0E?logo=railway&logoColor=white)](https://railway.app/)
 
-> **GitHub “About” suggestion (short):**  
-> `Portfolio — Next.js, GitHub projects, CV, RAG assistant (FastAPI + LlamaIndex + Chroma).`
+> **AI / agent context (stack, layout, deploy pitfalls):** see **[`CLAUDE.md`](CLAUDE.md)** and [`AGENTS.md`](AGENTS.md).
 
-## Prerequisites
+---
 
-- Node 20+ and npm
-- Python 3.11+ (virtualenv recommended — repo may already include `venv/`)
-- [Google AI Studio](https://aistudio.google.com/) API key for Gemini
+## What This Site Does
 
-## Setup
+| Feature | Description |
+|---------|-------------|
+| **Home** | About me — content from `content/*.md`, mobile-first layout |
+| **Projects** | Live GitHub repo list + manual projects, grouped by category, Netlify deploy hints |
+| **CV** | Printable résumé at `/cv`, content in `content/cv.json`, A4-optimized print layout |
+| **Lab** | Deploy links and live demos for projects |
+| **Diplomas & Certificates** | Scanned credentials section on the home page |
+| **RAG Assistant** | On-site chat — retrieval-augmented generation over curated Markdown + README snapshots |
 
-1. Copy [`.env.example`](.env.example) to `.env` at the **repository root** and fill in at least `GOOGLE_API_KEY`, `GITHUB_USERNAME`, and `NEXT_PUBLIC_DISPLAY_NAME`. [`web/next.config.ts`](web/next.config.ts) loads that file via `@next/env` so Next.js sees the same variables.
+---
 
-2. **Index knowledge** (content markdown + GitHub READMEs):
+## Architecture
 
-   ```bash
-   cd api
-   ..\venv\Scripts\pip install -e .
-   ..\venv\Scripts\portfolio-ingest
-   ```
+The site is a **monorepo with two independent services**: a Next.js frontend (Vercel) and a FastAPI backend (Railway / Docker).
 
-   On Unix: `source ../venv/bin/activate` then `portfolio-ingest`.
-
-3. **Run the API** (from `api/`) — ili iz korena `npm run dev:api` (port **8020**):
-
-   ```bash
-   ..\venv\Scripts\uvicorn portfolio_api.main:app --reload --host 127.0.0.1 --port 8020
-   ```
-
-4. **Run the site** (from `web/`):
-
-   ```bash
-   npm install
-   npm run dev
-   ```
-
-   Open [http://localhost:3000](http://localhost:3000). Chat proksi koristi **`PORTFOLIO_API_URL`** iz root `.env` (preporuka lokalno: `http://127.0.0.1:8020`).
-
-   Quick checks: `npm run lint` and `npm run typecheck` (both from `web/`).
-
-5. **Brza dijagnostika (preporuka pre `dev`):** iz korena repozitorijuma pokreni `npm run doctor` — proverava env, sadržaj, sync `content/` → `web/_content`, dostupnost API-ja (`/health`, `/health/ready`) i daje **konkretne korake** za svaki problem. Sa `npm run doctor -- --fix` automatski radi samo sync fajlova. Sa `--strict` svako upozorenje daje exit code 1 (npr. za CI).
-
-## Dijagnostika u detalju (`portfolio-doctor`)
-
-| Komanda                      | Šta radi                                                                                                                                                                                       |
-| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `npm run doctor`             | Čita root `.env`, validira URL-e, proverava `content/*`, upoređuje `cv.json` sa `web/_content/`, zove lokalni API ako je `PORTFOLIO_API_URL` validan; opciono GitHub `/user` ili javni profil. |
-| `npm run doctor -- --fix`    | Isto + pokreće `web/scripts/sync-content.mjs` na početku provera.                                                                                                                              |
-| `npm run doctor -- --strict` | Izlaz 1 i na WARN (pogodno za automatizaciju).                                                                                                                                                 |
-
-Skripta: [`scripts/portfolio-doctor.mjs`](scripts/portfolio-doctor.mjs) (Node 18+; koristi ugrađeni `fetch`). Ako hoćeš istu proveru **pre** svakog punog `npm run dev`: `npm run dev:with-doctor` (staje na prvoj ERROR stavci doktor-a).
-
-## Minimalni stabilni workflow (fallback kad nešto puca)
-
-Cilj: **jedna komanda** koja najčešće vraća predvidljivo stanje bez ručnog nagađanja.
-
-| Nivo                              | Komanda (iz korena, **Windows**)                                                                                                                                                                               | Kada                                                                                                                                                                                                                                                                                                                     |
-| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Minimalni**                     | `npm run workflow:minimal`                                                                                                                                                                                     | „Nešto čudno“, sumnja na zaglavljen port ili desinhronizovan `content/`; **ne** briše `.next`. Redosled: `kill:dev` → doktor sa `--fix` (sync `content/` → `web/_content`) → `dev`. Ako doktor nađe **ERROR**, `dev` se ne pokreće dok ne središ korake koje ispiše.                                                     |
-| **Puni režim + debug u pozadini** | `npm run dev:full` ili **`npm run workflow:reset`** (iste stvari)                                                                                                                                              | **`clean:web`** → doktor **`--fix`** → paralelno **API (8020)** + **Next (3000)** → nakon ~14 s (**`POST_DEV_DOCTOR_DELAY_MS`**) još jedan doktor u **trećoj** concurrently traci (`doc`) da proveri `/health` i `/health/ready` dok su serveri već podignuti. Za samo paralelni dev bez čišćenja koristi `npm run dev`. |
-| **Unix**                          | Nema PowerShell `kill:dev` — ručno zaustavi **3000** i **8020**, zatim `cd web && npm run clean` po potrebi, `npm run doctor -- --fix`, pa pokreni API i `web` odvojeno (ili paralelno) kao u [Setup](#setup). |
-
-**Stabilnost:** root **`.env`** mora imati **`PORTFOLIO_API_URL`** na istom portu kao lokalni API (preporuka **8020**, kao u root `package.json`).
-
-## Čisti start (eksplicitno — kad „štašta škripi“)
-
-Cilj je **istu proceduru** svaki put: nema nagađanja koji je zaglavljen `next` ili stari `.next`.
-
-### Windows (iz korena repozitorijuma)
-
-1. **Zaustavi dev servere** (oslobađa portove 3000, 8000, 8001, 8020):
-
-   ```bash
-   npm run kill:dev
-   ```
-
-2. **Obriši Next keš** (`.next` + `node_modules/.cache` u `web/`):
-
-   ```bash
-   npm run clean:web
-   ```
-
-3. **Ponovo pokreni** (oba servisa) ili samo jedan:
-
-   ```bash
-   npm run dev
-   ```
-
-   Ili odvojeno: `npm run dev:web` / `npm run dev:api`.
-
-4. **Sinhronizuj sadržaj u `web/_content`** bez punog build-a (ako si menjao `content/*.md` ili `cv.json`):
-
-   ```bash
-   cd web && node scripts/sync-content.mjs && cd ..
-   ```
-
-   (`npm run build` u `web/` ionako pokreće `prebuild` → sync.)
-
-### macOS / Linux
-
-Nema `kill-dev-ports.ps1` — ručno zaustavi procese na **3000** i **8020** (npr. `lsof -i :3000` pa `kill`). Zatim:
-
-```bash
-cd web && npm run clean && npm run dev
+```mermaid
+flowchart LR
+  subgraph browser [Browser]
+    UI[Components / Chat dock]
+  end
+  subgraph next [Next.js — Vercel]
+    Pages[App Router RSC]
+    BFF[POST /api/chat]
+    Lib[lib: github, netlify, cv-load, content]
+  end
+  subgraph external [External Services]
+    GH[GitHub API]
+    API[FastAPI — Railway]
+    Gemini[Gemini / embeddings]
+    Chroma[(ChromaDB)]
+  end
+  UI -->|navigation| Pages
+  UI -->|JSON| BFF
+  Pages --> Lib
+  Lib --> GH
+  BFF -->|HTTPS proxy| API
+  API --> Chroma
+  API --> Gemini
 ```
 
-API: aktiviraj `venv`, pokreni `uvicorn` na istom portu kao **`PORTFOLIO_API_URL`** u root `.env` (preporuka lokalno: `http://127.0.0.1:8020` kao u root `package.json`).
+**Chat flow:** Browser → `POST /api/chat` (Next BFF) → FastAPI `/chat` → Gemini + Chroma (RAG). No API key is ever exposed to the client.
 
-### Retko: reset vektora (RAG)
+---
 
-Ako sumnjaš na pokvaren Chroma indeks lokalno: zaustavi API, obriši folder **`data/chroma/`** (gitignored), pa ponovo `portfolio-ingest` iz `api/` kao u setupu. **Ne** komituj `data/`.
+## Tech Stack
 
-## Layout
+| Layer | Stack | Notes |
+|-------|-------|-------|
+| Frontend | Next.js 15, React 19, Tailwind CSS v4 | App Router, server components by default |
+| Backend | FastAPI, LlamaIndex, ChromaDB | RAG assistant with Gemini embeddings |
+| LLM | Google Gemini | Via `GOOGLE_API_KEY` server-side only |
+| Content | `content/*.md` + `content/cv.json` | Synced to `web/_content/` at build time |
+| Hosting | Vercel (frontend) + Railway (API) | Persistent Chroma volume on Railway |
+| Validation | Zod | Client/server env split |
 
-| Path                                       | Role                                                      |
-| ------------------------------------------ | --------------------------------------------------------- |
-| [`web/`](web/)                             | Next.js App Router frontend                               |
-| [`api/portfolio_api/`](api/portfolio_api/) | FastAPI app, RAG, ReAct agent                             |
-| [`content/`](content/)                     | Markdown indexed into Chroma (`about.md`, `skills.md`, …) |
-| `data/chroma/`                             | Persistent Chroma store (gitignored)                      |
-| `data/raw/`                                | Cached README files from ingest (gitignored)              |
+---
 
-## Optional: Qdrant later
+## Repository Layout
 
-For production you can swap Chroma for Qdrant; [`docker-compose.yml`](docker-compose.yml) starts Qdrant locally for experiments — the default stack uses **Chroma** only.
+```
+Portfolio App/
+├── web/                    # Next.js — Vercel Root Directory = web
+│   ├── src/app/            # App Router pages + api/chat proxy
+│   ├── src/components/     # Header, chat dock, CV, lab scenes
+│   ├── src/lib/            # github, env, cv-load, RAG proxy
+│   └── scripts/            # sync-content.mjs
+├── api/
+│   ├── portfolio_api/      # main.py, rag.py, ingest.py, settings.py
+│   └── Dockerfile          # Built from monorepo root context
+├── content/                # about.md, skills.md, cv.json, …
+├── .env.example            # Template (never commit real .env)
+├── DEPLOY.md               # Vercel + Railway checklist
+├── LLAMAINDEX_GUIDE.md     # RAG / LlamaIndex notes
+└── CLAUDE.md               # Full AI dev context
+```
 
-**Deploy online:** see **[`DEPLOY.md`](DEPLOY.md)** (Vercel + Docker API).
+---
+
+## Quick Start
+
+**Prerequisites:** Node 20+, Python 3.11+, [Google AI Studio](https://aistudio.google.com/) API key.
+
+### 1. Environment
+
+```bash
+cp .env.example .env
+# Fill in: GOOGLE_API_KEY, GITHUB_USERNAME, NEXT_PUBLIC_DISPLAY_NAME
+```
+
+### 2. Index Knowledge (RAG)
+
+```bash
+cd api
+..\venv\Scripts\pip install -e .        # Windows
+..\venv\Scripts\portfolio-ingest
+```
+
+On Unix: `source ../venv/bin/activate` then `portfolio-ingest`.
+
+### 3. Run the API
+
+```bash
+# From root:
+npm run dev:api                          # Port 8020
+```
+
+### 4. Run the Site
+
+```bash
+cd web
+npm install
+npm run dev                              # http://localhost:3000
+```
+
+### 5. Diagnostics
+
+```bash
+npm run doctor                           # Check env, content, API health
+npm run doctor -- --fix                  # Auto-sync content
+npm run doctor -- --strict               # Exit 1 on warnings (CI)
+```
+
+---
+
+## Workflows
+
+| Command | What it does |
+|---------|--------------|
+| `npm run workflow:minimal` | Kill ports → doctor `--fix` → dev (gentle restart) |
+| `npm run dev:full` | Clean → doctor → API + Next parallel + background health check |
+| `npm run kill:dev` | Free ports 3000, 8000, 8001, 8020 (Windows) |
+| `npm run clean:web` | Delete `.next` + `node_modules/.cache` |
+
+---
+
+## Deploy
+
+| Service | Platform | Notes |
+|---------|----------|-------|
+| **Frontend** | Vercel | Root Directory = `web`, Node 20, include files outside root |
+| **API** | Railway | Docker (`api/Dockerfile`), persistent volume at `/data/chroma` |
+
+Full checklist: **[`DEPLOY.md`](DEPLOY.md)**.
+
+**Key env vars on Vercel:** `PORTFOLIO_API_URL` (Production **and** Preview), `GITHUB_USERNAME`, `GITHUB_TOKEN`.  
+**Key env vars on Railway:** `GOOGLE_API_KEY`, `GITHUB_USERNAME`, `CORS_ORIGINS`.
+
+---
 
 ## Security
 
-Rotate any API keys that were ever committed. Keep secrets in root `.env` (gitignored).
+- Secrets only in `.env` (gitignored) — never inline keys in code
+- Chat goes through BFF (`/api/chat`), not directly from browser to API
+- `NEXT_PUBLIC_*` only for truly public values
 
-## LlamaIndex
+---
 
-When extending AI behavior, follow the project guide in [`LLAMAINDEX_GUIDE.md`](LLAMAINDEX_GUIDE.md).
+## Docs
+
+| Document | Purpose |
+|----------|---------|
+| [`CLAUDE.md`](CLAUDE.md) | Full AI dev context, architecture, rules |
+| [`DEPLOY.md`](DEPLOY.md) | Vercel + Railway deploy checklist |
+| [`LLAMAINDEX_GUIDE.md`](LLAMAINDEX_GUIDE.md) | RAG / LlamaIndex behavior guide |
+| [`.env.example`](.env.example) | Variable names and hints |
+
+---
+
+## License
+
+Private project. Not open for public forking without agreement.

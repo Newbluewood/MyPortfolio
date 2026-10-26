@@ -118,6 +118,7 @@ const repoNameToGroups: Record<string, ProjectGroupId[]> = {
   Kuvar: ["fullstack", "csr_framework"],
 
   "nastavna-baza-goc": ["ai_vibe", "fullstack"],
+  "Novi-Stolar-v1": ["nodejs_env", "python", "ai_vibe"],
 
   "CCD_Test_PracticeCenter---JSFD-NebojsaSimovic": ["other"],
   online_sales_analysis: ["python"],
@@ -182,6 +183,16 @@ export type ManualProject = {
 
 export const MANUAL_PROJECTS: ManualProject[] = [
   {
+    id: "novi-stolar-v1",
+    name: "Novi Stolar",
+    description:
+      "Pametni konfigurator kuhinjskih korpusa: radionica šablona (formule, krojna lista, 3D) i planner prostora (zidovi, raspored, predračun). Python server, Three.js i Gemini Vision za skicu prostora.",
+    liveUrl: "https://novi-stolar-v1.onrender.com",
+    groupIds: ["nodejs_env", "python", "ai_vibe"],
+    language: "JavaScript / Python",
+    listedAt: "2026-08-08T19:10:49Z",
+  },
+  {
     id: "zenhire-metro-dispatcher",
     name: "Metro Dispatcher (ZenHire Hackathon)",
     description:
@@ -210,4 +221,5 @@ export const MANUAL_PROJECTS: ManualProject[] = [
  */
 export const GITHUB_REPO_LIVE_URL_OVERRIDES: Record<string, string> = {
   "newbluewood/nastavna-baza-goc": "https://nastavnabazagoc.netlify.app",
+  "newbluewood/novi-stolar-v1": "https://novi-stolar-v1.onrender.com",
 };

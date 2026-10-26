@@ -186,7 +186,7 @@ export const MANUAL_PROJECTS: ManualProject[] = [
     id: "novi-stolar-v1",
     name: "Novi Stolar",
     description:
-      "Pametni konfigurator kuhinjskih korpusa: radionica šablona (formule, krojna lista, 3D) i planner prostora (zidovi, raspored, predračun). Python server, Three.js i Gemini Vision za skicu prostora.",
+      "Radionica (jedan šablon, krojna lista, 3D): https://novi-stolar-v1.onrender.com — Planner (cela kuhinja u prostoru): https://novi-stolar-v1.onrender.com/planner",
     liveUrl: "https://novi-stolar-v1.onrender.com",
     groupIds: ["nodejs_env", "python", "ai_vibe"],
     language: "JavaScript / Python",

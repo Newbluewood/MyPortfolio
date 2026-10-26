@@ -62,7 +62,7 @@ const REPO_DESCRIPTION_FALLBACK: Partial<Record<string, string>> = {
   "Gemini-Models-List-App":
     "Interaktivna veb aplikacija za pregled, analizu i testiranje svih 52 zvanična Google Gemini AI modela — katalog i živi playground (Playground) za tekstualne, vizuelne i audio mogućnosti; Express proxy čuva API ključ na serveru.",
   "Novi-Stolar-v1":
-    "Pametni konfigurator kuhinjskih korpusa: radionica šablona (formule, krojna lista, 3D) i planner prostora (zidovi, raspored, predračun). Python server, Three.js i Gemini Vision za skicu prostora.",
+    "Radionica (jedan šablon, krojna lista, 3D): https://novi-stolar-v1.onrender.com — Planner (cela kuhinja u prostoru): https://novi-stolar-v1.onrender.com/planner",
 };
 
 function normalizeGithubDescription(raw: string | null | undefined): string {

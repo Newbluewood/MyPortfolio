@@ -152,7 +152,31 @@ function GitHubRepoCard({
   );
 }
 
+function DescriptionWithLinks({ text }: { text: string }) {
+  const parts = text.split(/(https?:\/\/[^\s]+)/g);
+  return (
+    <p className="mt-2 flex-1 text-sm leading-relaxed text-zinc-400">
+      {parts.map((part, index) =>
+        part.startsWith("http") ? (
+          <Link
+            key={`${part}-${index}`}
+            href={part}
+            className="break-all text-amber-400/95 underline decoration-amber-500/35 underline-offset-[3px] hover:text-amber-300"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {part}
+          </Link>
+        ) : (
+          <span key={`${part}-${index}`}>{part}</span>
+        ),
+      )}
+    </p>
+  );
+}
+
 function ManualProjectCard({ project }: { project: ManualProject }) {
+  const descriptionHasLiveLink = project.description.includes(project.liveUrl);
   return (
     <article className="flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition hover:border-cyan-500/30 hover:bg-white/[0.06]">
       <div className="flex min-w-0 flex-wrap items-center gap-2">
@@ -164,9 +188,8 @@ function ManualProjectCard({ project }: { project: ManualProject }) {
         ) : null}
       </div>
       <GroupChips groupIds={project.groupIds} />
-      <p className="mt-2 flex-1 text-sm leading-relaxed text-zinc-400">
-        {project.description}
-      </p>
+      <DescriptionWithLinks text={project.description} />
+      {descriptionHasLiveLink ? null : (
       <p className="mt-2">
         <Link
           href={project.liveUrl}
@@ -184,6 +207,7 @@ function ManualProjectCard({ project }: { project: ManualProject }) {
           </span>
         </Link>
       </p>
+      )}
       {project.sourceUrl ? (
         <p className="mt-2 text-xs text-zinc-500">
           <Link

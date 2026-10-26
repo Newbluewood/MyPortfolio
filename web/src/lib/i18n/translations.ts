@@ -74,6 +74,8 @@ export const t = {
         "Can't reach the assistant right now. Try again in a bit.",
       errorApiMisconfigured:
         "Chat isn't configured for this site yet (API URL missing or wrong).",
+      errorIndexEmpty:
+        "The knowledge base is still loading. Wait a minute and try again.",
       inputLabel: "Message",
       placeholder: "Ask me anything…",
       send: "Send",
@@ -203,6 +205,8 @@ export const t = {
         "Asistent trenutno nije dostupan. Probaj ponovo za trenutak.",
       errorApiMisconfigured:
         "Chat nije podešen za ovaj sajt (API URL nedostaje ili je pogrešan).",
+      errorIndexEmpty:
+        "Baza znanja se još učitava. Sačekaj minut i probaj ponovo.",
       inputLabel: "Poruka",
       placeholder: "Pitaj me nešto…",
       send: "Pošalji",

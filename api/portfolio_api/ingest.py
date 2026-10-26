@@ -288,14 +288,22 @@ def main() -> None:
 
     llm, embed = build_llm_embed(s)
     _ = llm
+    # Free-tier embed quota is 30k tokens/min; default batching blows past it and
+    # LlamaIndex retries only wait ~10s. Slow batches + long 429 backoff.
+    embed.embed_batch_size = 5
+    embed.retries = 8
+    embed.retry_min_seconds = 20
+    embed.retry_max_seconds = 90
 
     store_path = resolve_chroma_path(s)
     chroma = chromadb.PersistentClient(path=store_path)
+    live_name = s.chroma_collection
+    staging_name = f"{live_name}__building"
     try:
-        chroma.delete_collection(s.chroma_collection)
+        chroma.delete_collection(staging_name)
     except NotFoundError:
         pass
-    collection = chroma.create_collection(s.chroma_collection)
+    collection = chroma.create_collection(staging_name)
     vector_store = ChromaVectorStore(chroma_collection=collection)
     storage_context = StorageContext.from_defaults(vector_store=vector_store)
 
@@ -327,8 +335,33 @@ def main() -> None:
         embed_model=embed,
         show_progress=True,
     )
+
+    staging = chroma.get_collection(staging_name)
+    payload = staging.get(include=["embeddings", "documents", "metadatas"])
+    ids = payload.get("ids") or []
+    if not ids:
+        print("Staging collection is empty after index.", file=sys.stderr)
+        sys.exit(1)
+
+    try:
+        chroma.delete_collection(live_name)
+    except NotFoundError:
+        pass
+    live = chroma.create_collection(live_name)
+    live.add(
+        ids=ids,
+        embeddings=payload.get("embeddings"),
+        documents=payload.get("documents"),
+        metadatas=payload.get("metadatas"),
+    )
+    try:
+        chroma.delete_collection(staging_name)
+    except NotFoundError:
+        pass
+
     print(
-        "Done. Restart the API (or POST /admin/invalidate-rag) if it was already running.",
+        f"Done. Indexed {len(ids)} chunk(s) into {live_name}. "
+        "Restart the API (or POST /admin/invalidate-rag) if it was already running.",
     )
 
 

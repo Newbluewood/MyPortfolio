@@ -43,6 +43,14 @@ export function formatChatError(raw: string, lang: Lang): string {
     return c.errorApiUnreachable;
   }
 
+  if (
+    low.includes("vector collection is empty") ||
+    low.includes("vector index not found") ||
+    low.includes("portfolio-ingest")
+  ) {
+    return c.errorIndexEmpty;
+  }
+
   // Already a short human message from the API (no JSON dump).
   if (!raw.includes("{") && !raw.includes("error\":") && raw.length <= 160) {
     return raw;

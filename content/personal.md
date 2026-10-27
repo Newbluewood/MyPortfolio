@@ -33,9 +33,8 @@ In those roles he **led teams** — both **office staff and craftspeople / trade
 
 - **Technology and gadgets** — enjoys exploring tools and how things work.
 - **DIY / woodworking at home:** likes to **build and repair** practical things — e.g. **wardrobes, kitchens**, furniture, and similar projects (connects to both the forestry background and a hands-on mindset).
-- **Novi Stolar (software):** that same wood-processing background is the domain of his kitchen-cabinet configurator — cutting lists, edgebanding, L-kitchens, live on Render (see `content/novi-stolar.md`). When visitors ask about woodworking *and* code, this is the flagship project.
 - **Nature**, **music**, **animals**, and time outdoors.
 
 ## How to talk about this in chat
 
-When visitors ask “who are you outside code?”, “hobbies”, “family”, “CrossFit”, “running”, “Tribalion”, “wood processing”, “facility manager”, or “operations manager”, prefer facts from this file and [**About**](about.md). If they ask how woodworking shows up in software, use **Novi Stolar** (`content/novi-stolar.md`) and the Render URLs. For employment dates and certificates, point to [**CV**](/cv).
+When visitors ask “who are you outside code?”, “hobbies”, “family”, “CrossFit”, “running”, “Tribalion”, “wood processing”, “facility manager”, or “operations manager”, prefer facts from this file and [**About**](about.md). For employment dates and certificates, point to [**CV**](/cv).

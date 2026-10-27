@@ -2,7 +2,6 @@ export type CvSkillCategory = "frontend" | "backend" | "data-ai" | "tools";
 
 const SKILL_CATEGORY: Record<string, CvSkillCategory> = {
   JavaScript: "frontend",
-  "Three.js": "frontend",
   Vue3: "frontend",
   React: "frontend",
   "Next.js": "frontend",

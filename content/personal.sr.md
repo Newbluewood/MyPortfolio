@@ -33,9 +33,8 @@ U tim ulogama **vodio je timove** — i **kancelarijsko osoblje i majstore / zan
 
 - **Tehnika i gadžeti** — voli da istražuje alate i kako stvari rade.
 - **Uradi sam / stolarija kod kuće:** voli da **pravi i popravlja** praktične stvari — npr. **plakare, kuhinje**, nameštaj i slične projekte (povezuje stručnu pozadinu iz prerade drveta sa praktičnim pristupom).
-- **Novi Stolar (softver):** ista struka je domen njegovog konfiguratora kuhinjskih korpusa — krojna lista, kant, L-kuhinja, live na Renderu (vidi `content/novi-stolar.sr.md`). Kad posetioci pitaju za stolariju *i* kod, to je glavni projekat.
 - **Priroda**, **muzika**, **životinje** i boravak napolju.
 
 ## Kako asistent da koristi ovo
 
-Kad posetioci pitaju „ko si van koda?“, „hobiji“, „porodica“, „CrossFit“, „trčanje“, „Tribalion“, „prerada drveta“, „facility manager“ ili „operations manager“, koristi činjenice iz ovog fajla i [**O meni**](about.sr.md). Ako pitaju kako se stolarija vidi u kodu, koristi **Novi Stolar** (`content/novi-stolar.sr.md`) i Render URL-ove. Za datume zaposlenja i sertifikate uputi na [**CV**](/cv).
+Kad posetioci pitaju „ko si van koda?“, „hobiji“, „porodica“, „CrossFit“, „trčanje“, „Tribalion“, „prerada drveta“, „facility manager“ ili „operations manager“, koristi činjenice iz ovog fajla i [**O meni**](about.sr.md). Za datume zaposlenja i sertifikate uputi na [**CV**](/cv).

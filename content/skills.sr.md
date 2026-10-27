@@ -1,6 +1,6 @@
 # Veštine
 
-**Frontend:** JavaScript / TypeScript, Vue 3, React, Next.js (App Router), HTML & CSS, Tailwind, Three.js, responzivni UI
+**Frontend:** JavaScript / TypeScript, Vue 3, React, Next.js (App Router), HTML & CSS, Tailwind, responzivni UI
 
 **Backend i API:** Node.js, Express, REST, WebSockets, Python, FastAPI
 

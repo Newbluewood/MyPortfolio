@@ -63,6 +63,7 @@ function scoreUrl(u: string): number {
     const h = x.hostname.toLowerCase();
     if (h.endsWith(".netlify.app")) return 100;
     if (h.endsWith(".vercel.app")) return 100;
+    if (h.endsWith(".onrender.com")) return 98;
     if (h.endsWith(".railway.app")) return 95;
     if (h.endsWith(".pages.dev")) return 92;
     if (h.endsWith(".github.io")) return 90;

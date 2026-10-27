@@ -77,6 +77,23 @@ export const cvDataFallback: CvData = {
   ],
   selectedProjects: [
     {
+      name: "Novi Stolar",
+      period: "2026",
+      roleTitle: "Kitchen cabinet configurator",
+      roleTitleSr: "Konfigurator kuhinjskih korpusa",
+      liveUrl: "https://novi-stolar-v1.onrender.com",
+      bullets: [
+        "Workshop + planner for a small joinery shop: cutting lists with edgebanding, Three.js 3D, straight-run and L-kitchen layout, materials and hardware estimate.",
+        "Vanilla JS geometry engine + Python server; optional Gemini Vision from a room sketch. Live: https://novi-stolar-v1.onrender.com and https://novi-stolar-v1.onrender.com/planner",
+        "Connects a Master’s in Wood Processing with production math (kant, Blum hardware, worktop order plan) — not a generic furniture mockup.",
+      ],
+      bulletsSr: [
+        "Radionica + planner za malu stolarsku radionicu: krojna lista sa kantom, Three.js 3D, niz i L-kuhinja, predračun materijala i okova.",
+        "Vanilla JS geometrijski motor + Python server; opciono Gemini Vision sa skice prostorije. Live: https://novi-stolar-v1.onrender.com i https://novi-stolar-v1.onrender.com/planner",
+        "Povezuje master iz prerade drveta sa proizvodnom matematikom (kant, Blum okov, plan tabli radne ploče) — nije generički 3D nameštaj.",
+      ],
+    },
+    {
       name: "Nastavna baza GOC",
       period: "2026 – present",
       roleTitle: "Full Stack & AI Integration",
@@ -158,6 +175,7 @@ export const cvDataFallback: CvData = {
   credentials: [],
   skills: [
     "JavaScript",
+    "Three.js",
     "Vue3",
     "React",
     "Next.js",

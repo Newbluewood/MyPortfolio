@@ -24,9 +24,27 @@ export type GitHubRepo = {
 };
 
 /**
+ * Uvek pobeđuje GitHub About — za slučaj kad je About mrsav ili zastareo.
+ */
+const REPO_DESCRIPTION_OVERRIDE: Partial<Record<string, string>> = {
+  "Novi-Stolar-v1":
+    "Pametni konfigurator kuhinjskih korpusa za malu stolarsku radionicu — krojna sa kantom, 3D, niz i L-kuhinja, predračun.",
+};
+
+/**
  * Kratki opis na portfoliju kad je GitHub "About" prazan.
  * (Ne utiče na privatne repo — oni se ionako ne listaju.)
  */
+/** Bilingual card copy — wins over GitHub About when the site language is EN/SR. */
+const REPO_CARD_DESCRIPTION_I18N: Partial<
+  Record<string, { en: string; sr: string }>
+> = {
+  "Gemini-Models-List-App": {
+    en: "Interactive catalog and live playground for official Google Gemini models — text, vision, and audio — with an Express proxy that keeps the API key on the server.",
+    sr: "Interaktivni katalog i živi playground za zvanične Google Gemini modele — tekst, slika i audio — uz Express proxy koji čuva API ključ na serveru.",
+  },
+};
+
 const REPO_DESCRIPTION_FALLBACK: Partial<Record<string, string>> = {
   MemoGemo:
     "Igra memorije u HTML/CSS/JS-u; playable sadržaj u folderu „Igra Memorije - BlackEdition“.",
@@ -62,7 +80,7 @@ const REPO_DESCRIPTION_FALLBACK: Partial<Record<string, string>> = {
   "Gemini-Models-List-App":
     "Interaktivna veb aplikacija za pregled, analizu i testiranje svih 52 zvanična Google Gemini AI modela — katalog i živi playground (Playground) za tekstualne, vizuelne i audio mogućnosti; Express proxy čuva API ključ na serveru.",
   "Novi-Stolar-v1":
-    "Radionica (jedan šablon, krojna lista, 3D): https://novi-stolar-v1.onrender.com — Planner (cela kuhinja u prostoru): https://novi-stolar-v1.onrender.com/planner",
+    "Pametni konfigurator kuhinjskih korpusa za malu stolarsku radionicu — krojna sa kantom, 3D, niz i L-kuhinja, predračun.",
 };
 
 function normalizeGithubDescription(raw: string | null | undefined): string {
@@ -72,13 +90,38 @@ function normalizeGithubDescription(raw: string | null | undefined): string {
     .trim();
 }
 
-function repoDescriptionFallback(repoName: string): string | undefined {
+function lookupRepoDescription(
+  table: Partial<Record<string, string>>,
+  repoName: string,
+): string | undefined {
   const key = repoName.trim();
   if (!key) return undefined;
-  const direct = REPO_DESCRIPTION_FALLBACK[key];
+  const direct = table[key];
   if (direct !== undefined) return direct;
   const lower = key.toLowerCase();
-  for (const [k, v] of Object.entries(REPO_DESCRIPTION_FALLBACK)) {
+  for (const [k, v] of Object.entries(table)) {
+    if (k.toLowerCase() === lower) return v;
+  }
+  return undefined;
+}
+
+function repoDescriptionOverride(repoName: string): string | undefined {
+  return lookupRepoDescription(REPO_DESCRIPTION_OVERRIDE, repoName);
+}
+
+function repoDescriptionFallback(repoName: string): string | undefined {
+  return lookupRepoDescription(REPO_DESCRIPTION_FALLBACK, repoName);
+}
+
+export function repoCardDescriptionI18n(
+  repoName: string,
+): { en: string; sr: string } | undefined {
+  const key = repoName.trim();
+  if (!key) return undefined;
+  const direct = REPO_CARD_DESCRIPTION_I18N[key];
+  if (direct) return direct;
+  const lower = key.toLowerCase();
+  for (const [k, v] of Object.entries(REPO_CARD_DESCRIPTION_I18N)) {
     if (k.toLowerCase() === lower) return v;
   }
   return undefined;
@@ -214,6 +257,10 @@ export async function fetchUserRepos(): Promise<GitHubRepo[]> {
             ? String(r.homepage).trim()
             : null,
       };
+      const override = repoDescriptionOverride(base.name);
+      if (override) {
+        return { ...base, description: override };
+      }
       const trimmed = normalizeGithubDescription(base.description);
       if (trimmed) {
         return { ...base, description: trimmed };

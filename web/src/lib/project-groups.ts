@@ -119,6 +119,7 @@ const repoNameToGroups: Record<string, ProjectGroupId[]> = {
 
   "nastavna-baza-goc": ["ai_vibe", "fullstack"],
   "Novi-Stolar-v1": ["nodejs_env", "python", "ai_vibe"],
+  "Gemini-Models-List-App": ["fullstack", "ai_vibe"],
 
   "CCD_Test_PracticeCenter---JSFD-NebojsaSimovic": ["other"],
   online_sales_analysis: ["python"],

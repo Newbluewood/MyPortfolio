@@ -2,7 +2,12 @@ import Link from "next/link";
 
 import { Section } from "@/components/section";
 import { T } from "@/components/translated-text";
-import { fetchUserRepos, hasGithubListingIdentity, type GitHubRepo } from "@/lib/github";
+import {
+  fetchUserRepos,
+  hasGithubListingIdentity,
+  repoCardDescriptionI18n,
+  type GitHubRepo,
+} from "@/lib/github";
 import { fetchNetlifyDeployIndex, type NetlifyDeployIndex } from "@/lib/netlify";
 import {
   GITHUB_REPO_LIVE_URL_OVERRIDES,
@@ -111,13 +116,28 @@ function GitHubRepoCard({
         <span className="text-xs text-zinc-500">★ {repo.stargazers_count}</span>
       </div>
       <GroupChips groupIds={groupIds} />
-      {repo.description || readmeDescByFullName.get(repo.full_name) ? (
-        <p className="mt-2 flex-1 text-sm leading-relaxed text-zinc-400">
-          {repo.description ?? readmeDescByFullName.get(repo.full_name)}
-        </p>
-      ) : (
-        <p className="mt-2 flex-1 text-sm italic text-zinc-600"><T en="No description" sr="Bez opisa" /></p>
-      )}
+      {(() => {
+        const i18nDesc = repoCardDescriptionI18n(repo.name);
+        if (i18nDesc) {
+          return (
+            <p className="mt-2 flex-1 text-sm leading-relaxed text-zinc-400">
+              <T en={i18nDesc.en} sr={i18nDesc.sr} />
+            </p>
+          );
+        }
+        if (repo.description || readmeDescByFullName.get(repo.full_name)) {
+          return (
+            <p className="mt-2 flex-1 text-sm leading-relaxed text-zinc-400">
+              {repo.description ?? readmeDescByFullName.get(repo.full_name)}
+            </p>
+          );
+        }
+        return (
+          <p className="mt-2 flex-1 text-sm italic text-zinc-600">
+            <T en="No description" sr="Bez opisa" />
+          </p>
+        );
+      })()}
       {liveUrl ? (
         <p className="mt-2">
           <Link

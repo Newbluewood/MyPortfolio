@@ -30,3 +30,29 @@ Naslov sekcije mora da se poklopi sa **GitHub imenom repoa** (npr. `## Novi-Stol
 **v2** (`Konstruktor_korpusa`) je TypeScript motor korpusa u istom GitHub repou — laboratorija, nije live demo. Live je uvek v1 na Renderu.
 
 **Detalji za RAG:** `content/novi-stolar.md` (EN) i `content/novi-stolar.sr.md` (SR).
+
+---
+
+## ITA-ML
+
+**Kratko:** određivanje sentimenta recenzija proizvoda. Kurs Introduction to Machine Learning using Python (ITAcademy). Ovo je sentiment projekat, ne onaj sa „Sentiment“ u imenu repoa.
+
+**Repo:** https://github.com/Newbluewood/ITA-ML
+
+**Šta radi:** iz naslova recenzije, teksta i dužine teksta predviđa sentiment. Podaci: `product_reviews_full.csv`.
+
+**Stack:** Python, pandas, scikit-learn (TF-IDF + Random Forest), joblib (`model/sentiment_model.pkl`). Nije TensorFlow i nije neuronska mreža.
+
+**Ne mešati sa:** `ML-SentimentModelForReviews` — taj repo predviđa kategoriju proizvoda iz naslova, ne sentiment recenzije.
+
+---
+
+## ML-SentimentModelForReviews
+
+**Kratko:** predikcija kategorije proizvoda iz naslova (Product Title), oko 35 000 proizvoda. Ime repoa vara: ovo nije sentiment recenzija.
+
+**Repo:** https://github.com/Newbluewood/ML-SentimentModelForReviews
+
+**Stack:** Python, scikit-learn (TF-IDF, logistička regresija, Naive Bayes, Random Forest; najbolji na testu je Random Forest), joblib. Nije TensorFlow.
+
+**Sentiment recenzija** je u repou `ITA-ML`.

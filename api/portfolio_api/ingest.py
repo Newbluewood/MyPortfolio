@@ -20,6 +20,31 @@ def _repo_root() -> Path:
 
 
 _URL_RE = re.compile(r"https?://[^\s\)\]<>\"']+")
+_DEPLOY_HOST_SUFFIXES = (
+    ".onrender.com",
+    ".netlify.app",
+    ".vercel.app",
+    ".railway.app",
+    ".pages.dev",
+    ".github.io",
+    ".web.app",
+    ".azurewebsites.net",
+    ".lovable.app",
+)
+# Isti ključevi kao web GITHUB_REPO_LIVE_URL_OVERRIDES (ime repoa, mala slova).
+_LIVE_URL_OVERRIDES: dict[str, list[str]] = {
+    "novi-stolar-v1": [
+        "https://novi-stolar-v1.onrender.com",
+        "https://novi-stolar-v1.onrender.com/planner",
+    ],
+    "nastavna-baza-goc": ["https://nastavnabazagoc.netlify.app"],
+}
+_DESCRIPTION_OVERRIDES: dict[str, str] = {
+    "novi-stolar-v1": (
+        "Pametni konfigurator kuhinjskih korpusa za malu stolarsku radionicu "
+        "— krojna sa kantom, 3D, niz i L-kuhinja, predračun."
+    ),
+}
 
 
 def _extract_urls(text: str, limit: int = 16) -> list[str]:
@@ -32,6 +57,87 @@ def _extract_urls(text: str, limit: int = 16) -> list[str]:
             out.append(u)
         if len(out) >= limit:
             break
+    return out
+
+
+def _hostname(url: str) -> str:
+    try:
+        from urllib.parse import urlparse
+
+        return (urlparse(url).hostname or "").lower()
+    except Exception:
+        return ""
+
+
+def _is_localhost_url(url: str) -> bool:
+    h = _hostname(url)
+    return h in {"localhost", "127.0.0.1", "::1"}
+
+
+def _is_github_url(url: str) -> bool:
+    h = _hostname(url)
+    return h == "github.com" or h.endswith(".github.com")
+
+
+def _is_public_deploy_url(url: str) -> bool:
+    if not url or _is_localhost_url(url) or _is_github_url(url):
+        return False
+    h = _hostname(url)
+    if not h:
+        return False
+    return any(h == s[1:] or h.endswith(s) for s in _DEPLOY_HOST_SUFFIXES)
+
+
+def _parse_notes_sections(text: str) -> dict[str, str]:
+    """Map `## RepoName` (lowercase) → section body from github-repos-notes.md."""
+    sections: dict[str, str] = {}
+    current: str | None = None
+    buf: list[str] = []
+    for line in (text or "").splitlines():
+        if line.startswith("## "):
+            if current:
+                sections[current] = "\n".join(buf).strip()
+            current = line[3:].strip().lower()
+            buf = []
+        elif current is not None:
+            buf.append(line)
+    if current:
+        sections[current] = "\n".join(buf).strip()
+    return sections
+
+
+def _collect_live_urls(
+    homepage: str,
+    notes_body: str | None,
+    readme_body: str | None,
+    override_urls: list[str] | None,
+) -> list[str]:
+    out: list[str] = []
+    seen: set[str] = set()
+
+    def add(url: str, *, allow_custom_homepage: bool = False) -> None:
+        u = (url or "").strip()
+        if not u:
+            return
+        key = u.rstrip("/").lower()
+        if key in seen:
+            return
+        ok = _is_public_deploy_url(u)
+        if not ok and allow_custom_homepage:
+            ok = not _is_localhost_url(u) and not _is_github_url(u)
+        if not ok:
+            return
+        seen.add(key)
+        out.append(u)
+
+    if homepage:
+        add(homepage, allow_custom_homepage=True)
+    for src in (notes_body, readme_body):
+        if src:
+            for u in _extract_urls(src, limit=32):
+                add(u)
+    for u in override_urls or []:
+        add(u)
     return out
 
 
@@ -52,16 +158,23 @@ def _fmt_date(iso: str | None) -> str:
     return iso[:10]
 
 
-def _build_repo_markdown(repo: dict, readme_body: str | None) -> str:
+def _build_repo_markdown(
+    repo: dict,
+    readme_body: str | None,
+    notes_body: str | None = None,
+) -> str:
     name = repo["name"]
     html_url = repo.get("html_url") or ""
-    desc = (repo.get("description") or "").strip()
+    desc_override = _DESCRIPTION_OVERRIDES.get(name.strip().lower(), "").strip()
+    desc = desc_override or (repo.get("description") or "").strip()
     homepage = _normalize_homepage(repo.get("homepage"))
     topics = repo.get("topics") if isinstance(repo.get("topics"), list) else []
     language = (repo.get("language") or "").strip()
     created_at = _fmt_date(repo.get("created_at"))
     pushed_at = _fmt_date(repo.get("pushed_at"))
     updated_at = _fmt_date(repo.get("updated_at"))
+    override_urls = _LIVE_URL_OVERRIDES.get(name.strip().lower(), [])
+    live_urls = _collect_live_urls(homepage, notes_body, readme_body, override_urls)
 
     topic_line = ", ".join(str(t) for t in topics) if topics else "(nema topics na GitHubu)"
 
@@ -76,19 +189,32 @@ def _build_repo_markdown(repo: dict, readme_body: str | None) -> str:
         f"**Poslednji push:** {pushed_at}",
         f"**Poslednje ažuriranje:** {updated_at}",
     ]
-    if homepage:
-        parts.append(f"**Live sajt / deploy URL (GitHub homepage):** {homepage}")
+    if live_urls:
+        parts.append("**Live sajt POSTOJI (javni demo) — uvek navedi ove URL-ove:**")
+        parts.extend(f"- {u}" for u in live_urls)
+        if not homepage:
+            parts.append(
+                "_GitHub About → Website je prazan. To NIJE 'nema live sajta' — demo je gore._"
+            )
     else:
         parts.append(
-            "**Live sajt / deploy URL:** (nije podešeno — na GitHubu: repo → About → Website; "
-            "često Netlify / Vercel URL ili stavi link u README ili u content/github-repos-notes.md)"
+            "**GitHub About → Website:** prazno. To znači samo da polje na GitHubu nije "
+            "popunjeno, NE da projekat nema demo. Traži Render/Netlify/Vercel URL u napomenama."
         )
+
+    notes_clean = (notes_body or "").strip()
+    if notes_clean:
+        parts.extend(["", "## Napomene iz github-repos-notes.md", "", notes_clean])
 
     readme_clean = (readme_body or "").strip()
     if readme_clean:
         parts.extend(["", "## README", "", readme_clean])
-        urls = _extract_urls(readme_clean)
-        extra = [u for u in urls if homepage and u != homepage] or urls
+        urls = [
+            u
+            for u in _extract_urls(readme_clean)
+            if not _is_localhost_url(u) and not _is_github_url(u)
+        ]
+        extra = [u for u in urls if u.rstrip("/") not in {x.rstrip("/") for x in live_urls}]
         if extra:
             parts.extend(["", "## Linkovi iz README-a (demo, dokumentacija, …)", ""])
             parts.extend(f"- {u}" for u in extra)
@@ -107,13 +233,21 @@ def _build_repo_markdown(repo: dict, readme_body: str | None) -> str:
     return "\n".join(parts) + "\n"
 
 
-def _fetch_github_readmes(raw_dir: Path, s: Settings) -> None:
+def _fetch_github_readmes(raw_dir: Path, s: Settings, content_dir: Path | None = None) -> None:
     raw_dir.mkdir(parents=True, exist_ok=True)
     for p in raw_dir.glob("*.md"):
         try:
             p.unlink()
         except OSError:
             pass
+
+    notes_by_repo: dict[str, str] = {}
+    notes_path = (content_dir / "github-repos-notes.md") if content_dir else None
+    if notes_path and notes_path.is_file():
+        try:
+            notes_by_repo = _parse_notes_sections(notes_path.read_text(encoding="utf-8"))
+        except OSError:
+            notes_by_repo = {}
 
     username = (s.github_username or "").strip()
     token = s.github_token.strip() if s.github_token else None
@@ -188,21 +322,40 @@ def _fetch_github_readmes(raw_dir: Path, s: Settings) -> None:
         safe.append(x)
     safe = safe[:max_repos]
 
+    readme_headers: dict[str, str] = {
+        "Accept": "application/vnd.github.raw+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+    }
+    if token:
+        readme_headers["Authorization"] = f"Bearer {token}"
+
     with httpx.Client(timeout=30) as client:
         for repo in safe:
             name = repo["name"]
             full = repo["full_name"]
             branch = repo.get("default_branch") or "main"
-            url = f"https://raw.githubusercontent.com/{full}/{branch}/README.md"
             readme_body: str | None = None
             try:
-                rr = client.get(url)
+                api_readme = f"https://api.github.com/repos/{full}/readme"
+                rr = client.get(
+                    api_readme,
+                    params={"ref": branch},
+                    headers=readme_headers,
+                )
                 if rr.status_code == 200 and rr.text.strip():
                     readme_body = rr.text
+                elif rr.status_code != 200:
+                    raw_url = (
+                        f"https://raw.githubusercontent.com/{full}/{branch}/README.md"
+                    )
+                    rr2 = client.get(raw_url)
+                    if rr2.status_code == 200 and rr2.text.strip():
+                        readme_body = rr2.text
             except OSError:
                 pass
 
-            doc = _build_repo_markdown(repo, readme_body)
+            notes_body = notes_by_repo.get(name.strip().lower())
+            doc = _build_repo_markdown(repo, readme_body, notes_body)
             path = raw_dir / f"{name}__README.md"
             try:
                 path.write_text(doc, encoding="utf-8")
@@ -280,7 +433,7 @@ def main() -> None:
 
     print("Fetching GitHub repo metadata + README files…")
     try:
-        _fetch_github_readmes(raw_dir, s)
+        _fetch_github_readmes(raw_dir, s, content_dir)
     except Exception as e:  # noqa: BLE001
         print(f"GitHub README fetch skipped: {e}", file=sys.stderr)
 

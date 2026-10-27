@@ -1,6 +1,6 @@
 # Skills
 
-**Frontend:** JavaScript / TypeScript, Vue 3, React, Next.js (App Router), HTML & CSS, Tailwind, responsive UI  
+**Frontend:** JavaScript / TypeScript, Vue 3, React, Next.js (App Router), HTML & CSS, Tailwind, Three.js, responsive UI  
 
 **Backend & APIs:** Node.js, Express, REST, WebSockets, Python, FastAPI  
 

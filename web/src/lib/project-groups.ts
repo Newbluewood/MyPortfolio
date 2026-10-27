@@ -195,6 +195,8 @@ export type ManualProject = {
   sourceUrl?: string;
   groupIds: ProjectGroupId[];
   language?: string | null;
+  /** GitHub-style topic chips on the card. */
+  topics?: string[];
   /** ISO 8601 — uključi u isti hronološki red sa GitHub repou (najnoviji gore). */
   listedAt: string;
 };
@@ -208,6 +210,16 @@ export const MANUAL_PROJECTS: ManualProject[] = [
     liveUrl: "https://novi-stolar-v1.onrender.com",
     groupIds: ["nodejs_env", "python", "ai_vibe"],
     language: "JavaScript / Python",
+    topics: [
+      "javascript",
+      "python",
+      "threejs",
+      "nodejs",
+      "gemini",
+      "render",
+      "3d",
+      "configurator",
+    ],
     listedAt: "2026-08-08T19:10:49Z",
   },
   {

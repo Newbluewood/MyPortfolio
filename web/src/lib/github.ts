@@ -48,6 +48,16 @@ const REPO_TOPICS_FALLBACK: Partial<Record<string, string[]>> = {
     "sqlite",
     "tailwindcss",
   ],
+  "Novi-Stolar-v1": [
+    "javascript",
+    "python",
+    "threejs",
+    "nodejs",
+    "gemini",
+    "render",
+    "3d",
+    "configurator",
+  ],
 };
 
 /**

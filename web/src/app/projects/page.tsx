@@ -230,6 +230,18 @@ function ManualProjectCard({ project }: { project: ManualProject }) {
         </Link>
       </p>
       )}
+      {project.topics && project.topics.length > 0 ? (
+        <ul className="mt-3 flex flex-wrap gap-2">
+          {project.topics.map((t) => (
+            <li
+              key={t}
+              className="rounded-md bg-white/5 px-2 py-0.5 text-xs text-zinc-500"
+            >
+              {t}
+            </li>
+          ))}
+        </ul>
+      ) : null}
       {project.sourceUrl ? (
         <p className="mt-2 text-xs text-zinc-500">
           <Link

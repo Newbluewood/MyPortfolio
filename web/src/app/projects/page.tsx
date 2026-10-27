@@ -10,7 +10,9 @@ import {
   PROJECT_GROUP_CHIP_LABEL,
   PROJECT_GROUP_META,
   PROJECT_GROUP_ORDER,
+  isEarlyWorkByDate,
   projectGroupIdsForRepo,
+  withEarlyWorkByDate,
   type ManualProject,
   type ProjectGroupId,
 } from "@/lib/project-groups";
@@ -24,7 +26,7 @@ export const revalidate = 300;
 export const metadata = {
   title: "Projects",
   description:
-    "Projekti sa više kategorija: rani radovi, Node.js, Python, CSR, full stack, AI i WordPress — narandžasti čipovi na svakoj kartici.",
+    "Projekti po kategorijama; rani radovi su sve do maja 2025.",
 };
 
 function GroupChips({ groupIds }: { groupIds: ProjectGroupId[] }) {
@@ -187,7 +189,7 @@ function ManualProjectCard({ project }: { project: ManualProject }) {
           </span>
         ) : null}
       </div>
-      <GroupChips groupIds={project.groupIds} />
+      <GroupChips groupIds={withEarlyWorkByDate(project.groupIds, project.listedAt)} />
       <DescriptionWithLinks text={project.description} />
       {descriptionHasLiveLink ? null : (
       <p className="mt-2">
@@ -258,10 +260,39 @@ export default async function ProjectsPage() {
     return row.repo.created_at || row.repo.pushed_at || "1970-01-01T00:00:00Z";
   }
 
+  function projectRowCreatedAt(row: ProjectListRow): string {
+    if (row.kind === "manual") return row.project.listedAt;
+    return row.repo.created_at || "1970-01-01T00:00:00Z";
+  }
+
   const projectRows: ProjectListRow[] = [
     ...MANUAL_PROJECTS.map((project) => ({ kind: "manual" as const, project })),
     ...repos.map((repo) => ({ kind: "github" as const, repo })),
   ].sort((a, b) => projectRowSortKey(b).localeCompare(projectRowSortKey(a)));
+
+  const laterRows = projectRows.filter((row) => !isEarlyWorkByDate(projectRowCreatedAt(row)));
+  const earlyRows = projectRows.filter((row) => isEarlyWorkByDate(projectRowCreatedAt(row)));
+
+  function renderProjectRow(row: ProjectListRow) {
+    if (row.kind === "manual") {
+      return (
+        <li key={row.project.id} className="h-full min-h-0 min-w-0">
+          <ManualProjectCard project={row.project} />
+        </li>
+      );
+    }
+    return (
+      <li key={row.repo.id} className="h-full min-h-0 min-w-0">
+        <GitHubRepoCard
+          repo={row.repo}
+          netlifyIndex={netlifyIndex}
+          readmeLiveByFullName={readmeLiveByFullName}
+          readmeDescByFullName={readmeDescByFullName}
+          groupIds={projectGroupIdsForRepo(row.repo)}
+        />
+      </li>
+    );
+  }
 
   return (
     <Section eyebrow="Portfolio" title={<T en="Projects" sr="Projekti" />}>
@@ -289,8 +320,8 @@ export default async function ProjectsPage() {
 
       <p className="mb-8 max-w-2xl text-sm leading-relaxed text-zinc-500">
         <T
-          en="Each project can have multiple categories — shown as orange chips (tooltip on the chip gives a longer description). Below is a legend; cards are sorted chronologically by creation — newest first (GitHub: repository creation date)."
-          sr="Svaki projekat može imati više kategorija — prikazane su kao narandžasti čipovi (tooltip na čipu daje duži opis). Ispod je legenda; kartice su hronološki poredane po nastanku — najnoviji projekat je prvi (GitHub: datum kreiranja repozitorijuma)."
+          en="Each project can have multiple categories — shown as orange chips (tooltip on the chip gives a longer description). Cards through May 2025 are grouped under Early works; later work is listed first, newest at the top (GitHub: repository creation date)."
+          sr="Svaki projekat može imati više kategorija — prikazane su kao narandžasti čipovi (tooltip na čipu daje duži opis). Projekti do maja 2025. su u odeljku Rani radovi; noviji su iznad, najnoviji prvi (GitHub: datum kreiranja repozitorijuma)."
         />
       </p>
 
@@ -327,25 +358,24 @@ export default async function ProjectsPage() {
         })}
       </div>
 
-      <ul className="grid min-w-0 gap-4 sm:grid-cols-2">
-        {projectRows.map((row) =>
-          row.kind === "manual" ? (
-            <li key={row.project.id} className="h-full min-h-0 min-w-0">
-              <ManualProjectCard project={row.project} />
-            </li>
-          ) : (
-            <li key={row.repo.id} className="h-full min-h-0 min-w-0">
-              <GitHubRepoCard
-                repo={row.repo}
-                netlifyIndex={netlifyIndex}
-                readmeLiveByFullName={readmeLiveByFullName}
-                readmeDescByFullName={readmeDescByFullName}
-                groupIds={projectGroupIdsForRepo(row.repo)}
-              />
-            </li>
-          ),
-        )}
-      </ul>
+      {laterRows.length > 0 ? (
+        <ul className="grid min-w-0 gap-4 sm:grid-cols-2">{laterRows.map(renderProjectRow)}</ul>
+      ) : null}
+
+      {earlyRows.length > 0 ? (
+        <div className={laterRows.length > 0 ? "mt-14" : undefined}>
+          <h2 className="mb-1 text-lg font-semibold tracking-tight text-white">
+            <T en="Early works" sr="Rani radovi" />
+          </h2>
+          <p className="mb-6 max-w-2xl text-sm text-zinc-500">
+            <T
+              en="Projects created through May 2025."
+              sr="Projekti nastali do maja 2025."
+            />
+          </p>
+          <ul className="grid min-w-0 gap-4 sm:grid-cols-2">{earlyRows.map(renderProjectRow)}</ul>
+        </div>
+      ) : null}
     </Section>
   );
 }

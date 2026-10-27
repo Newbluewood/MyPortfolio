@@ -26,7 +26,7 @@ export const PROJECT_GROUP_ORDER: ProjectGroupId[] = [
 
 /** Kratak tekst na narandžastim čipovima (tooltip = meta.intro). */
 export const PROJECT_GROUP_CHIP_LABEL: Record<ProjectGroupId, { en: string; sr: string }> = {
-  early_static: { en: "Early work", sr: "Rani rad" },
+  early_static: { en: "Early works", sr: "Rani radovi" },
   nodejs_env:   { en: "Node.js",    sr: "Node.js" },
   python:       { en: "Python",     sr: "Python" },
   csr_framework:{ en: "CSR / SPA",  sr: "CSR / SPA" },
@@ -41,10 +41,10 @@ export const PROJECT_GROUP_META: Record<
   { title: { en: string; sr: string }; intro: { en: string; sr: string } }
 > = {
   early_static: {
-    title: { en: "Early work", sr: "Rani radovi" },
+    title: { en: "Early works", sr: "Rani radovi" },
     intro: {
-      en: "HTML, CSS and JavaScript without a build environment — directly in the browser and editor.",
-      sr: "HTML, CSS i JavaScript bez build okruženja — direktno u pregledaču i editoru.",
+      en: "Everything through May 2025 — the first phase of learning and practice.",
+      sr: "Sve do maja 2025. — prva faza učenja i vežbe.",
     },
   },
   nodejs_env: {
@@ -152,16 +152,33 @@ export function projectGroupIdsForRepoName(name: string): ProjectGroupId[] {
   return ["other"];
 }
 
-/** GitHub `language` + ručna mapa — dodaje „python” čip kad je primarni jezik Python. */
+/** Inclusive through May 2025 (UTC). June 2025 and later are later-phase work. */
+export const EARLY_WORK_UNTIL_MS = Date.parse("2025-06-01T00:00:00.000Z");
+
+export function isEarlyWorkByDate(iso: string | null | undefined): boolean {
+  const ms = Date.parse((iso ?? "").trim());
+  if (Number.isNaN(ms)) return false;
+  return ms < EARLY_WORK_UNTIL_MS;
+}
+
+export function withEarlyWorkByDate(
+  groupIds: ProjectGroupId[],
+  iso: string | null | undefined,
+): ProjectGroupId[] {
+  if (!isEarlyWorkByDate(iso)) return sortAndDedupeGroupIds(groupIds);
+  return sortAndDedupeGroupIds(["early_static", ...groupIds]);
+}
+
+/** GitHub `language` + ručna mapa + datum kreiranja (rani radovi do maja 2025). */
 export function projectGroupIdsForRepo(repo: {
   name: string;
   language: string | null;
+  created_at?: string;
 }): ProjectGroupId[] {
   const base = projectGroupIdsForRepoName(repo.name);
-  if (repo.language === "Python") {
-    return sortAndDedupeGroupIds([...base, "python"]);
-  }
-  return base;
+  const withLang: ProjectGroupId[] =
+    repo.language === "Python" ? [...base, "python"] : base;
+  return withEarlyWorkByDate(withLang, repo.created_at);
 }
 
 /** Prva oznaka — samo ako negde treba jedna vrednost. */
@@ -186,7 +203,7 @@ export const MANUAL_PROJECTS: ManualProject[] = [
     id: "novi-stolar-v1",
     name: "Novi Stolar",
     description:
-      "Radionica (jedan šablon, krojna lista, 3D): https://novi-stolar-v1.onrender.com — Planner (cela kuhinja u prostoru): https://novi-stolar-v1.onrender.com/planner",
+      "Pametni konfigurator kuhinjskih korpusa za malu stolarsku radionicu — krojna sa kantom, 3D, niz i L-kuhinja, predračun.",
     liveUrl: "https://novi-stolar-v1.onrender.com",
     groupIds: ["nodejs_env", "python", "ai_vibe"],
     language: "JavaScript / Python",

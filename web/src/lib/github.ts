@@ -32,9 +32,29 @@ const REPO_DESCRIPTION_OVERRIDE: Partial<Record<string, string>> = {
 };
 
 /**
+ * Topics on the project card when GitHub list-repos cache is still empty.
+ * Merged with API topics (does not replace them).
+ */
+const REPO_TOPICS_FALLBACK: Partial<Record<string, string[]>> = {
+  "Gemini-Models-List-App": [
+    "express",
+    "gemini",
+    "google-ai",
+    "javascript",
+    "nodejs",
+    "playground",
+    "posthog",
+    "render",
+    "sqlite",
+    "tailwindcss",
+  ],
+};
+
+/**
  * Kratki opis na portfoliju kad je GitHub "About" prazan.
  * (Ne utiče na privatne repo — oni se ionako ne listaju.)
  */
+
 /** Bilingual card copy — wins over GitHub About when the site language is EN/SR. */
 const REPO_CARD_DESCRIPTION_I18N: Partial<
   Record<string, { en: string; sr: string }>
@@ -111,6 +131,26 @@ function repoDescriptionOverride(repoName: string): string | undefined {
 
 function repoDescriptionFallback(repoName: string): string | undefined {
   return lookupRepoDescription(REPO_DESCRIPTION_FALLBACK, repoName);
+}
+
+function repoTopicsFallback(repoName: string): string[] {
+  const key = repoName.trim();
+  if (!key) return [];
+  const direct = REPO_TOPICS_FALLBACK[key];
+  if (direct) return direct;
+  const lower = key.toLowerCase();
+  for (const [k, v] of Object.entries(REPO_TOPICS_FALLBACK)) {
+    if (k.toLowerCase() === lower && v) return v;
+  }
+  return [];
+}
+
+function mergeRepoTopics(fromApi: unknown, repoName: string): string[] {
+  const api = Array.isArray(fromApi)
+    ? fromApi.filter((t): t is string => typeof t === "string" && t.trim() !== "")
+    : [];
+  const extra = repoTopicsFallback(repoName);
+  return [...new Set([...api, ...extra])];
 }
 
 export function repoCardDescriptionI18n(
@@ -210,7 +250,8 @@ export async function fetchUserRepos(): Promise<GitHubRepo[]> {
 
     const res = await fetch(url, {
       headers,
-      next: { revalidate: 300 },
+      // Production: 5 min. Local: always refetch so new GitHub topics/About show immediately.
+      next: { revalidate: process.env.VERCEL ? 300 : 0 },
     });
 
     if (res.status === 401 && useAuthedList) {
@@ -248,7 +289,7 @@ export async function fetchUserRepos(): Promise<GitHubRepo[]> {
         (GITHUB_REPOS_INCLUDE_FORKS || !r.fork),
     )
     .map((r) => {
-      const topics = Array.isArray(r.topics) ? r.topics : [];
+      const topics = mergeRepoTopics(r.topics, r.name);
       const base = {
         ...r,
         topics,

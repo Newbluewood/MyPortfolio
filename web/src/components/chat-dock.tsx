@@ -12,6 +12,11 @@ import {
 } from "react";
 
 import { formatChatError } from "@/lib/chat-error";
+import {
+  chatHistoryForApi,
+  loadChatSession,
+  saveChatSession,
+} from "@/lib/chat-session";
 import { clientEnv } from "@/lib/env/client";
 import { useLang } from "@/lib/i18n/context";
 
@@ -102,6 +107,9 @@ export function ChatDock() {
   const { lang, T } = useLang();
   const langRef = useRef(lang);
   langRef.current = lang;
+  const messagesRef = useRef(messages);
+  messagesRef.current = messages;
+  const [hydrated, setHydrated] = useState(false);
 
   const stopTyping = useCallback(() => {
     if (typingTimerRef.current) {
@@ -184,6 +192,16 @@ export function ChatDock() {
   }, [open]);
 
   useEffect(() => {
+    setMessages(loadChatSession());
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!hydrated || busy) return;
+    saveChatSession(messages);
+  }, [messages, hydrated, busy]);
+
+  useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, open]);
 
@@ -205,14 +223,9 @@ export function ChatDock() {
     pendingRef.current = "";
     setInput("");
     setError(null);
-    // Snapshot istorije pre dodavanja nove poruke (šaljemo prethodne razmene API-ju).
-    let historySnapshot: Array<{ role: "user" | "assistant"; content: string }> = [];
+    // Snapshot pre setState — updater može da se odloži ako već ima pending update.
+    const historySnapshot = chatHistoryForApi(messagesRef.current, 8);
     setMessages((m) => {
-      // Samo poslednje 2 razmene (4 poruke) — više istorije iskrivljuje RAG retrieval.
-      historySnapshot = m
-        .filter((msg) => msg.content.trim())
-        .map(({ role, content }) => ({ role, content }))
-        .slice(-4);
       const next = [
         ...m,
         { role: "user" as const, content: q },

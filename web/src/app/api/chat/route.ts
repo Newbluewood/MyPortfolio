@@ -28,6 +28,31 @@ export async function POST(req: Request) {
     });
   }
 
+  const historyRaw =
+    body &&
+    typeof body === "object" &&
+    "history" in body &&
+    Array.isArray((body as { history: unknown }).history)
+      ? (body as { history: unknown[] }).history
+      : [];
+
+  const history = historyRaw
+    .filter(
+      (m): m is { role: string; content: string } =>
+        !!m &&
+        typeof m === "object" &&
+        "role" in m &&
+        "content" in m &&
+        ((m as { role: unknown }).role === "user" ||
+          (m as { role: unknown }).role === "assistant") &&
+        typeof (m as { content: unknown }).content === "string",
+    )
+    .map((m) => ({
+      role: m.role,
+      content: m.content.slice(0, 4000),
+    }))
+    .slice(-40);
+
   const baseRaw = serverEnv().PORTFOLIO_API_URL.replace(/\/$/, "");
   let backendHost: string;
   try {
@@ -62,7 +87,7 @@ export async function POST(req: Request) {
     backend = await fetch(`${base}/chat`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message }),
+      body: JSON.stringify({ message, history }),
     });
   } catch (e) {
     const detail = e instanceof Error ? e.message : String(e);

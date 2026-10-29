@@ -2,7 +2,7 @@
 
 This file answers recency questions. Match these phrases: **newest project**, **latest project**, **current project**, **what are you working on**, **flagship**, **most recent repo**.
 
-**Newest product (created 8 Aug 2026):** **Novi Stolar** — kitchen-cabinet configurator for a small joinery shop (workshop + planner, cutting lists with edgebanding, Three.js 3D, L-kitchen, estimate).
+**Newest product (created 8 Aug 2026):** **Novi Stolar** — kitchen-cabinet configurator **in development** (workshop + planner, cutting lists with edgebanding, Three.js 3D, L-kitchen, estimate). Live demo, not a finished product.
 
 - Live workshop: https://novi-stolar-v1.onrender.com
 - Live planner: https://novi-stolar-v1.onrender.com/planner

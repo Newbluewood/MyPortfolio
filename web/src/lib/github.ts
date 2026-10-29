@@ -28,7 +28,7 @@ export type GitHubRepo = {
  */
 const REPO_DESCRIPTION_OVERRIDE: Partial<Record<string, string>> = {
   "Novi-Stolar-v1":
-    "Pametni konfigurator kuhinjskih korpusa za malu stolarsku radionicu — krojna sa kantom, 3D, niz i L-kuhinja, predračun.",
+    "Konfigurator kuhinjskih korpusa u razvoju — krojna sa kantom, 3D, niz i L-kuhinja. Live demo, nije gotov proizvod.",
 };
 
 /**
@@ -73,6 +73,10 @@ const REPO_CARD_DESCRIPTION_I18N: Partial<
     en: "Interactive catalog and live playground for official Google Gemini models — text, vision, and audio — with an Express proxy that keeps the API key on the server.",
     sr: "Interaktivni katalog i živi playground za zvanične Google Gemini modele — tekst, slika i audio — uz Express proxy koji čuva API ključ na serveru.",
   },
+  "Novi-Stolar-v1": {
+    en: "Kitchen cabinet configurator in development — cutting lists with edgebanding, 3D, straight-run and L-kitchens. Live demo, not a finished product.",
+    sr: "Konfigurator kuhinjskih korpusa u razvoju — krojna sa kantom, 3D, niz i L-kuhinja. Live demo, nije gotov proizvod.",
+  },
 };
 
 const REPO_DESCRIPTION_FALLBACK: Partial<Record<string, string>> = {
@@ -110,7 +114,7 @@ const REPO_DESCRIPTION_FALLBACK: Partial<Record<string, string>> = {
   "Gemini-Models-List-App":
     "Interaktivna veb aplikacija za pregled, analizu i testiranje svih 52 zvanična Google Gemini AI modela — katalog i živi playground (Playground) za tekstualne, vizuelne i audio mogućnosti; Express proxy čuva API ključ na serveru.",
   "Novi-Stolar-v1":
-    "Pametni konfigurator kuhinjskih korpusa za malu stolarsku radionicu — krojna sa kantom, 3D, niz i L-kuhinja, predračun.",
+    "Konfigurator kuhinjskih korpusa u razvoju — krojna sa kantom, 3D, niz i L-kuhinja. Live demo, nije gotov proizvod.",
 };
 
 function normalizeGithubDescription(raw: string | null | undefined): string {

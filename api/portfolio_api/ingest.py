@@ -41,8 +41,8 @@ _LIVE_URL_OVERRIDES: dict[str, list[str]] = {
 }
 _DESCRIPTION_OVERRIDES: dict[str, str] = {
     "novi-stolar-v1": (
-        "Pametni konfigurator kuhinjskih korpusa za malu stolarsku radionicu "
-        "— krojna sa kantom, 3D, niz i L-kuhinja, predračun."
+        "Konfigurator kuhinjskih korpusa u razvoju — krojna sa kantom, 3D, niz i L-kuhinja. "
+        "Live demo, nije gotov proizvod."
     ),
 }
 

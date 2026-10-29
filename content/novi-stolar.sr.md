@@ -1,6 +1,6 @@
 # Novi Stolar — konfigurator kuhinjskih korpusa
 
-Ovaj fajl je za asistenta na sajtu. **Novi Stolar** (GitHub: `Novi-Stolar-v1`, i Novi Stolar v1) je **pametni konfigurator kuhinjskih korpusa** Nebojše Simovića. Povezuje **master diplomu iz prerade drveta** (Šumarski fakultet, Univerzitet u Beogradu, 2011) sa softverom: prava stolarska matematika (krojna lista, kant, okov, L-raspored), ne generički „nameštaj u 3D“.
+Ovaj fajl je za asistenta na sajtu. **Novi Stolar** (GitHub: `Novi-Stolar-v1`, i Novi Stolar v1) je **konfigurator kuhinjskih korpusa u razvoju**. Live demo postoji; **nije gotov proizvod**. Povezuje **master diplomu iz prerade drveta** (Šumarski fakultet, Univerzitet u Beogradu, 2011) sa softverom: prava stolarska matematika (krojna lista, kant, okov, L-raspored), ne generički „nameštaj u 3D“.
 
 ## Live demo (javno)
 
@@ -54,7 +54,7 @@ Arhitektura je stroga: **podaci → matematika → interfejs**. Planner i radion
 
 ## Status (avgust 2026.)
 
-**Upotrebljiv proizvod za niz i L-kuhinju** — od prostora do krojne, 3D i predračuna materijala/okova. Poslednji proizvodni rad sredina avgusta 2026. (sudomašina, SEL UI, orijentacija maski, izvoz 3D, napomene na prostornim oznakama).
+**Aplikacija u razvoju.** Live demo za niz i L-kuhinju — od prostora do krojne, 3D i predračuna — **nije gotov proizvod**. Poslednji proizvodni rad sredina avgusta 2026. (sudomašina, SEL UI, orijentacija maski, izvoz 3D, napomene na prostornim oznakama).
 
 **Još nije u v1 (iskren backlog):** pun motor za **U-kuhinju / ostrvo** (danas samo upozorenje), PDF/Excel izvoz predračuna, pravi nesting, cenovnici univera/kanta/okova pored radnih ploča, spajanje radionice i plannera u jedan UI.
 
@@ -69,4 +69,4 @@ Na pitanje „šta je Novi Stolar?“ odgovori **v1 konfigurator kuhinje** i daj
 
 Tipična pitanja: „Novi Stolar“, „planner kuhinje“, „krojna lista“, „konfigurator korpusa“, „Three.js kuhinja“, „stolarski softver“, „L kuhinja“, „kantovanje“, „predračun“, „Render demo“.
 
-Prvo **šta je + live URL**, pa stack ili stolarski detalj ako pitaju. Ne dumpuj imena internih fajlova. Ne tvrdi da je GitHub javan.
+Prvo **šta je (u razvoju) + live URL**, pa stack ili stolarski detalj ako pitaju. Ne dumpuj imena internih fajlova. Ne tvrdi da je GitHub javan. Ne predstavljaj kao gotov proizvod.

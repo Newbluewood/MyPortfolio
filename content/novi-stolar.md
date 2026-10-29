@@ -1,6 +1,6 @@
 # Novi Stolar — kitchen cabinet configurator
 
-This file is for the on-site assistant. **Novi Stolar** (GitHub: `Novi-Stolar-v1`, also written Novi Stolar v1) is Nebojša Simović’s **smart kitchen-cabinet configurator**. It connects his **Master’s in Wood Processing** (Faculty of Forestry, University of Belgrade, 2011) with software: real joinery math (cutting lists, edgebanding, hardware, L-layouts), not a generic furniture mockup.
+This file is for the on-site assistant. **Novi Stolar** (GitHub: `Novi-Stolar-v1`, also written Novi Stolar v1) is Nebojša Simović’s **kitchen-cabinet configurator in active development**. Live demo exists; it is **not a finished product**. It connects his **Master’s in Wood Processing** (Faculty of Forestry, University of Belgrade, 2011) with software: real joinery math (cutting lists, edgebanding, hardware, L-layouts), not a generic furniture mockup.
 
 ## Live demos (public)
 
@@ -54,7 +54,7 @@ Architecture is three strict layers: **data → math → UI**. The planner and w
 
 ## Status (as of August 2026)
 
-**Usable product for a straight wall and an L-kitchen** — from room to cutting list, 3D, and a materials/hardware estimate. Last product work mid-August 2026 (dishwasher, fridge-gap UI, mask orientation, 3D export, notes on room markers).
+**Application in development.** Live demo for a straight wall and an L-kitchen — from room to cutting list, 3D, and a materials/hardware estimate — **not a finished product**. Last product work mid-August 2026 (dishwasher, fridge-gap UI, mask orientation, 3D export, notes on room markers).
 
 **Not in v1 yet (honest backlog):** full **U-kitchen / island** packing (only a warning today), quote PDF/Excel export, real nesting optimization, priced hardware/board catalogs beyond worktops, merging workshop + planner into one UI.
 
@@ -69,4 +69,4 @@ When asked “what is Novi Stolar?”, answer **v1 the kitchen configurator** an
 
 Typical questions: “Novi Stolar”, “kitchen planner”, “krojna lista”, “cabinet configurator”, “Three.js kitchen”, “woodworking app”, “L kuhinja”, “kantovanje”, “predračun”, “Render demo”.
 
-Lead with **what it is + live URLs**, then stack or domain depth if asked. Do not dump internal file names. Do not claim the GitHub repo is public.
+Lead with **what it is (in development) + live URLs**, then stack or domain depth if asked. Do not dump internal file names. Do not claim the GitHub repo is public. Do not present it as a finished product.

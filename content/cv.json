@@ -75,17 +75,17 @@
   "selectedProjects": [
     {
       "name": "Novi Stolar",
-      "period": "2026",
-      "roleTitle": "Kitchen cabinet configurator",
-      "roleTitleSr": "Konfigurator kuhinjskih korpusa",
+      "period": "2026 – present",
+      "roleTitle": "Kitchen cabinet configurator (in development)",
+      "roleTitleSr": "Konfigurator kuhinjskih korpusa (u razvoju)",
       "liveUrl": "https://novi-stolar-v1.onrender.com",
       "bullets": [
-        "Workshop + planner for a small joinery shop: cutting lists with edgebanding, Three.js 3D, straight-run and L-kitchen layout, materials and hardware estimate.",
+        "Application in development: workshop + planner for a small joinery shop — cutting lists with edgebanding, Three.js 3D, straight-run and L-kitchen, estimate. Live demo, not a finished product.",
         "Vanilla JS geometry engine + Python server; optional Gemini Vision from a room sketch. Live: https://novi-stolar-v1.onrender.com and https://novi-stolar-v1.onrender.com/planner",
         "Connects a Master’s in Wood Processing with production math (kant, Blum hardware, worktop order plan) — not a generic furniture mockup."
       ],
       "bulletsSr": [
-        "Radionica + planner za malu stolarsku radionicu: krojna lista sa kantom, Three.js 3D, niz i L-kuhinja, predračun materijala i okova.",
+        "Aplikacija u razvoju: radionica + planner za malu stolarsku radionicu — krojna sa kantom, Three.js 3D, niz i L-kuhinja, predračun. Live demo, nije gotov proizvod.",
         "Vanilla JS geometrijski motor + Python server; opciono Gemini Vision sa skice prostorije. Live: https://novi-stolar-v1.onrender.com i https://novi-stolar-v1.onrender.com/planner",
         "Povezuje master iz prerade drveta sa proizvodnom matematikom (kant, Blum okov, plan tabli radne ploče) — nije generički 3D nameštaj."
       ]

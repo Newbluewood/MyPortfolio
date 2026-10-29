@@ -2,7 +2,7 @@
 
 Ovaj fajl odgovara na pitanja o recency. Pogodi ove fraze: **najnoviji projekat**, **poslednji projekat**, **aktuelni projekat**, **na čemu radiš**, **čime se baviš sad**, **flagship**, **najskoriji repo**.
 
-**Najnoviji proizvod (kreiran 8. avgusta 2026):** **Novi Stolar** — konfigurator kuhinjskih korpusa za malu stolarsku radionicu (radionica + planner, krojna sa kantom, Three.js 3D, L-kuhinja, predračun).
+**Najnoviji proizvod (kreiran 8. avgusta 2026):** **Novi Stolar** — konfigurator kuhinjskih korpusa **u razvoju** (radionica + planner, krojna sa kantom, Three.js 3D, L-kuhinja, predračun). Live demo, nije gotov proizvod.
 
 - Live radionica: https://novi-stolar-v1.onrender.com
 - Live planner: https://novi-stolar-v1.onrender.com/planner

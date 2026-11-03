@@ -207,7 +207,7 @@ export const MANUAL_PROJECTS: ManualProject[] = [
     id: "novi-stolar-v2",
     name: "Novi Stolar v2",
     description:
-      "TypeScript motor korpusa u razvoju — krojna, 3D i probni razgovor. Live demo, nije gotov proizvod.",
+      "TypeScript motor korpusa u razvoju — krojna, 3D, katalog materijala, baza znanja, okovi i probni razgovor. Ekran je optimizovan za male ekrane. Live demo, nije gotov proizvod.",
     liveUrl: "https://novi-stolar-v2.vercel.app",
     groupIds: ["nodejs_env", "ai_vibe"],
     language: "TypeScript",

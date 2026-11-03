@@ -119,6 +119,7 @@ const repoNameToGroups: Record<string, ProjectGroupId[]> = {
 
   "nastavna-baza-goc": ["ai_vibe", "fullstack"],
   "Novi-Stolar-v1": ["nodejs_env", "python", "ai_vibe"],
+  Novi_Stolar_v2: ["nodejs_env", "ai_vibe"],
   "Gemini-Models-List-App": ["fullstack", "ai_vibe"],
 
   "CCD_Test_PracticeCenter---JSFD-NebojsaSimovic": ["other"],
@@ -203,6 +204,24 @@ export type ManualProject = {
 
 export const MANUAL_PROJECTS: ManualProject[] = [
   {
+    id: "novi-stolar-v2",
+    name: "Novi Stolar v2",
+    description:
+      "TypeScript motor korpusa u razvoju — krojna, 3D i probni razgovor. Live demo, nije gotov proizvod.",
+    liveUrl: "https://novi-stolar-v2.vercel.app",
+    groupIds: ["nodejs_env", "ai_vibe"],
+    language: "TypeScript",
+    topics: [
+      "typescript",
+      "threejs",
+      "vercel",
+      "3d",
+      "configurator",
+      "ai",
+    ],
+    listedAt: "2026-11-02T13:10:32Z",
+  },
+  {
     id: "novi-stolar-v1",
     name: "Novi Stolar",
     description:
@@ -252,4 +271,5 @@ export const MANUAL_PROJECTS: ManualProject[] = [
 export const GITHUB_REPO_LIVE_URL_OVERRIDES: Record<string, string> = {
   "newbluewood/nastavna-baza-goc": "https://nastavnabazagoc.netlify.app",
   "newbluewood/novi-stolar-v1": "https://novi-stolar-v1.onrender.com",
+  "newbluewood/novi_stolar_v2": "https://novi-stolar-v2.vercel.app",
 };

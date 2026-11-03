@@ -10,6 +10,24 @@ Naslov sekcije mora da se poklopi sa **GitHub imenom repoa** (npr. `## Novi-Stol
 
 ---
 
+## Novi_Stolar_v2
+
+**Kratko:** TypeScript motor / konfigurator korpusa **u razvoju** — krojna, 3D i probni razgovor. Nije portfolio sajt.
+
+**Imena:** Novi Stolar v2, Novi_Stolar_v2, novi-stolar-v2, TypeScript carcass engine.
+
+**Live sajt POSTOJI** (test build na Vercelu, nije gotov proizvod):
+
+- https://novi-stolar-v2.vercel.app
+
+GitHub About → Website trenutno pokazuje portfolio URL — to **nije** live demo ovog projekta. Live je gore.
+
+**Repo:** https://github.com/Newbluewood/Novi_Stolar_v2 — **privatan**. Kartica na `/projects` je ručna.
+
+**Stack:** TypeScript, Three.js, Vercel. Odvojen od v1 (vanilla JS + Python na Renderu).
+
+---
+
 ## Novi-Stolar-v1
 
 **Kratko:** konfigurator kuhinjskih korpusa **u razvoju** — krojna sa kantom, 3D, niz i L-kuhinja. Live demo, nije gotov proizvod. Povezuje master iz prerade drveta sa softverom.
@@ -27,7 +45,7 @@ Naslov sekcije mora da se poklopi sa **GitHub imenom repoa** (npr. `## Novi-Stol
 
 **Šta radi danas:** 11 golden šablona korpusa, krojna sa kantom, L-kuhinja (slepi i pravi ugao), materijali i override po instanci, radna ploča + plan tabli, predračun (m² / table / kant / okov), izvoz krojne i 3D JPEG/PDF, šeme bušenja za golden set. **Status: u razvoju** — live za niz i L, nije gotov proizvod; U/ostrvo još nije pun motor.
 
-**v2** (`Konstruktor_korpusa`) je TypeScript motor korpusa u istom GitHub repou — laboratorija, nije live demo. Live je uvek v1 na Renderu.
+**Odnos prema v2:** live kuhinjski konfigurator je i dalje **v1** na Renderu. **Novi_Stolar_v2** je odvojen TypeScript repo sa sopstvenim Vercel demo-om (`https://novi-stolar-v2.vercel.app`).
 
 **Detalji za RAG:** `content/novi-stolar.md` (EN) i `content/novi-stolar.sr.md` (SR).
 

@@ -37,6 +37,7 @@ _LIVE_URL_OVERRIDES: dict[str, list[str]] = {
         "https://novi-stolar-v1.onrender.com",
         "https://novi-stolar-v1.onrender.com/planner",
     ],
+    "novi_stolar_v2": ["https://novi-stolar-v2.vercel.app"],
     "nastavna-baza-goc": ["https://nastavnabazagoc.netlify.app"],
 }
 _DESCRIPTION_OVERRIDES: dict[str, str] = {

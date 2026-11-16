@@ -242,14 +242,24 @@ export const MANUAL_PROJECTS: ManualProject[] = [
     listedAt: "2026-08-08T19:10:49Z",
   },
   {
-    id: "zenhire-metro-dispatcher",
-    name: "Metro Dispatcher (ZenHire Hackathon)",
+    id: "my-portfolio",
+    name: "NBW Portfolio",
     description:
-      "48h ZenHire AI Coding Hackathon (Startit × CDT Hub): working-memory assessment game prototype built with Lovable; live demo on Lovable deploy.",
-    liveUrl: "https://station-recall-game.lovable.app/",
-    groupIds: ["ai_vibe"],
-    language: "Lovable / AI",
-    listedAt: "2026-04-15T12:00:00Z",
+      "Ovaj sajt: Next.js 15, React 19, Tailwind v4 — GitHub projekti, štampljivi CV i RAG asistent (FastAPI + LlamaIndex + Chroma + Gemini).",
+    liveUrl: "https://my-portfolio-newbluewoods-projects.vercel.app",
+    groupIds: ["fullstack", "ai_vibe"],
+    language: "TypeScript",
+    topics: [
+      "nextjs",
+      "react",
+      "tailwind",
+      "fastapi",
+      "rag",
+      "llamaindex",
+      "gemini",
+      "vercel",
+    ],
+    listedAt: "2026-05-07T22:58:57Z",
   },
   {
     id: "atrijum-wordpress",
@@ -260,6 +270,36 @@ export const MANUAL_PROJECTS: ManualProject[] = [
     groupIds: ["wordpress"],
     language: "WordPress",
     listedAt: "2026-05-01T12:00:00Z",
+  },
+  {
+    id: "nastavna-baza-goc",
+    name: "Nastavna baza GOC",
+    description:
+      "Nastavna platforma (monorepo) razvijana u duhu vibe codinga i AI integracije: Vue 3 + Vite, Express backend (MySQL, Qdrant, OpenAI, JWT) — asistent i RAG tok u učionici.",
+    liveUrl: "https://nastavnabazagoc.netlify.app",
+    groupIds: ["ai_vibe", "fullstack"],
+    language: "Vue / Node.js",
+    topics: [
+      "vue3",
+      "vite",
+      "express",
+      "mysql",
+      "qdrant",
+      "openai",
+      "rag",
+      "netlify",
+    ],
+    listedAt: "2026-04-14T07:46:03Z",
+  },
+  {
+    id: "zenhire-metro-dispatcher",
+    name: "Metro Dispatcher (ZenHire Hackathon)",
+    description:
+      "48h ZenHire AI Coding Hackathon (Startit × CDT Hub): working-memory assessment game prototype built with Lovable; live demo on Lovable deploy.",
+    liveUrl: "https://station-recall-game.lovable.app/",
+    groupIds: ["ai_vibe"],
+    language: "Lovable / AI",
+    listedAt: "2026-04-15T12:00:00Z",
   },
 ];
 
@@ -272,4 +312,6 @@ export const GITHUB_REPO_LIVE_URL_OVERRIDES: Record<string, string> = {
   "newbluewood/nastavna-baza-goc": "https://nastavnabazagoc.netlify.app",
   "newbluewood/novi-stolar-v1": "https://novi-stolar-v1.onrender.com",
   "newbluewood/novi_stolar_v2": "https://novi-stolar-v2.vercel.app",
+  "newbluewood/myportfolio":
+    "https://my-portfolio-newbluewoods-projects.vercel.app",
 };

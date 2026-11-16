@@ -10,6 +10,30 @@ Naslov sekcije mora da se poklopi sa **GitHub imenom repoa** (npr. `## Novi-Stol
 
 ---
 
+## MyPortfolio
+
+**Kratko:** ovaj portfolio sajt — Next.js 15, React 19, Tailwind v4, GitHub projekti, štampljivi CV, RAG asistent (FastAPI + LlamaIndex + Chroma + Gemini).
+
+**Live:** https://my-portfolio-newbluewoods-projects.vercel.app
+
+**Repo:** https://github.com/Newbluewood/MyPortfolio — **privatan**. Kartica na `/projects` je ručna.
+
+**Imena:** MyPortfolio, NBW Portfolio, portfolio app.
+
+---
+
+## nastavna-baza-goc
+
+**Kratko:** nastavna platforma (monorepo) — Vue 3 + Vite, Express (MySQL, Qdrant, OpenAI, JWT), chat agent sa RAG-om.
+
+**Live:** https://nastavnabazagoc.netlify.app
+
+**Repo:** https://github.com/Newbluewood/nastavna-baza-goc — **privatan**. Kartica na `/projects` je ručna.
+
+**Imena:** Nastavna baza GOC, nastavna-baza-goc, GOC, Goč nastavna baza.
+
+---
+
 ## Novi_Stolar_v2
 
 **Kratko:** TypeScript motor / konfigurator korpusa **u razvoju** — krojna, 3D i probni razgovor. Nije portfolio sajt.

@@ -39,6 +39,7 @@ _LIVE_URL_OVERRIDES: dict[str, list[str]] = {
     ],
     "novi_stolar_v2": ["https://novi-stolar-v2.vercel.app"],
     "nastavna-baza-goc": ["https://nastavnabazagoc.netlify.app"],
+    "myportfolio": ["https://my-portfolio-newbluewoods-projects.vercel.app"],
 }
 _DESCRIPTION_OVERRIDES: dict[str, str] = {
     "novi-stolar-v1": (
